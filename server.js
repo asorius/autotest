@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 app.post('/api', async function(req, res) {
   const { url } = req.body;
   const data = await getData(url);
-  res.send(data);
+  res.send({...data,_id:Math.random()});
 });
 
 app.listen(5000, () => {

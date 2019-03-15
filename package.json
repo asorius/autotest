@@ -4,8 +4,10 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "front": "npm start --prefix front",
+    "dev": "concurrently \"npm run server\" \"npm run front\""
   },
   "author": "",
   "license": "ISC",
@@ -13,6 +15,8 @@
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "cheerio": "^1.0.0-rc.2",
+    "concurrently": "^4.1.0",
+    "create-react-app": "^2.1.8",
     "express": "^4.16.4",
     "nodemon": "^1.18.10"
   }
