@@ -26,7 +26,7 @@ export default function LandingPage(props) {
         <div className='title'>
             <h1> AutoPare</h1>
         </div>
-        <div className='container'>
+        <div className='input-container'>
             <div className={classnames('control',{
               'is-loading':loading  
             })}>
@@ -36,7 +36,7 @@ export default function LandingPage(props) {
             })} onClick={addCarFunc}>Add</button>
             </div>
         </div>
-        <div className='container comparing-container tile is-ancestor'>
+        <div className='comparing-container tile is-ancestor'>
         {context.list.map(item=>{
             return <CompareItem key={item._id} item={item}></CompareItem>
         })} 

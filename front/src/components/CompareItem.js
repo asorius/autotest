@@ -12,7 +12,7 @@ export default function CompareItem(props) {
 
   return (
     
-    <div className='tile is child box is-4'>
+    <div className='tile is-child box is-4'>
         <div className="card">
           <div className="card-image">
             <figure className="image is-4by3">
