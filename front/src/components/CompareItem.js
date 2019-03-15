@@ -5,23 +5,27 @@ export default function CompareItem(props) {
   const [drop,setDrop]=useState(false)
   const toggleDrop=(e)=>{
     e.preventDefault()
-    console.log(props.item.events)
     setDrop(!drop)
   }
+  const {mainData:data,events:motHistory}=props.item;
+  const {sellerInfo:seller}=data;
+
   return (
+    
     <div className='tile is child box is-4'>
         <div className="card">
           <div className="card-image">
             <figure className="image is-4by3">
-              <img src={props.item.mainData.images[0]} alt="Car"/>
+              <img src={data.images[0]} alt="Car"/>
             </figure>
           </div>
           <div className="card-content">
-            <h3>{props.item.mainData.title}</h3>
+            <h2>{data.title}</h2>
+            <h2>{data.price}</h2>
           </div>
 
           <div className="content">
-              {props.item.mainData.sellerDescription}
+              Seller info: {seller.name}
           </div>
 
           <div className='card-footer'>
@@ -38,9 +42,16 @@ export default function CompareItem(props) {
             </div>
             <div className="dropdown-menu" id="dropdown-menu" role="menu">
               <div className="dropdown-content">
-                {props.item.events.map((item,index) => {
+                {motHistory.map((item,index) => {
+
                   if(index<5){
-                  return <DropItem item={item} key={item.data.test_number}></DropItem>
+                    let mileage
+                    if(index===0){ 
+                      mileage=parseInt(item.data.mileage)-parseInt(motHistory[index+1].data.mileage)
+                    }else{
+                      mileage=parseInt(item.data.mileage)-parseInt(motHistory[index+1].data.mileage)
+                    }
+                  return <DropItem item={item} driven={mileage} key={item.data.test_number}></DropItem>
                 }
                 })}
               </div>

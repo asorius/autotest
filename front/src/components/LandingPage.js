@@ -36,7 +36,7 @@ export default function LandingPage(props) {
             })} onClick={addCarFunc}>Add</button>
             </div>
         </div>
-        <div className='comparing-container'>
+        <div className='container comparing-container tile is-ancestor'>
         {context.list.map(item=>{
             return <CompareItem key={item._id} item={item}></CompareItem>
         })} 
