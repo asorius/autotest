@@ -7,7 +7,7 @@ export default function CompareItem(props) {
     e.preventDefault()
     setDrop(!drop)
   }
-  const {mainData:data,events:motHistory}=props.item;
+  const {mainData:data,events:motHistory,keyFacts:info}=props.item;
   const {sellerInfo:seller}=data;
 
   return (
@@ -25,7 +25,31 @@ export default function CompareItem(props) {
           </div>
 
           <div className="content">
-              Seller info: {seller.name}
+             <div className='about-car'>
+             <ul>
+               {props.item.writeOffCategory?(<li>
+                 CAT:{props.item.writeOffCategory}
+               </li>):null}
+             <li>
+                 Year:{info['manufactured-year']}
+               </li>
+               <li>
+                 Engine:{info['engine-size']}
+               </li>
+               <li>
+                 Mileage:{info.mileage}
+               </li>
+               <li>
+                 Fuel:{info['fuel-type']}
+               </li>
+               <li>
+                 Transmission:{info.transmission}
+               </li>
+               <li>
+                 Tax:{props.item.tax}
+               </li>
+             </ul>
+             </div>
           </div>
 
           <div className='card-footer'>
