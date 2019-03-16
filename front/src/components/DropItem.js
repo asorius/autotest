@@ -8,7 +8,8 @@ export default function DropItem(props) {
     const motEvent=props.item
   return (
       <div className="dropdown-item ">
-      <div>{capitalized(motEvent.status)}ed at {motEvent.eventDate.substring(0,10)}</div>
+      <div>{capitalized(motEvent.status)==='Pass'?(<span className='pass'>Passed</span>):(<span className='fail'>Failed</span>)} at {motEvent.eventDate.substring(0,10)}
+          </div>
         <div>Miles driven since last MOT :{props.driven}</div>
     </div>
   )

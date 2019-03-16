@@ -31,22 +31,22 @@ export default function CompareItem(props) {
                  CAT:{props.item.writeOffCategory}
                </li>):null}
              <li>
-                 Year:{info['manufactured-year']}
+             <i class="far fa-calendar-alt"></i> : {info['manufactured-year']}
                </li>
                <li>
-                 Engine:{info['engine-size']}
+               <i class="fas fa-oil-can"></i> : {info['engine-size']}
                </li>
                <li>
-                 Mileage:{info.mileage}
+               <i class="fas fa-road"></i> : {info.mileage}
                </li>
                <li>
-                 Fuel:{info['fuel-type']}
+               <i class="fas fa-gas-pump"></i> : {info['fuel-type']}
                </li>
                <li>
-                 Transmission:{info.transmission}
+               <i class="fas fa-truck-monster"></i> : {info.transmission}
                </li>
                <li>
-                 Tax:{props.item.tax}
+               <i class="fas fa-hand-holding-usd"></i> : {props.item.tax}
                </li>
              </ul>
              </div>
