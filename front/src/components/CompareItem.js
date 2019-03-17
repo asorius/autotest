@@ -1,15 +1,21 @@
-import React, {useState} from 'react'
+import React, {useContext,useState} from 'react'
 import classnames from 'classnames'
 import DropItem from './DropItem'
+import Context  from "../context/context";
+
 export default function CompareItem(props) {
   const [drop,setDrop]=useState(false)
-  
+  const context=useContext(Context)  
   const toggleDrop=(e)=>{
     e.preventDefault()
     setDrop(!drop)
   }
+  const removeCar=(e)=>{
+    e.preventDefault()
+    context.removeCarFromList(props.item._id)
+  }
   const {mainData:data,events:motHistory,keyFacts:info}=props.item;
-  const {sellerInfo:seller}=data;
+  // const {sellerInfo:seller}=data;
 
   return (
     <div className='tile is-child box is-4'>
@@ -71,7 +77,6 @@ export default function CompareItem(props) {
                 <div className="dropdown-menu" id="dropdown-menu1" role="menu">
                   <div className="dropdown-content">
                     {motHistory.map((item,index) => {
-
                       if(index<5){
                         let mileage
                         if(index===0){ 
@@ -80,13 +85,14 @@ export default function CompareItem(props) {
                           mileage=parseInt(item.data.mileage)-parseInt(motHistory[index+1].data.mileage)
                         }
                       return <DropItem item={item} driven={mileage} key={item.data.test_number} index={index}></DropItem>
+                          }   
+                      })
                     }
-                    })}
                   </div>
                 </div>
               </div>
           
-          <div><button className="delete is-large"></button></div>
+          <div><button className="delete is-large" onClick={removeCar}></button></div>
           </div>
 
           </div>

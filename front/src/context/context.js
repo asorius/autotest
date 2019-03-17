@@ -2,5 +2,7 @@ import React from 'react'
 
 export default React.createContext({
     list:[],
-    addCarToList:()=>{}
+    addCarToList:()=>{},
+    removeCarFromList:()=>{}
+
 })

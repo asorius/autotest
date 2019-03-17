@@ -13,8 +13,11 @@ export default function GlobalState(props) {
           return {errored:e} 
         }
     }
+    const removeCarFromList= id=>{
+        dispatch({type:REMOVE_CAR,payload:id})        
+      }
   return (
-    <Context.Provider value={{list:listState.list,addCarToList:addCarToList}}>
+    <Context.Provider value={{list:listState.list,addCarToList,removeCarFromList}}>
     {props.children}
       </Context.Provider>
   )

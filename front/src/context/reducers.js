@@ -14,22 +14,25 @@ const addCar = (car, state) => {
   
 };
 
-// const removeCar = (carId, state) => {
-//   console.log('Removing car with id: ' + carId);
-//   const updatedList = [...state.list];
-//   const updatedItemIndex = updatedList.findIndex(item => item.id === carId);
+const removeCar = (carId, state) => {
+  let newList = [...state.list];
+  const carIndex = newList.findIndex(
+    item => item._id === carId
+  );
 
-//   const updatedItem = {
-//     ...updatedList[updatedItemIndex]
-//   };
- 
-//   return { ...state, list: updatedList };
-// };
+  if (carIndex >= 0) {
+    newList=newList.filter(car=>car._id!==carId);
+  } 
+  return { ...state,list: newList };
+  
+};
 
 export const listReducer = (state, action) => {
   switch (action.type) {
     case ADD_CAR:
       return addCar(action.payload, state);
+    case REMOVE_CAR:
+      return removeCar(action.payload, state);
     default:
       return state;
   }

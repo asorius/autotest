@@ -65,3 +65,9 @@ abbr[title] {
     padding:.5rem;
     width:20rem;
 }
+.delete{
+    background-color:hsl(348, 100%, 84%)
+}
+.delete:hover{
+    background-color:hsl(348, 100%, 61%)
+}
