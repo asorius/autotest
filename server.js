@@ -17,6 +17,7 @@ app.post('/api', async function(req, res) {
     sellerDescription:dataFromAutotrader.advert.description,
     images:dataFromAutotrader.advert.imageUrls,
     price:dataFromAutotrader.advert.price,
+    partEx:dataFromAutotrader.advert.isPartExAvailable,
     sellerInfo:{
       name:dataFromAutotrader.seller.name,
       trader:dataFromAutotrader.seller.isTradeSeller,

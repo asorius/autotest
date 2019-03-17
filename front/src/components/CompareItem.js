@@ -3,6 +3,7 @@ import classnames from 'classnames'
 import DropItem from './DropItem'
 export default function CompareItem(props) {
   const [drop,setDrop]=useState(false)
+  
   const toggleDrop=(e)=>{
     e.preventDefault()
     setDrop(!drop)
@@ -11,7 +12,6 @@ export default function CompareItem(props) {
   const {sellerInfo:seller}=data;
 
   return (
-    
     <div className='tile is-child box is-4'>
         <div className="card">
           <div className="card-image">
@@ -20,33 +20,37 @@ export default function CompareItem(props) {
             </figure>
           </div>
           <div className="card-content">
-            <h2>{data.title}</h2>
-            <h2>{data.price}</h2>
+            <h2 className='title'>{data.title}</h2>
+            <h2  className='subtitle'>{data.price}</h2>
           </div>
 
-          <div className="content">
+          <div className="content has-text-centered">
              <div className='about-car'>
-             <ul>
-               {props.item.writeOffCategory?(<li>
-                 CAT:{props.item.writeOffCategory}
-               </li>):null}
-             <li>
-             <i class="far fa-calendar-alt"></i> : {info['manufactured-year']}
+             <ul>             
+               {props.item.writeOffCategory?(<abbr title='Category'><i class="fas fa-car-crash"></i> : {props.item.writeOffCategory}</abbr>):null}
+                <li>
+                  <abbr title='Manufactured year'><i className="far fa-calendar-alt"></i> : {info['manufactured-year']}</abbr>
                </li>
                <li>
-               <i class="fas fa-oil-can"></i> : {info['engine-size']}
+                  <abbr title='Engine size'><i className="fas fa-oil-can"></i> : {info['engine-size']}</abbr>
                </li>
                <li>
-               <i class="fas fa-road"></i> : {info.mileage}
+                  <abbr title='Mileage'><i className="fas fa-road"></i> : {info.mileage}</abbr>
                </li>
                <li>
-               <i class="fas fa-gas-pump"></i> : {info['fuel-type']}
+                  <abbr title='Expires at'> MOT : {motHistory[0].data['expiry_date']}</abbr>
                </li>
                <li>
-               <i class="fas fa-truck-monster"></i> : {info.transmission}
+                  <abbr title='Fuel type'><i className="fas fa-gas-pump"></i> : {info['fuel-type']}</abbr>
                </li>
                <li>
-               <i class="fas fa-hand-holding-usd"></i> : {props.item.tax}
+                  <abbr title='Transmission type'><i className="fas fa-truck-monster"></i> : {info.transmission}</abbr>
+               </li>
+               <li>
+                  <abbr title='Tax'> <i className="fas fa-hand-holding-usd"></i> : {props.item.tax}</abbr>
+               </li>
+               <li>
+                  <abbr title='Part Exchange'> <i className="fas fa-exchange-alt"></i> : {props.item.partEx?'Available':'Unavailable'}</abbr>
                </li>
              </ul>
              </div>
@@ -56,33 +60,36 @@ export default function CompareItem(props) {
             <div className={classnames("dropdown is-up",{
               'is-active':drop
             })}>
-            <div className="dropdown-trigger">
-              <button onClick={toggleDrop} className="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                <span>MOT history</span>
-                <span className="icon is-small">
-                  <i className="fas fa-angle-up" aria-hidden="true"></i>
-                </span>
-              </button>
-            </div>
-            <div className="dropdown-menu" id="dropdown-menu" role="menu">
-              <div className="dropdown-content">
-                {motHistory.map((item,index) => {
+                <div className="dropdown-trigger">
+                  <button onClick={toggleDrop} className="button" aria-haspopup="true" aria-controls="dropdown-menu1">
+                    <span>MOT history</span>
+                    <span className="icon is-small">
+                      <i className='fas fa-angle-up' aria-hidden="true"></i>
+                    </span>
+                  </button>
+                </div>
+                <div className="dropdown-menu" id="dropdown-menu1" role="menu">
+                  <div className="dropdown-content">
+                    {motHistory.map((item,index) => {
 
-                  if(index<5){
-                    let mileage
-                    if(index===0){ 
-                      mileage=parseInt(item.data.mileage)-parseInt(motHistory[index+1].data.mileage)
-                    }else{
-                      mileage=parseInt(item.data.mileage)-parseInt(motHistory[index+1].data.mileage)
+                      if(index<5){
+                        let mileage
+                        if(index===0){ 
+                          mileage=parseInt(item.data.mileage)-parseInt(motHistory[index+1].data.mileage)
+                        }else{
+                          mileage=parseInt(item.data.mileage)-parseInt(motHistory[index+1].data.mileage)
+                        }
+                      return <DropItem item={item} driven={mileage} key={item.data.test_number} index={index}></DropItem>
                     }
-                  return <DropItem item={item} driven={mileage} key={item.data.test_number}></DropItem>
-                }
-                })}
+                    })}
+                  </div>
+                </div>
               </div>
-            </div>
+          
+          <div><button className="delete is-large"></button></div>
           </div>
+
           </div>
-        </div>
     </div>
   )
 }

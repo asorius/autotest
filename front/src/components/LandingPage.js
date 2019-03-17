@@ -23,24 +23,31 @@ export default function LandingPage(props) {
     }
   return (
     <div>
-        <div className='title'>
-            <h1> AutoPare</h1>
-        </div>
-        <div className='input-container'>
-            <div className={classnames('control',{
-              'is-loading':loading  
-            })}>
+        <section className="hero is-medium is-light is-bold">
+            <div className="hero-body">
+                <div className="container">
+                <h1 className="title">
+                    AutoPare
+                </h1>
+                <h2 className="subtitle">
+                    Expanded AutoTrader car comparing tool
+                </h2>
+                </div>
+            </div>
+        </section>
+        <section className='input-container section'>
+            <div className='control'>
                 <input className='input' type='text' value={url} onChange={onChange}  placeholder='Paste car link from AutoTrader to add to the list'/>
                 <button className={classnames('button is-info is-fullwidth',{
               'is-loading':loading  
             })} onClick={addCarFunc}>Add</button>
             </div>
-        </div>
-        <div className='comparing-container tile is-ancestor'>
+        </section>
+        <section className='comparing-container tile is-ancestor section'>
         {context.list.map(item=>{
             return <CompareItem key={item._id} item={item}></CompareItem>
         })} 
-        </div>
+        </section>
     </div>
   )
 }
