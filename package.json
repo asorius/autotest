@@ -1,7 +1,6 @@
 {
   "name": "auto",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -19,5 +18,15 @@
     "create-react-app": "^2.1.8",
     "express": "^4.16.4",
     "nodemon": "^1.18.10"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asorius/autotest.git"
+  },
+  "bugs": {
+    "url": "https://github.com/asorius/autotest/issues"
+  },
+  "homepage": "https://github.com/asorius/autotest#readme",
+  "description": ""
 }
