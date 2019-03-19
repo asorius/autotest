@@ -1,8 +1,10 @@
-import React from 'react'
+import React from 'react';
 
 export default React.createContext({
-    list:[],
-    addCarToList:()=>{},
-    removeCarFromList:()=>{}
-
-})
+  list: [],
+  postcode: '',
+  addCarToList: () => {},
+  removeCarFromList: () => {},
+  addPost: () => {},
+  removePost: () => {}
+});

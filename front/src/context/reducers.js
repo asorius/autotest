@@ -1,31 +1,37 @@
 export const ADD_CAR = 'ADD_CAR';
 export const REMOVE_CAR = 'REMOVE_CAR';
+export const ADD_POST = 'REMOVE_CAR';
+export const REMOVE_POST = 'REMOVE_CAR';
 
 const addCar = (car, state) => {
   const newList = [...state.list];
-  const carIndex = newList.findIndex(
-    item => item._id === car._id
-  );
+  const carIndex = newList.findIndex(item => item._id === car._id);
 
   if (carIndex < 0) {
     newList.push({ ...car });
-  } 
-  return { ...state,list: newList };
-  
+  }
+  return { ...state, list: newList };
 };
 
 const removeCar = (carId, state) => {
   let newList = [...state.list];
-  const carIndex = newList.findIndex(
-    item => item._id === carId
-  );
+  const carIndex = newList.findIndex(item => item._id === carId);
 
   if (carIndex >= 0) {
-    newList=newList.filter(car=>car._id!==carId);
-  } 
-  return { ...state,list: newList };
-  
+    newList = newList.filter(car => car._id !== carId);
+  }
+  return { ...state, list: newList };
 };
+
+// const addPost = (postcode, state) => {
+//   //validate input. shortest posible code format:B11AA,longest:EC2R 8AH
+//   if(postcode.length<7 && postcode.length>5){
+//     const res
+
+//   }
+//   return { ...state,list: newList };
+
+// };
 
 export const listReducer = (state, action) => {
   switch (action.type) {
@@ -33,6 +39,10 @@ export const listReducer = (state, action) => {
       return addCar(action.payload, state);
     case REMOVE_CAR:
       return removeCar(action.payload, state);
+    // case ADD_POST:
+    //   return addPost(action.payload, state);
+    // case REMOVE_POST:
+    //   return removePost(action.payload, state);
     default:
       return state;
   }
