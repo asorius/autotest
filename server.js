@@ -39,11 +39,11 @@ app.post('/api', async function(req, res) {
     res.send({ error: e });
   }
 });
-app.post('/postcode', async (req, res) => {
+app.post('/api/postcode', async (req, res) => {
   try {
     const { postcode } = req.body;
     const postcodeResult = await getPost(postcode);
-    console.log(postcodeResult);
+    res.send({ data: postcodeResult });
   } catch (e) {
     res.send({ error: e });
   }
