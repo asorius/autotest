@@ -1,4 +1,5 @@
 const express = require('express');
+const axios = require('axios');
 const bodyParser = require('body-parser');
 const getData = require('./dataGetter');
 const getMot = require('./motGetter');
@@ -29,7 +30,13 @@ app.post('/api', async function(req, res) {
     };
     const { vrm } = dataFromAutotrader.vehicle;
     const motData = await getMot(vrm);
+
+    //map stuff temporary place
+    const map = await axios.get(
+      `https://maps.googleapis.com/maps/api/directions/json?origin=Disneyland&destination=Universal+Studios+Hollywood&key=AIzaSyDL2iDSF4s4uk1qPVCCF3ESBTZ4KnlBzdo`
+    );
     res.send({
+      map: map.data,
       _id: Math.random(),
       mainData,
       ...dataFromAutotrader.vehicle,

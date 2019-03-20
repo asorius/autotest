@@ -72,6 +72,9 @@ export default function LandingPage(props) {
             Add
           </button>
         </form>
+        <div className="div">
+          <iframe frameBorder="0">{context.list[0].map}</iframe>
+        </div>
       </section>
       <section className="comparing-container tile is-ancestor section">
         {context.list.map(item => {

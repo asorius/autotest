@@ -14,6 +14,7 @@ export default function CompareItem(props) {
     e.preventDefault();
     context.removeCarFromList(props.item._id);
   };
+
   const { mainData: data, events: motHistory, keyFacts: info } = props.item;
   const { sellerInfo: seller } = data;
 
@@ -99,6 +100,7 @@ export default function CompareItem(props) {
               </ul>
             </div>
           </div>
+          <div id="map" />
         </div>
 
         <div className="card-footer">
