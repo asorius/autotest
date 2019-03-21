@@ -2,7 +2,7 @@ import React from 'react';
 
 export default React.createContext({
   list: [],
-  postcode: '',
+  postcode: [],
   addCarToList: () => {},
   removeCarFromList: () => {},
   addPost: () => {},

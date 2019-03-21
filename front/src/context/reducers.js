@@ -23,15 +23,11 @@ const removeCar = (carId, state) => {
   return { ...state, list: newList };
 };
 
-// const addPost = (postcode, state) => {
-//   //validate input. shortest posible code format:B11AA,longest:EC2R 8AH
-//   if(postcode.length<7 && postcode.length>5){
-//     const res
-
-//   }
-//   return { ...state,list: newList };
-
-// };
+const addPost = (data, state) => {
+  //data looks like {postcode:'23423',lat:2342,lng:asdfsdf}
+  console.log(...state);
+  return { ...state, postcode: data };
+};
 
 export const listReducer = (state, action) => {
   switch (action.type) {
@@ -39,8 +35,8 @@ export const listReducer = (state, action) => {
       return addCar(action.payload, state);
     case REMOVE_CAR:
       return removeCar(action.payload, state);
-    // case ADD_POST:
-    //   return addPost(action.payload, state);
+    case ADD_POST:
+      return addPost(action.payload, state);
     // case REMOVE_POST:
     //   return removePost(action.payload, state);
     default:

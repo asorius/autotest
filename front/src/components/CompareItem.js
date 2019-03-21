@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import classnames from 'classnames';
 import DropItem from './DropItem';
 import Context from '../context/context';
+import MapComponent from './MapComponent';
 
 export default function CompareItem(props) {
   const [drop, setDrop] = useState(false);
@@ -100,7 +101,9 @@ export default function CompareItem(props) {
               </ul>
             </div>
           </div>
-          <div id="map" />
+          <div className="div">
+            <MapComponent />
+          </div>
         </div>
 
         <div className="card-footer">
