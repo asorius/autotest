@@ -137,9 +137,11 @@ export default function CompareItem(props) {
                 {motHistory.map((item, index) => {
                   if (index < 5) {
                     let mileage =
-                      parseInt(item.data.mileage) -
-                      parseInt(motHistory[index + 1].data.mileage);
-
+                      item.data.mileageData.value -
+                      motHistory[index + 1].data.mileageData.value;
+                    if (index === 5) {
+                      mileage = ' - ';
+                    }
                     return (
                       <DropItem
                         item={item}
