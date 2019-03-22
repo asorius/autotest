@@ -1,7 +1,7 @@
 export const ADD_CAR = 'ADD_CAR';
 export const REMOVE_CAR = 'REMOVE_CAR';
-export const ADD_POST = 'REMOVE_CAR';
-export const REMOVE_POST = 'REMOVE_CAR';
+export const ADD_POST = 'ADD_POST';
+export const REMOVE_POST = 'REMOVE_POST';
 
 const addCar = (car, state) => {
   const newList = [...state.list];
@@ -25,10 +25,7 @@ const removeCar = (carId, state) => {
 
 const addPost = (data, state) => {
   //data looks like {postcode:'23423',lat:2342,lng:asdfsdf}
-  console.log({ fromreducer: { ...data } });
-  // const newPc = [...state.postcode];
-  // newPc.push(data);
-  return { ...state, postcode: 'newposcfds' };
+  return { ...state, postcode: state.postcode.push({ ...data }) };
 };
 
 export const listReducer = (state, action) => {

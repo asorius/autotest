@@ -42,7 +42,7 @@ app.post('/api', async function(req, res) {
       ...motData
     });
   } catch (e) {
-    res.send({ error: e });
+    res.status(404).send({ error: e });
   }
 });
 app.post('/api/postcode', async (req, res) => {

@@ -5,6 +5,6 @@ export default React.createContext({
   postcode: [],
   addCarToList: () => {},
   removeCarFromList: () => {},
-  addPost: () => {},
-  removePost: () => {}
+  addPostToList: () => {},
+  removePostFromList: () => {}
 });

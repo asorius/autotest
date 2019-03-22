@@ -18,6 +18,10 @@ export default function CompareItem(props) {
 
   const { mainData: data, events: motHistory, keyFacts: info } = props.item;
   const { sellerInfo: seller } = data;
+  const seller_coords = {
+    lat: seller.gmapLink.split('&q=')[1].split('%2C')[0],
+    lng: seller.gmapLink.split('&q=')[1].split('%2C')[1]
+  };
 
   return (
     <div className="tile is-child box is-4">
@@ -102,7 +106,10 @@ export default function CompareItem(props) {
             </div>
           </div>
           <div className="div">
-            <MapComponent />
+            <MapComponent
+              usercoords={context.postcode ? context.postcode : null}
+              sellercoords={seller_coords}
+            />
           </div>
         </div>
 
@@ -129,16 +136,10 @@ export default function CompareItem(props) {
               <div className="dropdown-content">
                 {motHistory.map((item, index) => {
                   if (index < 5) {
-                    let mileage;
-                    if (index === 0) {
-                      mileage =
-                        parseInt(item.data.mileage) -
-                        parseInt(motHistory[index + 1].data.mileage);
-                    } else {
-                      mileage =
-                        parseInt(item.data.mileage) -
-                        parseInt(motHistory[index + 1].data.mileage);
-                    }
+                    let mileage =
+                      parseInt(item.data.mileage) -
+                      parseInt(motHistory[index + 1].data.mileage);
+
                     return (
                       <DropItem
                         item={item}

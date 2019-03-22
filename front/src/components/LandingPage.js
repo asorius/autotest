@@ -33,7 +33,7 @@ export default function LandingPage(props) {
   const addPost = async e => {
     e.preventDefault();
     try {
-      await context.addPost(post);
+      await context.addPostToList(post);
       console.log(context.postcode);
     } catch (e) {
       console.log(e);

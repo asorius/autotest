@@ -25,7 +25,7 @@ export default function GlobalState(props) {
   const removeCarFromList = id => {
     dispatch({ type: REMOVE_CAR, payload: id });
   };
-  const addPost = async postcode => {
+  const addPostToList = async postcode => {
     try {
       const response = await axios.post('/api/postcode', { postcode });
       const { lat, lon: lng } = response.data.data.results[0].position;
@@ -35,7 +35,7 @@ export default function GlobalState(props) {
       return { error: e };
     }
   };
-  const removePost = postcode => {
+  const removePostFromList = postcode => {
     dispatch({ type: REMOVE_POST, payload: postcode });
   };
   return (
@@ -45,8 +45,8 @@ export default function GlobalState(props) {
         addCarToList,
         postcode: listState.postcode,
         removeCarFromList,
-        addPost,
-        removePost
+        addPostToList,
+        removePostFromList
       }}
     >
       {props.children}
