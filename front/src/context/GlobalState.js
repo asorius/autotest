@@ -11,7 +11,7 @@ import {
 export default function GlobalState(props) {
   const [listState, dispatch] = useReducer(listReducer, {
     list: [],
-    postcode: null
+    postcode: []
   });
   const addCarToList = async data => {
     try {
@@ -29,6 +29,7 @@ export default function GlobalState(props) {
     try {
       const response = await axios.post('/api/postcode', { postcode });
       const { lat, lon: lng } = response.data.data.results[0].position;
+      console.log({ fromaddpostglobal: { postcode, lat, lng } });
       dispatch({ type: ADD_POST, payload: { postcode, lat, lng } });
     } catch (e) {
       return { error: e };

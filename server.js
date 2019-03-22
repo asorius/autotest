@@ -46,8 +46,11 @@ app.post('/api', async function(req, res) {
   }
 });
 app.post('/api/postcode', async (req, res) => {
+  const { postcode } = req.body;
+  if (postcode.length < 5 || postcode.length > 7) {
+    return res.status(400).send({ error: 'invalid post code' });
+  }
   try {
-    const { postcode } = req.body;
     const postcodeResult = await getPost(postcode);
     res.send({ data: postcodeResult });
   } catch (e) {

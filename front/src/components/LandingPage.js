@@ -34,6 +34,7 @@ export default function LandingPage(props) {
     e.preventDefault();
     try {
       await context.addPost(post);
+      console.log(context.postcode);
     } catch (e) {
       console.log(e);
     }
