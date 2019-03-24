@@ -22,7 +22,7 @@ export default function CompareItem(props) {
     lat: seller.gmapLink.split('&q=')[1].split('%2C')[0],
     lng: seller.gmapLink.split('&q=')[1].split('%2C')[1]
   };
-
+  console.log(context.postcode[0]);
   return (
     <div className="tile is-child box is-4">
       <div className="card">
@@ -107,7 +107,7 @@ export default function CompareItem(props) {
           </div>
           <div className="div">
             <MapComponent
-              usercoords={context.postcode ? context.postcode : null}
+              usercoords={context.postcode[0] ? context.postcode[0] : null}
               sellercoords={seller_coords}
             />
           </div>

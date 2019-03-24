@@ -25,7 +25,7 @@ const removeCar = (carId, state) => {
 
 const addPost = (data, state) => {
   //data looks like {postcode:'23423',lat:2342,lng:asdfsdf}
-  return { ...state, postcode: state.postcode.push({ ...data }) };
+  return { ...state, postcode: [{ ...data }] };
 };
 
 export const listReducer = (state, action) => {
