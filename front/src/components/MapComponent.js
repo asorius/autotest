@@ -32,8 +32,8 @@ const MapComponent = compose(
             this.props.usercoords.lng
           ),
           destination: new window.google.maps.LatLng(
-            parseInt(this.props.sellercoords.lat),
-            parseInt(this.props.sellercoords.lng)
+            parseFloat(this.props.sellercoords.lat),
+            parseFloat(this.props.sellercoords.lng)
           ),
           travelMode: window.google.maps.TravelMode.DRIVING
         },
@@ -56,8 +56,8 @@ const MapComponent = compose(
       defaultZoom={12}
       defaultCenter={
         new window.google.maps.LatLng(
-          parseInt(props.sellercoords.lat),
-          parseInt(props.sellercoords.lng)
+          parseFloat(props.sellercoords.lat),
+          parseFloat(props.sellercoords.lng)
         )
       }
     >
@@ -71,8 +71,8 @@ const MapComponent = compose(
       ) : (
         <Marker
           position={{
-            lat: parseInt(props.sellercoords.lat),
-            lng: parseInt(props.sellercoords.lng)
+            lat: parseFloat(props.sellercoords.lat),
+            lng: parseFloat(props.sellercoords.lng)
           }}
         />
       )}

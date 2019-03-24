@@ -71,6 +71,15 @@ export default function LandingPage(props) {
           >
             Find
           </button>
+          {context.postcode.length > 0 ? (
+            <span className="tag is-light">
+              Current postcode:{context.postcode[0].postcode}
+            </span>
+          ) : (
+            <span className="tag is-light">
+              Enter postcode to instantly get directions from you to the car!
+            </span>
+          )}
         </form>
         <form className="control" onSubmit={addCarFunc}>
           <input
