@@ -7,6 +7,7 @@ export default function LandingPage(props) {
   const [url, setUrl] = useState('');
   const [post, setPost] = useState('');
   const [loading, setLoading] = useState(false);
+  const [loadingPost, setPostLoading] = useState(false);
   const context = useContext(Context);
   const onChange = e => {
     setUrl(e.target.value.toLowerCase());
@@ -31,10 +32,15 @@ export default function LandingPage(props) {
     }
   };
   const addPost = async e => {
+    setPostLoading(!loadingPost);
     e.preventDefault();
     try {
       await context.addPostToList(post);
-      console.log(context.postcode);
+      console.log('postcode found');
+      setTimeout(() => {
+        setPost('');
+        setPostLoading(false);
+      }, 500);
     } catch (e) {
       console.log(e);
     }
@@ -57,7 +63,12 @@ export default function LandingPage(props) {
             onChange={onPost}
             placeholder="Your postcode"
           />
-          <button type="submit" className="button">
+          <button
+            className={classnames('button ', {
+              'is-loading': loadingPost
+            })}
+            type="submit"
+          >
             Find
           </button>
         </form>

@@ -18,11 +18,15 @@ export default function CompareItem(props) {
 
   const { mainData: data, events: motHistory, keyFacts: info } = props.item;
   const { sellerInfo: seller } = data;
-  const seller_coords = {
-    lat: seller.gmapLink.split('&q=')[1].split('%2C')[0],
-    lng: seller.gmapLink.split('&q=')[1].split('%2C')[1]
-  };
-  console.log(context.postcode[0]);
+  let seller_coords;
+  if (seller.gmapLink === undefined) {
+    seller_coords = null;
+  } else {
+    seller_coords = {
+      lat: seller.gmapLink.split('&q=')[1].split('%2C')[0],
+      lng: seller.gmapLink.split('&q=')[1].split('%2C')[1]
+    };
+  }
   return (
     <div className="tile is-child box is-4">
       <div className="card">
@@ -106,15 +110,13 @@ export default function CompareItem(props) {
             </div>
           </div>
           <div className="div">
-            <MapComponent
-              usercoords={context.postcode[0] ? context.postcode[0] : null}
-              sellercoords={seller_coords}
-              isMarkerShown={false}
-              googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places`}
-              loadingElement={<div style={{ height: `100%` }} />}
-              containerElement={<div style={{ height: `400px` }} />}
-              mapElement={<div style={{ height: `100%` }} />}
-            />
+            {seller_coords ? (
+              <MapComponent
+                usercoords={context.postcode[0] ? context.postcode[0] : null}
+                sellercoords={seller_coords}
+                isMarkerShown={true}
+              />
+            ) : null}
           </div>
         </div>
 
