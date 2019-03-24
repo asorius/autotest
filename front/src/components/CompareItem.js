@@ -109,6 +109,11 @@ export default function CompareItem(props) {
             <MapComponent
               usercoords={context.postcode[0] ? context.postcode[0] : null}
               sellercoords={seller_coords}
+              isMarkerShown={false}
+              googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places`}
+              loadingElement={<div style={{ height: `100%` }} />}
+              containerElement={<div style={{ height: `400px` }} />}
+              mapElement={<div style={{ height: `100%` }} />}
             />
           </div>
         </div>

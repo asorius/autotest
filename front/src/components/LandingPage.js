@@ -49,7 +49,6 @@ export default function LandingPage(props) {
           </div>
         </div>
       </section>
-
       <section className="input-container section">
         <form className="control postcode" onSubmit={addPost}>
           <input
