@@ -5,10 +5,16 @@ const getData = async link => {
   //actualink includes advertisement id @ guid
   const advertID = link.substring(47, 62);
   const forGuid = await axios.get(link);
-  const guID = forGuid.data.split('window.AT.correlationId =')[1].substring(2, 38);
+  const guID = forGuid.data
+    .split('window.AT.correlationId =')[1]
+    .substring(2, 38);
   const actualLink = `https://www.autotrader.co.uk/json/fpa/initial/${advertID}?guid=${guID}`;
   const { data } = await axios.get(actualLink);
-  return data
+  const { derivativeId } = data.vehicle;
+  const { data: techs } = await axios.get(
+    `https://www.autotrader.co.uk/json/taxonomy/technical-specification?derivative=${derivativeId}`
+  );
+  return { ...data, techSpecs: { ...techs } };
 };
 
 module.exports = getData;
