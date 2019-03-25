@@ -11,7 +11,8 @@ import {
 export default function GlobalState(props) {
   const [listState, dispatch] = useReducer(listReducer, {
     list: [],
-    postcode: []
+    postcode: [],
+    settings: {}
   });
   const addCarToList = async data => {
     try {

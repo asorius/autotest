@@ -17,6 +17,8 @@
     "concurrently": "^4.1.0",
     "create-react-app": "^2.1.8",
     "express": "^4.16.4",
+    "express-graphql": "^0.7.1",
+    "graphql": "^14.1.1",
     "nodemon": "^1.18.10"
   },
   "devDependencies": {},

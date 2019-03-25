@@ -4,6 +4,10 @@ const bodyParser = require('body-parser');
 const getData = require('./dataGetter');
 const getMot = require('./motGetter');
 const getPost = require('./postGetter');
+//-----
+const graphqlHTTP = require('express-graphql');
+const { buildSchema } = require('graphql');
+//----
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -56,9 +60,52 @@ app.post('/api/postcode', async (req, res) => {
     res.send({ error: e });
   }
 });
+//---------------------------------------------------
+let coords = { postcode: 'dummy', lat: 0, lng: 0 };
+const schema = buildSchema(`
+  type coordsFromGoogle {
+    postcode:String!
+    lat:Float!
+    lng:Float!
+  }
+  input PostCoordsInput {
+    postcode:String!
+  }
+  type RootQuery {
+    postCoords: coordsFromGoogle!
+  }
+  type RootMutation {
+    getPostCoords(input:PostCoordsInput):coordsFromGoogle
+  }
+  schema {
+    query: RootQuery
+    mutation:RootMutation
+  }
+`);
 
+app.use(
+  '/graphql',
+  graphqlHTTP({
+    schema: schema,
+    rootValue: {
+      postCoords: () => {
+        return coords;
+      },
+      getPostCoords: args => {
+        console.log(args);
+        const post = {
+          postcode: args.input.postcode,
+          lat: 4.53,
+          lng: 2.3543
+        };
+        return post;
+      }
+    },
+    graphiql: true
+  })
+);
+
+//----------------------------------------------
 app.listen(5000, () => {
   console.log('server is up on 5000');
 });
-
-// fetch("https://www.autotrader.co.uk/json/taxonomy/technical-specification?derivative=21b5f25a3df940a828c8ba55f8845974&co2-emissions-cars=233g%2Fkm&annual-tax-cars=315");
