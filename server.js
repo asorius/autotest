@@ -64,9 +64,10 @@ app.post('/api/postcode', async (req, res) => {
 let coords = { postcode: 'dummy', lat: 0, lng: 0 };
 const schema = buildSchema(`
   type coordsFromGoogle {
-    postcode:String!
-    lat:Float!
-    lng:Float!
+    postcode:String
+    lat:Float
+    lng:Float
+    error:String
   }
   input PostCoordsInput {
     postcode:String!
@@ -91,14 +92,16 @@ app.use(
       postCoords: () => {
         return coords;
       },
-      getPostCoords: args => {
-        console.log(args);
-        const post = {
-          postcode: args.input.postcode,
-          lat: 4.53,
-          lng: 2.3543
-        };
-        return post;
+      getPostCoords: async args => {
+        try {
+          const res = await getPost(args.input.postcode);
+          const pc = res.summary.query.toUpperCase();
+          const { lat, lon: lng } = res.results[0].position;
+          return { postcode: pc, lat, lng };
+        } catch (e) {
+          console.log(e);
+          return { error: 'Invalid postcode' };
+        }
       }
     },
     graphiql: true
