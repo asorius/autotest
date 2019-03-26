@@ -1,12 +1,12 @@
 const express = require('express');
-const axios = require('axios');
 const bodyParser = require('body-parser');
 const getData = require('./dataGetter');
 const getMot = require('./motGetter');
 const getPost = require('./postGetter');
 //-----
 const graphqlHTTP = require('express-graphql');
-const { buildSchema } = require('graphql');
+const graphQLschema = require('./graphql/schema');
+const graphQLresolver = require('./graphql/resolver');
 //----
 const app = express();
 
@@ -61,49 +61,12 @@ app.post('/api/postcode', async (req, res) => {
   }
 });
 //---------------------------------------------------
-let coords = { postcode: 'dummy', lat: 0, lng: 0 };
-const schema = buildSchema(`
-  type coordsFromGoogle {
-    postcode:String
-    lat:Float
-    lng:Float
-    error:String
-  }
-  input PostCoordsInput {
-    postcode:String!
-  }
-  type RootQuery {
-    postCoords: coordsFromGoogle!
-  }
-  type RootMutation {
-    getPostCoords(input:PostCoordsInput):coordsFromGoogle
-  }
-  schema {
-    query: RootQuery
-    mutation:RootMutation
-  }
-`);
 
 app.use(
   '/graphql',
   graphqlHTTP({
-    schema: schema,
-    rootValue: {
-      postCoords: () => {
-        return coords;
-      },
-      getPostCoords: async args => {
-        try {
-          const res = await getPost(args.input.postcode);
-          const pc = res.summary.query.toUpperCase();
-          const { lat, lon: lng } = res.results[0].position;
-          return { postcode: pc, lat, lng };
-        } catch (e) {
-          console.log(e);
-          return { error: 'Invalid postcode' };
-        }
-      }
-    },
+    schema: graphQLschema,
+    rootValue: graphQLresolver,
     graphiql: true
   })
 );
