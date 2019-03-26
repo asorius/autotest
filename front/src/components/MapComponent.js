@@ -20,7 +20,6 @@ const MapComponent = compose(
   withGoogleMap,
   lifecycle({
     componentDidMount() {
-      console.log(this, { from: 'life' });
       if (this.props.usercoords === null) {
         return;
       }
@@ -50,7 +49,6 @@ const MapComponent = compose(
     }
   })
 )(props => {
-  console.log({ props, from: 'gmap' });
   return (
     <GoogleMap
       defaultZoom={12}

@@ -18,7 +18,6 @@ app.post('/api', async function(req, res) {
   try {
     const { url } = req.body;
     const dataFromAutotrader = await getData(url);
-    console.log(dataFromAutotrader.techSpecs);
     const mainData = {
       title: dataFromAutotrader.advert.title,
       sellerDescription: dataFromAutotrader.advert.description,

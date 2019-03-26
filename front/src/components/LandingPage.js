@@ -24,6 +24,28 @@ export default function LandingPage(props) {
     setLoading(!loading);
     e.preventDefault();
     try {
+      //-------------------------
+      const reqbody = {
+        query: `
+        mutation {
+          getAutodata(url:"https://www.autotrader.co.uk/classified/advert/201902014511355?maximum-badge-engine-size=2.6&sort=year-desc&advertising-location=at_cars&radius=50&zero-to-60=TO_8&price-to=1500&onesearchad=Used&onesearchad=Nearly%20New&onesearchad=New&postcode=st34le&minimum-badge-engine-size=2.0&page=2"){
+            _id
+            title
+            price
+          }
+        }
+      `
+      };
+      const graph = await fetch('/graphql', {
+        method: 'POST',
+        body: JSON.stringify(reqbody),
+        headers: {
+          'Content-Type': 'application/json',
+          Accepts: 'application/json'
+        }
+      });
+      console.log(graph);
+      //-------------------------
       await context.addCarToList({ url });
       setLoading(false);
       setUrl('');
@@ -36,7 +58,6 @@ export default function LandingPage(props) {
     e.preventDefault();
     try {
       await context.addPostToList(post);
-      console.log('postcode found');
       setTimeout(() => {
         setPost('');
         setPostLoading(false);
@@ -61,6 +82,7 @@ export default function LandingPage(props) {
             className="input is-rounded"
             type="text"
             onChange={onPost}
+            value={post}
             placeholder="Your postcode"
           />
           <button
