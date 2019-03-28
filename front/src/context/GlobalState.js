@@ -6,22 +6,47 @@ import {
   ADD_CAR,
   REMOVE_CAR,
   ADD_POST,
-  REMOVE_POST
+  REMOVE_POST,
+  SETTINGS_UPDATE
 } from './reducers';
 export default function GlobalState(props) {
   const [listState, dispatch] = useReducer(listReducer, {
     list: [],
     postcode: [],
-    settings: {}
+    settings: []
   });
   const addCarToList = async data => {
-    try {
-      const response = await axios.post('/api', data);
-      const addedCar = await response.data;
-      dispatch({ type: ADD_CAR, payload: addedCar });
-    } catch (e) {
-      return { errored: e };
-    }
+    const reqbody = {
+      query: `
+      query {
+        getAutodata(url:"${data.url}"){
+          _id
+          price
+          title
+        ${data.settings.join(' ')}
+        }
+      }
+    `
+    };
+    const graphResponse = await fetch('http://localhost:5000/graphql', {
+      method: 'POST',
+      body: JSON.stringify(reqbody),
+      headers: {
+        'Content-Type': 'application/json',
+        Accepts: 'application/json'
+      }
+    });
+    const json = await graphResponse.json();
+    const addedCar = json.data.getAutodata;
+    console.log({ addedCar, id: addedCar._id });
+    dispatch({ type: ADD_CAR, payload: addedCar });
+    // try {
+    //   const response = await axios.post('/api', data);
+    //   const addedCar = await response.data;
+    //   dispatch({ type: ADD_CAR, payload: addedCar });
+    // } catch (e) {
+    //   return { errored: e };
+    // }
   };
   const removeCarFromList = id => {
     dispatch({ type: REMOVE_CAR, payload: id });
@@ -38,15 +63,20 @@ export default function GlobalState(props) {
   const removePostFromList = postcode => {
     dispatch({ type: REMOVE_POST, payload: postcode });
   };
+  const updateSettings = settings => {
+    dispatch({ type: SETTINGS_UPDATE, payload: settings });
+  };
   return (
     <Context.Provider
       value={{
         list: listState.list,
         addCarToList,
-        postcode: listState.postcode,
         removeCarFromList,
+        postcode: listState.postcode,
         addPostToList,
-        removePostFromList
+        removePostFromList,
+        settings: listState.settings,
+        updateSettings
       }}
     >
       {props.children}

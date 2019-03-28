@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import GlobalState from './context/GlobalState';
 import LandingPage from './components/LandingPage';
 

@@ -1,5 +1,7 @@
 const getPost = require('../postGetter');
 const getGraphData = require('../graphData');
+const getMot = require('../motGetter');
+
 module.exports = {
   getPostCoords: async args => {
     try {

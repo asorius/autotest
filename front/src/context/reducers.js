@@ -2,6 +2,7 @@ export const ADD_CAR = 'ADD_CAR';
 export const REMOVE_CAR = 'REMOVE_CAR';
 export const ADD_POST = 'ADD_POST';
 export const REMOVE_POST = 'REMOVE_POST';
+export const SETTINGS_UPDATE = 'SETTINGS_UPDATE';
 
 const addCar = (car, state) => {
   const newList = [...state.list];
@@ -27,7 +28,18 @@ const addPost = (data, state) => {
   //data looks like {postcode:'23423',lat:2342,lng:asdfsdf}
   return { ...state, postcode: [{ ...data }] };
 };
+const updateSettings = (newSettings, state) => {
+  return { ...state, settings: newSettings };
+  // let newSettings = [...state.settings];
+  // const settingIndex = newSettings.findIndex(item => item === settingItem);
 
+  // if (settingIndex < 0) {
+  //   newSettings.push(settingItem);
+  // } else {
+  //   newSettings = newSettings.filter(el => el !== settingItem);
+  // }
+  // return { ...state, settings: newSettings };
+};
 export const listReducer = (state, action) => {
   switch (action.type) {
     case ADD_CAR:
@@ -36,6 +48,8 @@ export const listReducer = (state, action) => {
       return removeCar(action.payload, state);
     case ADD_POST:
       return addPost(action.payload, state);
+    case SETTINGS_UPDATE:
+      return updateSettings(action.payload, state);
     // case REMOVE_POST:
     //   return removePost(action.payload, state);
     default:

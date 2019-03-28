@@ -1,6 +1,7 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import Context from '../context/context';
 import CompareItem from './CompareItem';
+import Settings from './Settings';
 import classnames from 'classnames';
 
 export default function LandingPage(props) {
@@ -8,7 +9,6 @@ export default function LandingPage(props) {
   const [post, setPost] = useState('');
   const [loading, setLoading] = useState(false);
   const [loadingPost, setPostLoading] = useState(false);
-  const [settings, addSetting] = useState([]);
   const context = useContext(Context);
   const onChange = e => {
     setUrl(e.target.value.toLowerCase());
@@ -22,45 +22,12 @@ export default function LandingPage(props) {
     );
   };
 
-  //-----------------------
-  const onCheck = e => {
-    if (settings.indexOf(e.target.name) < 0) {
-      addSetting([...settings, e.target.name]);
-    } else {
-      const neww = settings.filter(el => el !== e.target.name);
-      addSetting([...neww]);
-    }
-  };
-  //----------------
   const addCarFunc = async e => {
     setLoading(!loading);
     e.preventDefault();
     try {
-      //---------------------------------------------------------
-      const reqbody = {
-        query: `
-        query {
-          getAutodata(url:"${url}"){
-            _id
-            price
-            title
-          ${settings.join(' ')}
-          }
-        }
-      `
-      };
-      const graph = await fetch('http://localhost:5000/graphql', {
-        method: 'POST',
-        body: JSON.stringify(reqbody),
-        headers: {
-          'Content-Type': 'application/json',
-          Accepts: 'application/json'
-        }
-      });
-      const data = await graph.json();
-      console.log(data);
-      //----------------------------------------------------------------
-      await context.addCarToList({ url });
+      await context.addCarToList({ url, settings: context.settings });
+      console.log(context.list);
       setLoading(false);
       setUrl('');
     } catch (e) {
@@ -90,25 +57,7 @@ export default function LandingPage(props) {
           </div>
         </div>
       </section>
-      <section>
-        <label htmlFor="urban">
-          urban
-          <input type="checkbox" name="urban" id="urban" onChange={onCheck} />
-        </label>
-        <label htmlFor="extra">
-          extra
-          <input type="checkbox" name="extra" id="extra" onChange={onCheck} />
-        </label>
-        <label htmlFor="combined">
-          combined
-          <input
-            type="checkbox"
-            name="combined"
-            id="combined"
-            onChange={onCheck}
-          />
-        </label>
-      </section>
+      <Settings />
       <section className="input-container section">
         <form className="control postcode" onSubmit={addPost}>
           <input
