@@ -3,13 +3,14 @@ const bodyParser = require('body-parser');
 const getData = require('./dataGetter');
 const getMot = require('./motGetter');
 const getPost = require('./postGetter');
+const cors = require('cors');
 //-----
 const graphqlHTTP = require('express-graphql');
 const graphQLschema = require('./graphql/schema');
 const graphQLresolver = require('./graphql/resolver');
 //----
 const app = express();
-
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 

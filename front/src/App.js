@@ -1,19 +1,16 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch} from 'react-router-dom'
-import GlobalState from './context/GlobalState'
-import LandingPage from './components/LandingPage'
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import GlobalState from './context/GlobalState';
+import LandingPage from './components/LandingPage';
 
-const App =props=> {
- return(
-   <GlobalState>
-     <BrowserRouter>
-      <Switch>
-        <Route path='/' component={LandingPage} exact />
-        </Switch>
-     </BrowserRouter>
-     </GlobalState> 
- )
-  
-}
+const App = props => {
+  return (
+    <GlobalState>
+      <BrowserRouter>
+        <Route path="/" component={LandingPage} exact />
+      </BrowserRouter>
+    </GlobalState>
+  );
+};
 
 export default App;
