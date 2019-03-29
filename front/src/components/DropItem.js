@@ -21,19 +21,19 @@ export default function DropItem(props) {
       <div className="dropdown-item columns ">
         <div className="column is-three-quarters has-text-centered">
           <div>
-            {capitalized(motEvent.status) === 'Pass' ? (
+            {motEvent.status === 'pass' ? (
               <span className="mot-status pass has-text-success">Passed</span>
             ) : (
               <span className="mot-status fail has-text-danger">Failed</span>
             )}
           </div>
-          <div>{motEvent.eventDate}</div>
+          <div>{motEvent.date}</div>
           <div className="is-italic">
             Miles driven since last MOT : {props.driven}
           </div>
         </div>
-        {motEvent.data['advisory_notice_reasons'].length > 0 ||
-        motEvent.data['reason_for_refusal_to_issue_certificate'].length > 0 ? (
+        {motEvent.data.notices.length > 0 ||
+        motEvent.data.refusal.length > 0 ? (
           <div
             className={classnames('column expand-dropdown-button', {
               active: drop
@@ -55,22 +55,19 @@ export default function DropItem(props) {
               >
                 <div className="dropdown-content">
                   <div className="dropdown-item">
-                    {motEvent.data['advisory_notice_reasons'].length > 0 ? (
+                    {motEvent.data.notices.length > 0 ? (
                       <div className="advisories expand-dropdown-container">
                         <h4 className="has-text-info is-italic is-size-6">
                           Advisory notice reasons:
                         </h4>
                         <ol>
-                          {motEvent.data['advisory_notice_reasons'].map(
-                            (reason, index) => (
-                              <li key={index}>{reason}</li>
-                            )
-                          )}
+                          {motEvent.data.notices.map((reason, index) => (
+                            <li key={index}>{reason}</li>
+                          ))}
                         </ol>
                       </div>
                     ) : null}
-                    {motEvent.data['reason_for_refusal_to_issue_certificate']
-                      .length > 0 ? (
+                    {motEvent.data.refusal.length > 0 ? (
                       <div className="refusal expand-dropdown-container">
                         <h4 className="has-text-danger is-italic is-size-6">
                           Reasons for refusal:

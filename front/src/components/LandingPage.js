@@ -11,7 +11,6 @@ export default function LandingPage(props) {
   const [loadingPost, setPostLoading] = useState(false);
   const context = useContext(Context);
   const onChange = e => {
-    console.log(context.settings);
     setUrl(e.target.value.toLowerCase());
   };
   const onPost = e => {

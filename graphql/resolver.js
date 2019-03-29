@@ -27,11 +27,30 @@ module.exports = {
           data: {
             notices: [...el.data['advisory_notice_reasons']],
             expiredate: el.data['expiry_date'],
-            mileage: el.data.mileage,
+            mileage: el.data.mileageData.value,
             refusal: [...el.data['reason_for_refusal_to_issue_certificate']]
           }
         };
       });
+
+      const spec = (parentName, neededItemName) => {
+        const parent = data.techSpecs.techSpecs.filter(
+          el => el.specName === parentName
+        );
+        let value;
+        if (!neededItemName === 'all') {
+          value = parent[0].specs.filter(el => el.name === neededItemName)[0]
+            .value;
+        } else {
+          value = parent[0].specs;
+        }
+
+        if (parent && value) {
+          return value;
+        } else {
+          return null;
+        }
+      };
       const title = data.advert.title,
         _id = Math.random(),
         price = data.advert.price,
@@ -44,36 +63,32 @@ module.exports = {
         images = data.advert.imageUrls,
         exchange = data.advert.isPartExAvailable,
         co2 = data.vehicle.co2Emissions,
-        urban = data.techSpecs.techSpecs[0].specs[0].value,
-        extra = data.techSpecs.techSpecs[0].specs[1].value,
-        combined = data.techSpecs.techSpecs[0].specs[2].value,
-        acceleration = data.techSpecs.techSpecs[0].specs[3].value,
-        topspeed = data.techSpecs.techSpecs[0].specs[4].value,
-        cylinders = data.techSpecs.techSpecs[0].specs[5].value,
-        enginepower = data.techSpecs.techSpecs[0].specs[7].value,
-        torque = data.techSpecs.techSpecs[0].specs[8].value,
-        electrics = data.techSpecs.techSpecs[1].specs,
-        safety = data.techSpecs.techSpecs[2].specs,
-        tank =
-          data.techSpecs.techSpecs[data.techSpecs.techSpecs.length - 1].specs[4]
-            .value,
-        weight =
-          data.techSpecs.techSpecs[data.techSpecs.techSpecs.length - 1].specs[5]
-            .value,
-        map = {
+        urban = spec('Economy & performance', 'Fuel consumption (urban)'),
+        extra = spec('Economy & performance', 'Fuel consumption (extra urban)'),
+        combined = spec('Economy & performance', 'Fuel consumption (combined)'),
+        acceleration = spec('Economy & performance', '0 - 60 mph'),
+        topspeed = spec('Economy & performance', 'Top speed'),
+        cylinders = spec('Economy & performance', 'Cylinders'),
+        enginepower = spec('Economy & performance', 'Engine power');
+      (torque = spec('Economy & performance', 'Engine torque')),
+        (electrics = spec('Driver Convenience', 'all')),
+        (safety = spec('Safety', 'all')),
+        (tank = spec('Dimensions', 'Fuel tank capacity')),
+        (weight = spec('Dimensions', 'Minimum kerb weight')),
+        (map = {
           lat: data.seller.isTradeSeller
             ? data.seller.locationMapLink.split('&q=')[1].split('%2C')[0]
             : null,
           lng: data.seller.isTradeSeller
             ? data.seller.locationMapLink.split('&q=')[1].split('%2C')[1]
             : null
-        },
-        seller = {
+        }),
+        (seller = {
           name: data.seller.name || null,
           phone1: data.seller.primaryContactNumber,
           phone2: data.seller.secondaryContactNumber || null
-        };
-      events = reducedevents.slice(0, 5);
+        });
+      events = reducedevents.slice(0, 6);
       return {
         _id,
         title,

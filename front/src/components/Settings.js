@@ -7,7 +7,30 @@ export default function Settings() {
   const [settings, addSetting] = useState(context.settings);
   const [modal, setModal] = useState(false);
   //---------------------
-  const settingsList = ['urban', 'extra', 'combined'];
+  console.log(context.settings);
+  const settingsList = [
+    'year',
+    'engine',
+    'mileage',
+    'fuel',
+    'transmission',
+    'tax',
+    'exchange',
+    'co2',
+    'urban',
+    'extra',
+    'combined',
+    'acceleration',
+    'topspeed',
+    'cylinders',
+    'enginepower',
+    'torquer',
+    'electrics',
+    'safety',
+    'tank',
+    'weight',
+    'map'
+  ];
   //----------------------
   const openModal = e => {
     setModal(!modal);
@@ -27,22 +50,20 @@ export default function Settings() {
     setModal(!modal);
   };
   return (
-    <section className="container">
+    <section className="container section">
       <button className="button" onClick={openModal}>
         settings
       </button>
       <div className={classnames('modal', { 'is-active': modal })}>
         <div className="modal-background" />
-        <div className="modal-content">
+        <div className="modal-content mdl">
           <form className="form" onSubmit={submit}>
-            <div className="container">
-              <div className="field is-grouped is-grouped-centered">
-                <Checkbox list={settingsList} check={onCheck} />
-              </div>
+            <div className="field flx is-grouped is-grouped-centered">
+              <Checkbox list={settingsList} check={onCheck} />
+              <button type="submit" className="button">
+                Save
+              </button>
             </div>
-            <button type="submit" className="button">
-              Save
-            </button>
           </form>
         </div>
         <button

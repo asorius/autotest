@@ -23,6 +23,7 @@ export default function GlobalState(props) {
           _id
           price
           title
+          images
           events{
             date
             status
@@ -32,6 +33,11 @@ export default function GlobalState(props) {
               notices
               refusal
             }
+          }
+          seller{
+            name
+            phone1
+            phone2
           }
         ${data.settings.join(' ')}
         }

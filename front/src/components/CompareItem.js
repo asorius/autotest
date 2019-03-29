@@ -16,100 +16,31 @@ export default function CompareItem(props) {
     context.removeCarFromList(props.item._id);
   };
 
-  const { mainData: data, events: motHistory, keyFacts: info } = props.item;
-  const { sellerInfo: seller } = data;
-  let seller_coords;
-  if (seller.gmapLink === undefined) {
-    seller_coords = null;
-  } else {
-    seller_coords = {
-      lat: seller.gmapLink.split('&q=')[1].split('%2C')[0],
-      lng: seller.gmapLink.split('&q=')[1].split('%2C')[1]
-    };
-  }
+  const { title, price, images, events } = props.item;
+  // let seller_coords;
+  // if (seller.gmapLink === undefined) {
+  //   seller_coords = null;
+  // } else {
+  //   seller_coords = {
+  //     lat: seller.gmapLink.split('&q=')[1].split('%2C')[0],
+  //     lng: seller.gmapLink.split('&q=')[1].split('%2C')[1]
+  //   };
+  // }
   return (
     <div className="tile is-child box is-4">
       <div className="card">
         <div className="card-image">
           <figure className="image ">
-            <img src={data.images[0]} alt="Car" />
+            <img src={images[0]} alt="Car" />
           </figure>
         </div>
         <div className="card-content">
-          <h2 className="title">{data.title}</h2>
-          <h2 className="subtitle">{data.price}</h2>
+          <h2 className="title">{title}</h2>
+          <h2 className="subtitle">{price}</h2>
         </div>
 
         <div className="content has-text-centered">
-          <div className="columns">
-            <div className="about-car column">
-              <div className="about-car-title">Car details: </div>
-              <ul>
-                {props.item.writeOffCategory ? (
-                  <abbr title="Category">
-                    <i class="fas fa-car-crash" /> :{' '}
-                    {props.item.writeOffCategory}
-                  </abbr>
-                ) : null}
-                <li>
-                  <abbr title="Manufactured year">
-                    <i className="far fa-calendar-alt" /> :{' '}
-                    {info['manufactured-year']}
-                  </abbr>
-                </li>
-                <li>
-                  <abbr title="Engine size">
-                    <i className="fas fa-oil-can" /> : {info['engine-size']}
-                  </abbr>
-                </li>
-                <li>
-                  <abbr title="Mileage">
-                    <i className="fas fa-road" /> : {info.mileage}
-                  </abbr>
-                </li>
-                <li>
-                  <abbr title="Expires at">
-                    {' '}
-                    MOT : {motHistory[0].data['expiry_date']}
-                  </abbr>
-                </li>
-                <li>
-                  <abbr title="Fuel type">
-                    <i className="fas fa-gas-pump" /> : {info['fuel-type']}
-                  </abbr>
-                </li>
-                <li>
-                  <abbr title="Transmission type">
-                    <i className="fas fa-truck-monster" /> : {info.transmission}
-                  </abbr>
-                </li>
-                <li>
-                  <abbr title="Tax">
-                    {' '}
-                    <i className="fas fa-hand-holding-usd" /> : {props.item.tax}
-                  </abbr>
-                </li>
-                <li>
-                  <abbr title="Part Exchange">
-                    {' '}
-                    <i className="fas fa-exchange-alt" /> :{' '}
-                    {props.item.partEx ? 'Available' : 'Unavailable'}
-                  </abbr>
-                </li>
-              </ul>
-            </div>
-            <div className="about-seller column">
-              <div className="about-seller-title">About Seller :</div>
-              <ul>
-                <li>{seller.name}</li>
-                <li>{seller.trader ? 'Trader' : 'Private'}</li>
-                <li>
-                  Contacts:{seller.phone1} , {seller.phone2}
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="div">
+          {/* <div className="div">
             {seller_coords ? (
               <MapComponent
                 usercoords={context.postcode[0] ? context.postcode[0] : null}
@@ -117,7 +48,7 @@ export default function CompareItem(props) {
                 isMarkerShown={true}
               />
             ) : null}
-          </div>
+          </div> */}
         </div>
 
         <div className="card-footer">
@@ -141,23 +72,23 @@ export default function CompareItem(props) {
             </div>
             <div className="dropdown-menu" id="dropdown-menu1" role="menu">
               <div className="dropdown-content">
-                {motHistory.map((item, index) => {
-                  if (index < 5) {
-                    let mileage =
-                      item.data.mileageData.value -
-                      motHistory[index + 1].data.mileageData.value;
-                    if (index === 5) {
-                      mileage = ' - ';
-                    }
-                    return (
-                      <DropItem
-                        item={item}
-                        driven={mileage}
-                        key={item.data.test_number}
-                        index={index}
-                      />
-                    );
+                {events.map((item, index) => {
+                  /////ererora here
+                  console.log(item);
+                  let mileage =
+                    parseFloat(item.data.mileage) -
+                    parseFloat(item[index + 1].data.mileage);
+                  if (index === 4) {
+                    mileage = ' - ';
                   }
+                  return (
+                    <DropItem
+                      item={item}
+                      driven={mileage}
+                      key={Math.random()}
+                      index={index}
+                    />
+                  );
                 })}
               </div>
             </div>
