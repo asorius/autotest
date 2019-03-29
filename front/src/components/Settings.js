@@ -1,15 +1,19 @@
 import React, { useState, useContext } from 'react';
 import classnames from 'classnames';
 import Context from '../context/context';
-
+import Checkbox from './Checkbox';
 export default function Settings() {
   const context = useContext(Context);
   const [settings, addSetting] = useState(context.settings);
   const [modal, setModal] = useState(false);
+  //---------------------
+  const settingsList = ['urban', 'extra', 'combined'];
+  //----------------------
   const openModal = e => {
     setModal(!modal);
   };
   const onCheck = e => {
+    console.log(e.target);
     if (settings.indexOf(e.target.name) < 0) {
       addSetting([...settings, e.target.name]);
     } else {
@@ -23,42 +27,18 @@ export default function Settings() {
     setModal(!modal);
   };
   return (
-    <section>
+    <section className="container">
       <button className="button" onClick={openModal}>
         settings
       </button>
       <div className={classnames('modal', { 'is-active': modal })}>
         <div className="modal-background" />
         <div className="modal-content">
-          <form onSubmit={submit}>
+          <form className="form" onSubmit={submit}>
             <div className="container">
-              <label htmlFor="urban">
-                urban
-                <input
-                  type="checkbox"
-                  name="urban"
-                  id="urban"
-                  onChange={onCheck}
-                />
-              </label>
-              <label htmlFor="extra">
-                extra
-                <input
-                  type="checkbox"
-                  name="extra"
-                  id="extra"
-                  onChange={onCheck}
-                />
-              </label>
-              <label htmlFor="combined">
-                combined
-                <input
-                  type="checkbox"
-                  name="combined"
-                  id="combined"
-                  onChange={onCheck}
-                />
-              </label>
+              <div className="field is-grouped is-grouped-centered">
+                <Checkbox list={settingsList} check={onCheck} />
+              </div>
             </div>
             <button type="submit" className="button">
               Save

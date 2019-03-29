@@ -23,6 +23,16 @@ export default function GlobalState(props) {
           _id
           price
           title
+          events{
+            date
+            status
+            data{
+              expiredate
+              mileage
+              notices
+              refusal
+            }
+          }
         ${data.settings.join(' ')}
         }
       }
@@ -40,13 +50,6 @@ export default function GlobalState(props) {
     const addedCar = json.data.getAutodata;
     console.log({ addedCar, id: addedCar._id });
     dispatch({ type: ADD_CAR, payload: addedCar });
-    // try {
-    //   const response = await axios.post('/api', data);
-    //   const addedCar = await response.data;
-    //   dispatch({ type: ADD_CAR, payload: addedCar });
-    // } catch (e) {
-    //   return { errored: e };
-    // }
   };
   const removeCarFromList = id => {
     dispatch({ type: REMOVE_CAR, payload: id });

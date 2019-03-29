@@ -14,6 +14,23 @@ type sellermapdata {
   lat:Float
   lng:Float
 }
+type eventdata{
+  notices:[String]
+  expiredate:String
+  mileage:String
+  refusal: [String]
+
+}
+type event{
+  date:String
+  status: String
+  data: eventdata
+}
+type sellerdata{
+  name:String
+  phone1:String
+  phone2:String
+}
 type autodata{
   _id:Float!
   title:String!
@@ -40,6 +57,8 @@ type autodata{
   tank:String
   weight:String
   map:sellermapdata
+  seller:sellerdata
+  events:[event]
 }
 type RootQuery {
   getPostCoords(postcode:String!):coords

@@ -18,6 +18,20 @@ module.exports = {
     const url = args.url;
     try {
       const data = await getGraphData(url);
+      const { vrm } = data.vehicle;
+      const motdata = await getMot(vrm);
+      const reducedevents = motdata.events.map(el => {
+        return {
+          date: el.eventDate,
+          status: el.status.substring(11),
+          data: {
+            notices: [...el.data['advisory_notice_reasons']],
+            expiredate: el.data['expiry_date'],
+            mileage: el.data.mileage,
+            refusal: [...el.data['reason_for_refusal_to_issue_certificate']]
+          }
+        };
+      });
       const title = data.advert.title,
         _id = Math.random(),
         price = data.advert.price,
@@ -40,12 +54,26 @@ module.exports = {
         torque = data.techSpecs.techSpecs[0].specs[8].value,
         electrics = data.techSpecs.techSpecs[1].specs,
         safety = data.techSpecs.techSpecs[2].specs,
-        tank = data.techSpecs.techSpecs[5].specs[4].value,
-        weight = data.techSpecs.techSpecs[5].specs[5].value,
+        tank =
+          data.techSpecs.techSpecs[data.techSpecs.techSpecs.length - 1].specs[4]
+            .value,
+        weight =
+          data.techSpecs.techSpecs[data.techSpecs.techSpecs.length - 1].specs[5]
+            .value,
         map = {
-          lat: data.seller.locationMapLink.split('&q=')[1].split('%2C')[0],
-          lng: data.seller.locationMapLink.split('&q=')[1].split('%2C')[1]
+          lat: data.seller.isTradeSeller
+            ? data.seller.locationMapLink.split('&q=')[1].split('%2C')[0]
+            : null,
+          lng: data.seller.isTradeSeller
+            ? data.seller.locationMapLink.split('&q=')[1].split('%2C')[1]
+            : null
+        },
+        seller = {
+          name: data.seller.name || null,
+          phone1: data.seller.primaryContactNumber,
+          phone2: data.seller.secondaryContactNumber || null
         };
+      events = reducedevents.slice(0, 5);
       return {
         _id,
         title,
@@ -71,7 +99,9 @@ module.exports = {
         safety,
         tank,
         weight,
-        map
+        map,
+        seller,
+        events
       };
     } catch (e) {
       console.log(e);
