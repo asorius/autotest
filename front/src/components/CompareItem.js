@@ -74,21 +74,22 @@ export default function CompareItem(props) {
               <div className="dropdown-content">
                 {events.map((item, index) => {
                   /////ererora here
-                  console.log(item);
-                  let mileage =
-                    parseFloat(item.data.mileage) -
-                    parseFloat(item[index + 1].data.mileage);
-                  if (index === 4) {
-                    mileage = ' - ';
+                  if (index < 5) {
+                    const newestmiles = parseFloat(item.data.mileage);
+                    const milesbefore = parseFloat(
+                      events[index + 1].data.mileage
+                    );
+                    let mileage = newestmiles - milesbefore;
+
+                    return (
+                      <DropItem
+                        item={item}
+                        driven={mileage}
+                        key={Math.random()}
+                        index={index}
+                      />
+                    );
                   }
-                  return (
-                    <DropItem
-                      item={item}
-                      driven={mileage}
-                      key={Math.random()}
-                      index={index}
-                    />
-                  );
                 })}
               </div>
             </div>

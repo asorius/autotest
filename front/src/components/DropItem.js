@@ -73,9 +73,7 @@ export default function DropItem(props) {
                           Reasons for refusal:
                         </h4>
                         <ol>
-                          {motEvent.data[
-                            'reason_for_refusal_to_issue_certificate'
-                          ].map((reason, index) => (
+                          {motEvent.data.refusal.map((reason, index) => (
                             <li key={index}>{reason}</li>
                           ))}
                         </ol>

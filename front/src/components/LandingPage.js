@@ -27,7 +27,6 @@ export default function LandingPage(props) {
     e.preventDefault();
     try {
       await context.addCarToList({ url, settings: context.settings });
-      console.log(context.list);
       setLoading(false);
       setUrl('');
     } catch (e) {
