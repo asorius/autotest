@@ -26,7 +26,6 @@ export default function CompareItem(props) {
     map,
     ...rest
   } = props.item;
-  console.log(Object.entries(rest));
   let seller_coords;
   if (map === undefined || map.lat === null || map.lng === null) {
     seller_coords = null;
@@ -59,7 +58,8 @@ export default function CompareItem(props) {
                 .name;
               return (
                 <li key={Math.random()}>
-                  {name}:{el[1] === false || el[1] === null ? 'n/a' : el[1]}
+                  {name}:
+                  {el[1] === false || el[1] === null || false ? 'n/a' : el[1]}
                 </li>
               );
             })}

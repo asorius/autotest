@@ -1,5 +1,4 @@
 import React, { useReducer } from 'react';
-import axios from 'axios';
 import Context from './context';
 import {
   listReducer,
@@ -21,19 +20,19 @@ export default function GlobalState(props) {
       { name: 'Transmission type', value: 'transmission' },
       { name: 'Tax', value: 'tax' },
       { name: 'Part exchange', value: 'exchange' },
-      { name: 'CO2 emissions', value: 'co2' },
-      { name: 'Fuel consumption (urban)', value: 'urban' },
-      { name: 'Fuel consumption (extra urban)', value: 'extra' },
-      { name: 'Fuel consumption (combined)', value: 'combined' },
+      { name: 'Engine power', value: 'enginepower' },
       { name: '0 - 60 mph', value: 'acceleration' },
       { name: 'Top speed', value: 'topspeed' },
       { name: 'Cylinders', value: 'cylinders' },
-      { name: 'Engine power', value: 'enginepower' },
       { name: 'Engine torque', value: 'torque' },
       { name: 'Driver Convenience', value: 'electrics' },
       { name: 'Safety', value: 'safety' },
+      { name: 'Fuel consumption (urban)', value: 'urban' },
+      { name: 'Fuel consumption (extra urban)', value: 'extra' },
+      { name: 'Fuel consumption (combined)', value: 'combined' },
       { name: 'Fuel tank capacity', value: 'tank' },
       { name: 'Weight', value: 'weight' },
+      { name: 'CO2 emissions', value: 'co2' },
       { name: 'Map & directions', value: 'map{lat lng}' }
     ]
   });
@@ -66,7 +65,6 @@ export default function GlobalState(props) {
       }
     `
     };
-    console.log({ reqbody });
     const graphResponse = await fetch('http://localhost:5000/graphql', {
       method: 'POST',
       body: JSON.stringify(reqbody),
@@ -84,9 +82,28 @@ export default function GlobalState(props) {
   };
   const addPostToList = async postcode => {
     try {
-      const response = await axios.post('/api/postcode', { postcode });
-      const { lat, lon: lng } = response.data.data.results[0].position;
-      dispatch({ type: ADD_POST, payload: { postcode, lat, lng } });
+      const reqbody = {
+        query: `
+        query {
+          getPostCoords(postcode:"${postcode}"){
+            postcode
+            lat
+            lng
+          }
+        }
+      `
+      };
+      const graphResponse = await fetch('http://localhost:5000/graphql', {
+        method: 'POST',
+        body: JSON.stringify(reqbody),
+        headers: {
+          'Content-Type': 'application/json',
+          Accepts: 'application/json'
+        }
+      });
+      const json = await graphResponse.json();
+      const { postcode: pc, lat, lng } = json.data.getPostCoords;
+      dispatch({ type: ADD_POST, payload: { postcode: pc, lat, lng } });
     } catch (e) {
       return { error: e };
     }

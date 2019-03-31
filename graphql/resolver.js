@@ -41,8 +41,10 @@ module.exports = {
         if (neededItemName === 'all') {
           value = parent[0].specs;
         } else {
-          value = parent[0].specs.filter(el => el.name === neededItemName)[0];
-          value ? value.value : null;
+          let valueobj = parent[0].specs.filter(
+            el => el.name === neededItemName
+          )[0];
+          value = valueobj ? valueobj.value : null;
         }
         if (parent && value) {
           return value;
@@ -61,7 +63,7 @@ module.exports = {
         transmission = data.vehicle.keyFacts.transmission,
         tax = data.vehicle.tax,
         images = data.advert.imageUrls,
-        exchange = data.advert.isPartExAvailable,
+        exchange = data.advert.isPartExAvailable ? 'Available' : 'Unavailable',
         co2 = data.vehicle.co2Emissions,
         urban = spec('Economy & performance', 'Fuel consumption (urban)'),
         extra = spec('Economy & performance', 'Fuel consumption (extra urban)'),

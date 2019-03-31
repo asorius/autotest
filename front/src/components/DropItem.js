@@ -2,14 +2,6 @@ import React, { useState } from 'react';
 import classnames from 'classnames';
 export default function DropItem(props) {
   const [drop, setDrop] = useState(false);
-  const capitalized = s => {
-    const ns = s
-      .toString()
-      .substring(11, s.toString().length)
-      .charAt(0)
-      .toUpperCase();
-    return ns + s.slice(12);
-  };
   const toggleDrop = e => {
     e.preventDefault();
     setDrop(!drop);

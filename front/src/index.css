@@ -90,6 +90,7 @@ abbr[title] {
 .subs h2,
 .subs h3 {
   width: 45%;
+  text-align: center;
 }
 .subtitle2 h3 {
   font-size: 0.3rem;

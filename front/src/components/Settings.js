@@ -8,8 +8,6 @@ export default function Settings() {
   const [checkboxes, setCheckbox] = useState(
     context.options.map(option => ({ ...option, isSelected: false }))
   );
-  const settingsList = context.options;
-
   const onCheckFn = e => {
     const { value } = e.target;
 
@@ -29,7 +27,6 @@ export default function Settings() {
         return el;
       })
     );
-    console.log({ seting: context.settings });
   };
   const openModal = e => {
     setModal(!modal);

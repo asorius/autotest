@@ -42,7 +42,7 @@ type autodata{
   transmission:String
   tax:String
   images:[String]
-  exchange:Boolean
+  exchange:String
   co2:String
   urban:String
   extra:String
