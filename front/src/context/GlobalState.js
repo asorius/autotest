@@ -34,7 +34,7 @@ export default function GlobalState(props) {
       { name: 'Safety', value: 'safety' },
       { name: 'Fuel tank capacity', value: 'tank' },
       { name: 'Weight', value: 'weight' },
-      { name: 'Map & directions', value: 'map' }
+      { name: 'Map & directions', value: 'map{lat lng}' }
     ]
   });
   const addCarToList = async data => {
@@ -66,6 +66,7 @@ export default function GlobalState(props) {
       }
     `
     };
+    console.log({ reqbody });
     const graphResponse = await fetch('http://localhost:5000/graphql', {
       method: 'POST',
       body: JSON.stringify(reqbody),

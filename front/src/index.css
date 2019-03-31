@@ -81,3 +81,16 @@ abbr[title] {
   justify-content: center;
   align-items: center;
 }
+.subs {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.subs h2,
+.subs h3 {
+  width: 45%;
+}
+.subtitle2 h3 {
+  font-size: 0.3rem;
+}

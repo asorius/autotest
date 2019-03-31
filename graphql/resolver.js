@@ -41,8 +41,8 @@ module.exports = {
         if (neededItemName === 'all') {
           value = parent[0].specs;
         } else {
-          value = parent[0].specs.filter(el => el.name === neededItemName)[0]
-            .value;
+          value = parent[0].specs.filter(el => el.name === neededItemName)[0];
+          value ? value.value : null;
         }
         if (parent && value) {
           return value;

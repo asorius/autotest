@@ -16,17 +16,26 @@ export default function CompareItem(props) {
     context.removeCarFromList(props.item._id);
   };
 
-  const { title, price, images, events, seller, _id, ...rest } = props.item;
+  const {
+    title,
+    price,
+    images,
+    events,
+    seller,
+    _id,
+    map,
+    ...rest
+  } = props.item;
   console.log(Object.entries(rest));
-  // let seller_coords;
-  // if (seller.gmapLink === undefined) {
-  //   seller_coords = null;
-  // } else {
-  //   seller_coords = {
-  //     lat: seller.gmapLink.split('&q=')[1].split('%2C')[0],
-  //     lng: seller.gmapLink.split('&q=')[1].split('%2C')[1]
-  //   };
-  // }
+  let seller_coords;
+  if (map === undefined || map.lat === null || map.lng === null) {
+    seller_coords = null;
+  } else {
+    seller_coords = {
+      lat: map.lat,
+      lng: map.lng
+    };
+  }
   return (
     <div className="tile is-child box is-4">
       <div className="card">
@@ -37,28 +46,44 @@ export default function CompareItem(props) {
         </div>
         <div className="card-content">
           <h2 className="title">{title}</h2>
-          <h2 className="subtitle">{price}</h2>
+          <div className="subs">
+            <h2 className="subtitle">{price}</h2>
+            <h3 className="subtitle2">MOT until:{events[0].data.expiredate}</h3>
+          </div>
         </div>
 
         <div className="content has-text-centered">
-          {Object.entries(rest).map(el => {
-            let name = context.options.filter(opt => opt.value === el[0])[0]
-              .name;
-            return (
-              <li key={Math.random()}>
-                {name}:{el[1] === false || el[1] === null ? 'n/a' : el[1]}
-              </li>
-            );
-          })}
-          {/* <div className="div">
+          <div className="c">
+            {Object.entries(rest).map(el => {
+              let name = context.options.filter(opt => opt.value === el[0])[0]
+                .name;
+              return (
+                <li key={Math.random()}>
+                  {name}:{el[1] === false || el[1] === null ? 'n/a' : el[1]}
+                </li>
+              );
+            })}
+          </div>
+          <div className="seller">
+            {seller.name}
+            <br />
+            Contacts:
+            <br />
+            {seller.phone1}
+            <br />
+            {seller.phone2}
+          </div>
+          <div className="div">
             {seller_coords ? (
               <MapComponent
                 usercoords={context.postcode[0] ? context.postcode[0] : null}
                 sellercoords={seller_coords}
                 isMarkerShown={true}
               />
-            ) : null}
-          </div> */}
+            ) : map === undefined ? null : (
+              <div>map unavailable due to selller</div>
+            )}
+          </div>
         </div>
 
         <div className="card-footer">
