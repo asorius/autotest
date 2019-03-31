@@ -38,19 +38,19 @@ module.exports = {
           el => el.specName === parentName
         );
         let value;
-        if (!neededItemName === 'all') {
+        if (neededItemName === 'all') {
+          value = parent[0].specs;
+        } else {
           value = parent[0].specs.filter(el => el.name === neededItemName)[0]
             .value;
-        } else {
-          value = parent[0].specs;
         }
-
         if (parent && value) {
           return value;
         } else {
           return null;
         }
       };
+
       const title = data.advert.title,
         _id = Math.random(),
         price = data.advert.price,
@@ -76,19 +76,19 @@ module.exports = {
         (tank = spec('Dimensions', 'Fuel tank capacity')),
         (weight = spec('Dimensions', 'Minimum kerb weight')),
         (map = {
-          lat: data.seller.isTradeSeller
+          lat: data.seller.locationMapLink
             ? data.seller.locationMapLink.split('&q=')[1].split('%2C')[0]
             : null,
-          lng: data.seller.isTradeSeller
+          lng: data.seller.locationMapLink
             ? data.seller.locationMapLink.split('&q=')[1].split('%2C')[1]
             : null
         }),
         (seller = {
-          name: data.seller.name || null,
+          name: data.seller.name || 'Private Seller',
           phone1: data.seller.primaryContactNumber,
           phone2: data.seller.secondaryContactNumber || null
-        });
-      events = reducedevents.slice(0, 6);
+        }),
+        (events = reducedevents.slice(0, 6));
       return {
         _id,
         title,

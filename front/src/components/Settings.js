@@ -4,49 +4,39 @@ import Context from '../context/context';
 import Checkbox from './Checkbox';
 export default function Settings() {
   const context = useContext(Context);
-  const [settings, addSetting] = useState(context.settings);
   const [modal, setModal] = useState(false);
-  //---------------------
-  console.log(context.settings);
-  const settingsList = [
-    'year',
-    'engine',
-    'mileage',
-    'fuel',
-    'transmission',
-    'tax',
-    'exchange',
-    'co2',
-    'urban',
-    'extra',
-    'combined',
-    'acceleration',
-    'topspeed',
-    'cylinders',
-    'enginepower',
-    'torquer',
-    'electrics',
-    'safety',
-    'tank',
-    'weight',
-    'map'
-  ];
-  //----------------------
+  const [checkboxes, setCheckbox] = useState(
+    context.options.map(option => ({ ...option, isSelected: false }))
+  );
+  const settingsList = context.options;
+
+  const onCheckFn = e => {
+    const { value } = e.target;
+
+    setCheckbox(
+      checkboxes.map(el => {
+        if (el.value === value) {
+          if (context.settings.indexOf(e.target.name) < 0) {
+            //means its a new setting, so add it and set its state to checked
+            context.updateSettings([...context.settings, e.target.name]);
+          } else {
+            //means it was already there so its filtered out and unchecked
+            const neww = context.settings.filter(el => el !== e.target.name);
+            context.updateSettings([...neww]);
+          }
+          el.isSelected = !el.isSelected;
+        }
+        return el;
+      })
+    );
+    console.log({ seting: context.settings });
+  };
   const openModal = e => {
     setModal(!modal);
   };
-  const onCheck = e => {
-    console.log(e.target);
-    if (settings.indexOf(e.target.name) < 0) {
-      addSetting([...settings, e.target.name]);
-    } else {
-      const neww = settings.filter(el => el !== e.target.name);
-      addSetting([...neww]);
-    }
-  };
+
   const submit = e => {
     e.preventDefault();
-    context.updateSettings(settings);
     setModal(!modal);
   };
   return (
@@ -59,7 +49,16 @@ export default function Settings() {
         <div className="modal-content mdl">
           <form className="form" onSubmit={submit}>
             <div className="field flx is-grouped is-grouped-centered">
-              <Checkbox list={settingsList} check={onCheck} />
+              {checkboxes.map(el => (
+                <Checkbox
+                  name={el.name}
+                  value={el.value}
+                  isSelected={el.isSelected}
+                  onCheckboxChange={onCheckFn}
+                  key={Math.random()}
+                />
+              ))}
+
               <button type="submit" className="button">
                 Save
               </button>

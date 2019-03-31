@@ -16,7 +16,8 @@ export default function CompareItem(props) {
     context.removeCarFromList(props.item._id);
   };
 
-  const { title, price, images, events } = props.item;
+  const { title, price, images, events, seller, _id, ...rest } = props.item;
+  console.log(Object.entries(rest));
   // let seller_coords;
   // if (seller.gmapLink === undefined) {
   //   seller_coords = null;
@@ -40,6 +41,15 @@ export default function CompareItem(props) {
         </div>
 
         <div className="content has-text-centered">
+          {Object.entries(rest).map(el => {
+            let name = context.options.filter(opt => opt.value === el[0])[0]
+              .name;
+            return (
+              <li key={Math.random()}>
+                {name}:{el[1] === false || el[1] === null ? 'n/a' : el[1]}
+              </li>
+            );
+          })}
           {/* <div className="div">
             {seller_coords ? (
               <MapComponent
@@ -73,7 +83,6 @@ export default function CompareItem(props) {
             <div className="dropdown-menu" id="dropdown-menu1" role="menu">
               <div className="dropdown-content">
                 {events.map((item, index) => {
-                  /////ererora here
                   if (index < 5) {
                     const newestmiles = parseFloat(item.data.mileage);
                     const milesbefore = parseFloat(

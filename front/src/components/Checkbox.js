@@ -1,16 +1,22 @@
 import React from 'react';
 
-export default function Checkbox(props) {
-  const { list } = props;
-  const setChecked = props.check;
+export default function Checkbox({
+  name,
+  value,
+  isSelected,
+  onCheckboxChange
+}) {
   return (
-    <React.Fragment>
-      {list.map(el => (
-        <label htmlFor={el} className="checkbox" key={Math.random()}>
-          <input type="checkbox" name={el} id={el} onChange={setChecked} />
-          {el}
-        </label>
-      ))}
-    </React.Fragment>
+    <label htmlFor={value} className="checkbox">
+      <input
+        type="checkbox"
+        name={value}
+        value={value}
+        checked={isSelected}
+        id={value}
+        onChange={onCheckboxChange}
+      />
+      {name}
+    </label>
   );
 }

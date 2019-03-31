@@ -30,15 +30,6 @@ const addPost = (data, state) => {
 };
 const updateSettings = (newSettings, state) => {
   return { ...state, settings: newSettings };
-  // let newSettings = [...state.settings];
-  // const settingIndex = newSettings.findIndex(item => item === settingItem);
-
-  // if (settingIndex < 0) {
-  //   newSettings.push(settingItem);
-  // } else {
-  //   newSettings = newSettings.filter(el => el !== settingItem);
-  // }
-  // return { ...state, settings: newSettings };
 };
 export const listReducer = (state, action) => {
   switch (action.type) {

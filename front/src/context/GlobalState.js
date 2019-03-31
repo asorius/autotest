@@ -13,7 +13,29 @@ export default function GlobalState(props) {
   const [listState, dispatch] = useReducer(listReducer, {
     list: [],
     postcode: [],
-    settings: []
+    settings: [],
+    options: [
+      { name: 'Make year', value: 'year' },
+      { name: 'Engine size', value: 'engine' },
+      { name: 'Mileage', value: 'mileage' },
+      { name: 'Transmission type', value: 'transmission' },
+      { name: 'Tax', value: 'tax' },
+      { name: 'Part exchange', value: 'exchange' },
+      { name: 'CO2 emissions', value: 'co2' },
+      { name: 'Fuel consumption (urban)', value: 'urban' },
+      { name: 'Fuel consumption (extra urban)', value: 'extra' },
+      { name: 'Fuel consumption (combined)', value: 'combined' },
+      { name: '0 - 60 mph', value: 'acceleration' },
+      { name: 'Top speed', value: 'topspeed' },
+      { name: 'Cylinders', value: 'cylinders' },
+      { name: 'Engine power', value: 'enginepower' },
+      { name: 'Engine torque', value: 'torque' },
+      { name: 'Driver Convenience', value: 'electrics' },
+      { name: 'Safety', value: 'safety' },
+      { name: 'Fuel tank capacity', value: 'tank' },
+      { name: 'Weight', value: 'weight' },
+      { name: 'Map & directions', value: 'map' }
+    ]
   });
   const addCarToList = async data => {
     const reqbody = {
@@ -54,7 +76,6 @@ export default function GlobalState(props) {
     });
     const json = await graphResponse.json();
     const addedCar = json.data.getAutodata;
-    console.log({ addedCar, id: addedCar._id });
     dispatch({ type: ADD_CAR, payload: addedCar });
   };
   const removeCarFromList = id => {
@@ -85,7 +106,8 @@ export default function GlobalState(props) {
         addPostToList,
         removePostFromList,
         settings: listState.settings,
-        updateSettings
+        updateSettings,
+        options: listState.options
       }}
     >
       {props.children}

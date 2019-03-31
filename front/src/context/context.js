@@ -4,6 +4,7 @@ export default React.createContext({
   list: [],
   postcode: [],
   settings: [],
+  options: [],
   addCarToList: () => {},
   removeCarFromList: () => {},
   addPostToList: () => {},
