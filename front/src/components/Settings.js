@@ -6,7 +6,10 @@ export default function Settings() {
   const context = useContext(Context);
   const [modal, setModal] = useState(false);
   const [checkboxes, setCheckbox] = useState(
-    context.options.map(option => ({ ...option, isSelected: false }))
+    context.options.map(option => ({
+      ...option,
+      isSelected: context.settings.indexOf(option.value) < 0 ? false : true
+    }))
   );
   const onCheckFn = e => {
     const { value } = e.target;

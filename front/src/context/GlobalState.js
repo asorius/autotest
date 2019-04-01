@@ -9,10 +9,14 @@ import {
   SETTINGS_UPDATE
 } from './reducers';
 export default function GlobalState(props) {
+  //if there is data in localstorage , the state will pull data from it , if not, defaults will be applied
+  let lsdata = localStorage.getItem('atpdata');
+  //to enable inline checking without errors
+  lsdata = lsdata ? JSON.parse(lsdata) : {};
   const [listState, dispatch] = useReducer(listReducer, {
-    list: [],
-    postcode: [],
-    settings: [],
+    list: lsdata.list || [],
+    postcode: lsdata.postcode || [],
+    settings: lsdata.settings || [],
     options: [
       { name: 'Make year', value: 'year' },
       { name: 'Engine size', value: 'engine' },
