@@ -52,7 +52,20 @@ module.exports = {
           return null;
         }
       };
-
+      const converter = (string, type) => {
+        switch (type) {
+          case 'power':
+            return `${string} / ${Math.round(parseInt(string) / 1.341)} kW`;
+          case 'fuel':
+            return `${string} / ${parseFloat(
+              235.215 / parseFloat(string)
+            ).toFixed(2)} l/100km`;
+          case 'torque':
+            return `${string} / ${Math.round(parseFloat(string) / 0.73756)} Nm`;
+          default:
+            'default ';
+        }
+      };
       const title = data.advert.title,
         _id = Math.random(),
         price = data.advert.price,
@@ -65,14 +78,29 @@ module.exports = {
         images = data.advert.imageUrls,
         exchange = data.advert.isPartExAvailable ? 'Available' : 'Unavailable',
         co2 = data.vehicle.co2Emissions,
-        urban = spec('Economy & performance', 'Fuel consumption (urban)'),
-        extra = spec('Economy & performance', 'Fuel consumption (extra urban)'),
-        combined = spec('Economy & performance', 'Fuel consumption (combined)'),
+        urban = converter(
+          spec('Economy & performance', 'Fuel consumption (urban)'),
+          'fuel'
+        ),
+        extra = converter(
+          spec('Economy & performance', 'Fuel consumption (extra urban)'),
+          'fuel'
+        ),
+        combined = converter(
+          spec('Economy & performance', 'Fuel consumption (combined)'),
+          'fuel'
+        ),
         acceleration = spec('Economy & performance', '0 - 60 mph'),
         topspeed = spec('Economy & performance', 'Top speed'),
         cylinders = spec('Economy & performance', 'Cylinders'),
-        enginepower = spec('Economy & performance', 'Engine power');
-      (torque = spec('Economy & performance', 'Engine torque')),
+        enginepower = converter(
+          spec('Economy & performance', 'Engine power'),
+          'power'
+        );
+      (torque = converter(
+        spec('Economy & performance', 'Engine torque'),
+        'torque'
+      )),
         (electrics = spec('Driver Convenience', 'all')),
         (safety = spec('Safety', 'all')),
         (tank = spec('Dimensions', 'Fuel tank capacity')),
