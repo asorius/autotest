@@ -10,33 +10,22 @@ export default function LandingPage(props) {
   const [loading, setLoading] = useState(false);
   const [loadingPost, setPostLoading] = useState(false);
   const context = useContext(Context);
-  const listOfCars = () => {
-    let list;
-    if (JSON.parse(localStorage.getItem('atpdata')).list.length > 0) {
-      list = JSON.parse(localStorage.getItem('atpdata')).list;
-    } else {
-      list = context.list;
-    }
-    return list;
-  };
+
   const onChange = e => {
     setUrl(e.target.value.toLowerCase());
   };
 
-  useEffect(
-    () => () => {
-      console.log({ l9ist: context.list });
-      localStorage.setItem(
-        'atpdata',
-        JSON.stringify({
-          list: context.list,
-          postcode: context.postcode,
-          settings: context.settings
-        })
-      );
-    },
-    [loading, loadingPost, context.settings]
-  );
+  useEffect(() => {
+    console.log('update happened');
+    localStorage.setItem(
+      'atpdata',
+      JSON.stringify({
+        list: context.list,
+        postcode: context.postcode,
+        settings: context.settings
+      })
+    );
+  }, [context.settings, context.list]);
 
   const onPost = e => {
     setPost(
