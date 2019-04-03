@@ -4,7 +4,8 @@ export const ADD_POST = 'ADD_POST';
 export const REMOVE_POST = 'REMOVE_POST';
 export const SETTINGS_UPDATE = 'SETTINGS_UPDATE';
 
-const addCar = (car, state) => {
+const addCar = (data, state) => {
+  const car={...data.addedCar,url:data.url}
   const newList = [...state.list];
   const carIndex = newList.findIndex(item => item._id === car._id);
 

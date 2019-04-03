@@ -16,7 +16,6 @@ export default function LandingPage(props) {
   };
 
   useEffect(() => {
-    console.log('update happened');
     localStorage.setItem(
       'atpdata',
       JSON.stringify({

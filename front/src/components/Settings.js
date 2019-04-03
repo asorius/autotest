@@ -37,7 +37,15 @@ export default function Settings() {
 
   const submit = e => {
     e.preventDefault();
-    setModal(!modal);
+    const urls=context.list.map(el=>el.url)
+    context.list.forEach(element => {
+      context.removeCarFromList(element._id)
+    });
+    context.updateListWithNewSettings({urls,newSettings:context.settings})
+    setTimeout(() => {
+      setModal(!modal);
+    }, 500); 
+
   };
   return (
     <section className="container section">

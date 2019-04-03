@@ -79,7 +79,7 @@ export default function GlobalState(props) {
     });
     const json = await graphResponse.json();
     const addedCar = json.data.getAutodata;
-    dispatch({ type: ADD_CAR, payload: addedCar });
+    dispatch({ type: ADD_CAR, payload: {addedCar,url:data.url} });
   };
   const removeCarFromList = id => {
     dispatch({ type: REMOVE_CAR, payload: id });
@@ -118,6 +118,11 @@ export default function GlobalState(props) {
   const updateSettings = settings => {
     dispatch({ type: SETTINGS_UPDATE, payload: settings });
   };
+  const updateListWithNewSettings=({urls,newSettings})=>{
+    urls.forEach((url,index) => {
+      addCarToList({url,settings:newSettings})
+    });
+  }
   return (
     <Context.Provider
       value={{
@@ -129,6 +134,7 @@ export default function GlobalState(props) {
         removePostFromList,
         settings: listState.settings,
         updateSettings,
+        updateListWithNewSettings,
         options: listState.options
       }}
     >

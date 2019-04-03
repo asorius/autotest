@@ -9,5 +9,6 @@ export default React.createContext({
   removeCarFromList: () => {},
   addPostToList: () => {},
   removePostFromList: () => {},
-  updateSettings: () => {}
+  updateSettings: () => {},
+  updateListWithNewSettings:()=>{}
 });

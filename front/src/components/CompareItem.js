@@ -24,10 +24,11 @@ export default function CompareItem(props) {
     seller,
     _id,
     map,
+    url,
     ...rest
   } = props.item;
   let seller_coords;
-  if (map === undefined || map.lat === null || map.lng === null) {
+  if (map === undefined ) {
     seller_coords = null;
   } else {
     seller_coords = {
@@ -53,7 +54,10 @@ export default function CompareItem(props) {
 
         <div className="content has-text-centered">
           <div className="c">
+          
             {Object.entries(rest).map(el => {
+              //rest is our options sent back from the server, each el looks like ['acceleration','fast'] 
+              //loops through user-set options stored in context to get full definition,matches them with according values from data from the server and returns li
               let name = context.options.filter(opt => opt.value === el[0])[0]
                 .name;
               return (
@@ -110,10 +114,10 @@ export default function CompareItem(props) {
                 {events.map((item, index) => {
                   if (index < 5) {
                     const newestmiles = parseFloat(item.data.mileage);
-                    const milesbefore = parseFloat(
+                    const milesbefore = events[index + 1]?parseFloat(
                       events[index + 1].data.mileage
-                    );
-                    let mileage = newestmiles - milesbefore;
+                    ):0
+                    let mileage = milesbefore===0?('First MOT'): newestmiles - milesbefore;
 
                     return (
                       <DropItem
