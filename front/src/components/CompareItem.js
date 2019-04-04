@@ -27,8 +27,25 @@ export default function CompareItem(props) {
     url,
     ...rest
   } = props.item;
+  const [current, incrementImg] = useState(0);
+  const [img, setImg] = useState(images[current]);
+  const changeImg = e => {
+    e.preventDefault();
+    if (e.target.classList.contains('next')) {
+      if (current + 1 <= images.length - 1) {
+        setImg(images[current + 1]);
+        incrementImg(current + 1);
+      }
+    }
+    if (e.target.classList.contains('prev')) {
+      if (current - 1 >= 0) {
+        setImg(images[current - 1]);
+        incrementImg(current - 1);
+      }
+    }
+  };
   let seller_coords;
-  if (map === undefined ) {
+  if (map === undefined) {
     seller_coords = null;
   } else {
     seller_coords = {
@@ -41,8 +58,21 @@ export default function CompareItem(props) {
       <div className="card">
         <div className="card-image">
           <figure className="image ">
-            <img src={images[0]} alt="Car" />
+            <img src={img} alt="Car" />
           </figure>
+          <div className="buttons">
+            <button className="button prev" onClick={changeImg}>
+              <span className="icon is-small prev">
+                <i className="fas fa-angle-left prev" />
+              </span>
+            </button>
+            {current + 1} / {images.length}
+            <button className="button next" onClick={changeImg}>
+              <span className="icon is-small next">
+                <i className="fas fa-angle-right next" />
+              </span>
+            </button>
+          </div>
         </div>
         <div className="card-content">
           <h2 className="title">{title}</h2>
@@ -54,9 +84,8 @@ export default function CompareItem(props) {
 
         <div className="content has-text-centered">
           <div className="c">
-          
             {Object.entries(rest).map(el => {
-              //rest is our options sent back from the server, each el looks like ['acceleration','fast'] 
+              //rest is our options sent back from the server, each el looks like ['acceleration','fast']
               //loops through user-set options stored in context to get full definition,matches them with according values from data from the server and returns li
               let name = context.options.filter(opt => opt.value === el[0])[0]
                 .name;
@@ -111,24 +140,29 @@ export default function CompareItem(props) {
             </div>
             <div className="dropdown-menu" id="dropdown-menu1" role="menu">
               <div className="dropdown-content">
-                {events.map((item, index) => {
-                  if (index < 5) {
-                    const newestmiles = parseFloat(item.data.mileage);
-                    const milesbefore = events[index + 1]?parseFloat(
-                      events[index + 1].data.mileage
-                    ):0
-                    let mileage = milesbefore===0?('First MOT'): newestmiles - milesbefore;
+                {events
+                  ? events.map((item, index) => {
+                      if (index < 5) {
+                        const newestmiles = parseFloat(item.data.mileage);
+                        const milesbefore = events[index + 1]
+                          ? parseFloat(events[index + 1].data.mileage)
+                          : 0;
+                        let mileage =
+                          milesbefore === 0
+                            ? 'First MOT'
+                            : newestmiles - milesbefore;
 
-                    return (
-                      <DropItem
-                        item={item}
-                        driven={mileage}
-                        key={Math.random()}
-                        index={index}
-                      />
-                    );
-                  }
-                })}
+                        return (
+                          <DropItem
+                            item={item}
+                            driven={mileage}
+                            key={Math.random()}
+                            index={index}
+                          />
+                        );
+                      }
+                    })
+                  : null}
               </div>
             </div>
           </div>
