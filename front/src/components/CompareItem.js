@@ -76,7 +76,11 @@ export default function CompareItem(props) {
                 <i className="fas fa-angle-left prev" />
               </span>
             </button>
-            {current + 1} / {images.length}
+            <div className="current">
+              <span className="txt">
+                {current + 1} / {images.length}
+              </span>
+            </div>
             <button className="button next" onClick={changeImg}>
               <span className="icon is-small next">
                 <i className="fas fa-angle-right next" />

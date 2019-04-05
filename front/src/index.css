@@ -33,12 +33,6 @@ li:hover {
   background-color: #6b6b6b3d;
 }
 
-abbr[title] {
-  border-bottom: none !important;
-  cursor: inherit !important;
-  text-decoration: none !important;
-}
-
 /* dropdown on clicking on more MOT info */
 
 .expand-dropdown-button {
@@ -61,10 +55,10 @@ abbr[title] {
   width: 20rem;
 }
 .delete {
-  background-color: hsl(348, 100%, 84%);
+  background-color: hsl(348, 100%, 61%);
 }
 .delete:hover {
-  background-color: hsl(348, 100%, 61%);
+  background-color: hsl(348, 100%, 84%);
 }
 .mdl {
   height: 90vh;
@@ -95,7 +89,52 @@ abbr[title] {
 .subtitle2 h3 {
   font-size: 0.3rem;
 }
+/* multiline hover class */
 .hover {
   background-color: #6b6b6b3d;
   border-radius: 5px;
+}
+/* image arrows */
+.card-image {
+  position: relative;
+}
+.buttons {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.current {
+  position: absolute;
+  width: 100%;
+  vertical-align: bottom;
+  text-align: center;
+  margin: 0 auto;
+  bottom: 0;
+}
+.txt {
+  background: #ffffff9d;
+  padding: 0.1rem 0.5rem;
+  border-radius: 5px;
+}
+.prev,
+.next {
+  height: 95%;
+  width: 10%;
+  outline: none;
+  color: white;
+  border: none;
+  background: transparent;
+}
+.prev:hover,
+.next:hover {
+  background: rgba(92, 92, 92, 0.438);
+}
+/* card foot */
+.card-footer {
+  display: flex;
+  justify-content: space-between;
 }
