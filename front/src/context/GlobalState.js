@@ -6,7 +6,8 @@ import {
   REMOVE_CAR,
   ADD_POST,
   REMOVE_POST,
-  SETTINGS_UPDATE
+  SETTINGS_UPDATE,
+  ERROR
 } from './reducers';
 export default function GlobalState(props) {
   //if there is data in localstorage , the state will pull data from it , if not, defaults will be applied
@@ -17,6 +18,7 @@ export default function GlobalState(props) {
     list: lsdata.list || [],
     postcode: lsdata.postcode || [],
     settings: lsdata.settings || [],
+    errors: [],
     options: [
       { name: 'Make year', value: 'year' },
       { name: 'Engine size', value: 'engine' },
@@ -41,8 +43,9 @@ export default function GlobalState(props) {
     ]
   });
   const addCarToList = async data => {
-    const reqbody = {
-      query: `
+    try {
+      const reqbody = {
+        query: `
       query {
         getAutodata(url:"${data.url}"){
           _id
@@ -68,18 +71,26 @@ export default function GlobalState(props) {
         }
       }
     `
-    };
-    const graphResponse = await fetch('http://localhost:5000/graphql', {
-      method: 'POST',
-      body: JSON.stringify(reqbody),
-      headers: {
-        'Content-Type': 'application/json',
-        Accepts: 'application/json'
+      };
+      const graphResponse = await fetch('http://localhost:5000/graphql', {
+        method: 'POST',
+        body: JSON.stringify(reqbody),
+        headers: {
+          'Content-Type': 'application/json',
+          Accepts: 'application/json'
+        }
+      });
+      const json = await graphResponse.json();
+      console.log(json);
+      if (json.data.getAutodata) {
+        const addedCar = json.data.getAutodata;
+        dispatch({ type: ADD_CAR, payload: { addedCar, url: data.url } });
+      } else {
+        dispatch({ type: ERROR, payload: json.errors });
       }
-    });
-    const json = await graphResponse.json();
-    const addedCar = json.data.getAutodata;
-    dispatch({ type: ADD_CAR, payload: {addedCar,url:data.url} });
+    } catch (e) {
+      console.log(e);
+    }
   };
   const removeCarFromList = id => {
     dispatch({ type: REMOVE_CAR, payload: id });
@@ -118,11 +129,11 @@ export default function GlobalState(props) {
   const updateSettings = settings => {
     dispatch({ type: SETTINGS_UPDATE, payload: settings });
   };
-  const updateListWithNewSettings=({urls,newSettings})=>{
-    urls.forEach((url,index) => {
-      addCarToList({url,settings:newSettings})
+  const updateListWithNewSettings = ({ urls, newSettings }) => {
+    urls.forEach((url, index) => {
+      addCarToList({ url, settings: newSettings });
     });
-  }
+  };
   return (
     <Context.Provider
       value={{

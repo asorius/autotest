@@ -20,18 +20,23 @@ module.exports = {
       const data = await getGraphData(url);
       const { vrm } = data.vehicle;
       const motdata = await getMot(vrm);
-      const reducedevents = motdata.events.map(el => {
-        return {
-          date: el.eventDate,
-          status: el.status.substring(11),
-          data: {
-            notices: [...el.data['advisory_notice_reasons']],
-            expiredate: el.data['expiry_date'],
-            mileage: el.data.mileageData.value,
-            refusal: [...el.data['reason_for_refusal_to_issue_certificate']]
-          }
-        };
-      });
+      let reducedevents;
+      if (motdata) {
+        reducedevents = motdata.events.map(el => {
+          return {
+            date: el.eventDate,
+            status: el.status.substring(11),
+            data: {
+              notices: [...el.data['advisory_notice_reasons']],
+              expiredate: el.data['expiry_date'],
+              mileage: el.data.mileageData.value,
+              refusal: [...el.data['reason_for_refusal_to_issue_certificate']]
+            }
+          };
+        });
+      } else {
+        reducedevents = [];
+      }
 
       const spec = (parentName, neededItemName) => {
         const parent = data.techSpecs.techSpecs.filter(
@@ -149,8 +154,8 @@ module.exports = {
         events
       };
     } catch (e) {
-      console.log(e);
-      throw e;
+      console.log(e.response.data.text);
+      return { error: e.response.data.text };
     }
   }
 };

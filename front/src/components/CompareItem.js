@@ -92,7 +92,9 @@ export default function CompareItem(props) {
           <h2 className="title">{title}</h2>
           <div className="subs">
             <h2 className="subtitle">{price}</h2>
-            <h3 className="subtitle2">MOT until:{events[0].data.expiredate}</h3>
+            <h3 className="subtitle2">
+              MOT until:{events.length > 0 ? events[0].data.expiredate : null}
+            </h3>
           </div>
         </div>
 
@@ -162,7 +164,7 @@ export default function CompareItem(props) {
             </div>
             <div className="dropdown-menu" id="dropdown-menu1" role="menu">
               <div className="dropdown-content">
-                {events
+                {events || events.length < 0
                   ? events.map((item, index) => {
                       if (index < 5) {
                         const newestmiles = parseFloat(item.data.mileage);
