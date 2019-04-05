@@ -15,6 +15,16 @@ export default function CompareItem(props) {
     e.preventDefault();
     context.removeCarFromList(props.item._id);
   };
+  const sethover = e => {
+    document.querySelectorAll(`.${e.target.className}`).forEach(el => {
+      el.classList.add('hover');
+    });
+  };
+  const unsethover = e => {
+    document.querySelectorAll(`.${e.target.classList[0]}`).forEach(el => {
+      el.classList.remove('hover');
+    });
+  };
 
   const {
     title,
@@ -89,8 +99,16 @@ export default function CompareItem(props) {
               //loops through user-set options stored in context to get full definition,matches them with according values from data from the server and returns li
               let name = context.options.filter(opt => opt.value === el[0])[0]
                 .name;
+              let classname = context.options.filter(
+                opt => opt.value === el[0]
+              )[0].value;
               return (
-                <li key={Math.random()}>
+                <li
+                  className={classname}
+                  key={Math.random()}
+                  onMouseEnter={sethover}
+                  onMouseLeave={unsethover}
+                >
                   {name}:
                   {el[1] === false || el[1] === null || false ? 'n/a' : el[1]}
                 </li>

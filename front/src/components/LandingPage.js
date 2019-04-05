@@ -115,7 +115,7 @@ export default function LandingPage(props) {
           </button>
         </form>
       </section>
-      <section className="comparing-container tile is-ancestor section">
+      <section className="comparing-container tile is-ancestor section is-multiline">
         {context.list.map(item => {
           return <CompareItem key={item._id} item={item} />;
         })}

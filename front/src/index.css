@@ -95,3 +95,7 @@ abbr[title] {
 .subtitle2 h3 {
   font-size: 0.3rem;
 }
+.hover {
+  background-color: #6b6b6b3d;
+  border-radius: 5px;
+}
