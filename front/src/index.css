@@ -19,6 +19,34 @@
 .urlinput button {
   margin: 0.5rem 0;
 }
+.card-content {
+  background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
+}
+.card-content .title {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 0;
+  max-height: 4.5rem;
+  white-space: wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.drp {
+  left: -7rem;
+  max-height: 50vh;
+  overflow: scroll;
+  border-radius: 5px;
+  border: 1px solid #8b8b8b91;
+}
+@media (min-width: 1024px) {
+  .drp {
+    left: 0;
+    overflow: unset;
+    max-height: unset;
+    border-radius: 0;
+    border: none;
+  }
+}
 /* dropdown styling */
 li {
   list-style: none;
@@ -60,6 +88,7 @@ li:hover {
   padding: 0.5rem;
   width: 20rem;
 }
+
 .delete {
   background-color: hsl(348, 100%, 61%);
 }
@@ -94,6 +123,7 @@ li:hover {
   width: 45%;
   text-align: center;
 }
+
 .subtitle h2 {
   padding: 0;
   margin: 0;
@@ -148,5 +178,5 @@ li:hover {
 /* card foot */
 .card-footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }

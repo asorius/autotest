@@ -88,16 +88,15 @@ export default function CompareItem(props) {
             </button>
           </div>
         </div>
-        <div className="card-content has-background-grey-lighter">
-          <h2 className="title is-size-3">{title}</h2>
+        <div className="card-content">
+          <h2 className="title is-size-3 car-title">{title}</h2>
           <div className="subs">
-            <h2 className="subtitle is-size-4">{price}</h2>
+            <h2 className="subtitle1 is-size-4">{price}</h2>
             <h3 className="subtitle2">
               MOT : {events.length > 0 ? events[0].data.expiredate : null}
             </h3>
           </div>
         </div>
-
         <div className="content has-text-centered">
           <div className="c">
             {Object.entries(rest).map(el => {
@@ -162,7 +161,7 @@ export default function CompareItem(props) {
                 </span>
               </button>
             </div>
-            <div className="dropdown-menu" id="dropdown-menu1" role="menu">
+            <div className="dropdown-menu " id="dropdown-menu1" role="menu">
               <div className="dropdown-content">
                 {events || events.length < 0
                   ? events.map((item, index) => {

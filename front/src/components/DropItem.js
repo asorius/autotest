@@ -41,7 +41,9 @@ export default function DropItem(props) {
                 </div>
               </div>
               <div
-                className={classnames('dropdown-menu', { 'is-hidden': !drop })}
+                className={classnames('dropdown-menu drp', {
+                  'is-hidden': !drop
+                })}
                 id="dropdown-menu2"
                 role="menu"
               >
