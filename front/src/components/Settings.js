@@ -37,20 +37,19 @@ export default function Settings() {
 
   const submit = e => {
     e.preventDefault();
-    const urls=context.list.map(el=>el.url)
+    const urls = context.list.map(el => el.url);
     context.list.forEach(element => {
-      context.removeCarFromList(element._id)
+      context.removeCarFromList(element._id);
     });
-    context.updateListWithNewSettings({urls,newSettings:context.settings})
+    context.updateListWithNewSettings({ urls, newSettings: context.settings });
     setTimeout(() => {
       setModal(!modal);
-    }, 500); 
-
+    }, 500);
   };
   return (
-    <section className="container section">
-      <button className="button" onClick={openModal}>
-        settings
+    <div className=" center">
+      <button className="button is-fullwidth" onClick={openModal}>
+        Settings
       </button>
       <div className={classnames('modal', { 'is-active': modal })}>
         <div className="modal-background" />
@@ -79,6 +78,6 @@ export default function Settings() {
           onClick={openModal}
         />
       </div>
-    </section>
+    </div>
   );
 }

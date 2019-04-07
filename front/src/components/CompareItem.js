@@ -64,7 +64,7 @@ export default function CompareItem(props) {
     };
   }
   return (
-    <div className="tile is-child box is-4">
+    <div className="column is-paddingless">
       <div className="card">
         <div className="card-image">
           <figure className="image ">
@@ -88,12 +88,12 @@ export default function CompareItem(props) {
             </button>
           </div>
         </div>
-        <div className="card-content">
-          <h2 className="title">{title}</h2>
+        <div className="card-content has-background-grey-lighter">
+          <h2 className="title is-size-3">{title}</h2>
           <div className="subs">
-            <h2 className="subtitle">{price}</h2>
+            <h2 className="subtitle is-size-4">{price}</h2>
             <h3 className="subtitle2">
-              MOT until:{events.length > 0 ? events[0].data.expiredate : null}
+              MOT : {events.length > 0 ? events[0].data.expiredate : null}
             </h3>
           </div>
         </div>

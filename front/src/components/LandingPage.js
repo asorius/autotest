@@ -60,66 +60,68 @@ export default function LandingPage(props) {
     }
   };
   return (
-    <div>
-      <section className="hero is-medium is-light is-bold">
+    <React.Fragment>
+      <header className="hero is-medium is-light is-bold">
         <div className="hero-body">
           <div className="container">
             <h1 className="title">AutoPare</h1>
             <h2 className="subtitle">Expanded AutoTrader car comparing tool</h2>
           </div>
         </div>
-      </section>
-      <Settings />
-      <section className="input-container section">
-        <form className="control postcode" onSubmit={addPost}>
-          <input
-            className="input is-rounded"
-            type="text"
-            onChange={onPost}
-            value={post}
-            placeholder="Your postcode"
-          />
-          <button
-            className={classnames('button ', {
-              'is-loading': loadingPost
-            })}
-            type="submit"
-          >
-            Find
-          </button>
-          {context.postcode.length > 0 ? (
-            <span className="tag is-light">
-              Current postcode:{context.postcode[0].postcode}
-            </span>
-          ) : (
-            <span className="tag is-light">
-              Enter postcode to instantly get directions from you to the car!
-            </span>
-          )}
-        </form>
-        <form className="control" onSubmit={addCarFunc}>
-          <input
-            className="input"
-            type="text"
-            value={url}
-            onChange={onChange}
-            placeholder="Paste car link from AutoTrader to add to the list"
-          />
-          <button
-            className={classnames('button is-info is-fullwidth', {
-              'is-loading': loading
-            })}
-            type="submit"
-          >
-            Add
-          </button>
-        </form>
-      </section>
-      <section className="comparing-container tile is-ancestor section is-multiline">
-        {context.list.map(item => {
-          return <CompareItem key={item._id} item={item} />;
-        })}
-      </section>
-    </div>
+      </header>
+      <main>
+        <section className="section container">
+          <form className="control postcode center" onSubmit={addPost}>
+            <input
+              className="input is-rounded"
+              type="text"
+              onChange={onPost}
+              value={post}
+              placeholder="Your postcode"
+            />
+            <button
+              className={classnames('button ', {
+                'is-loading': loadingPost
+              })}
+              type="submit"
+            >
+              Find
+            </button>
+            {context.postcode.length > 0 ? (
+              <div className="tag is-light is-fullwidth">
+                Current postcode:{context.postcode[0].postcode}
+              </div>
+            ) : (
+              <div className="tag is-light is-fullwidth">
+                Enter postcode to instantly get directions from you to the car!
+              </div>
+            )}
+          </form>
+          <form className="control urlinput" onSubmit={addCarFunc}>
+            <input
+              className="input"
+              type="text"
+              value={url}
+              onChange={onChange}
+              placeholder="Paste car link from AutoTrader to add to the list"
+            />
+            <button
+              className={classnames('button is-info is-fullwidth', {
+                'is-loading': loading
+              })}
+              type="submit"
+            >
+              Add
+            </button>
+          </form>
+          <Settings />
+        </section>
+        <section className="columns is-multiline is-paddingless">
+          {context.list.map(item => {
+            return <CompareItem key={item._id} item={item} />;
+          })}
+        </section>
+      </main>
+    </React.Fragment>
   );
 }
