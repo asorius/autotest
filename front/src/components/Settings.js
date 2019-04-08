@@ -55,7 +55,7 @@ export default function Settings() {
         <div className="modal-background" />
         <div className="modal-content mdl">
           <form className="form" onSubmit={submit}>
-            <div className="field flx is-grouped is-grouped-centered">
+            <div className="field mdl-labels is-grouped is-grouped-centered">
               {checkboxes.map(el => (
                 <Checkbox
                   name={el.name}
@@ -65,11 +65,11 @@ export default function Settings() {
                   key={Math.random()}
                 />
               ))}
-
-              <button type="submit" className="button">
-                Save
-              </button>
             </div>
+
+            <button type="submit" className="button">
+              Save
+            </button>
           </form>
         </div>
         <button

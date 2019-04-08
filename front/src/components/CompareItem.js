@@ -64,7 +64,7 @@ export default function CompareItem(props) {
     };
   }
   return (
-    <div className="column is-paddingless">
+    <div className="column is-paddingless ">
       <div className="card">
         <div className="card-image">
           <figure className="image ">
@@ -132,7 +132,7 @@ export default function CompareItem(props) {
           <div className="div">
             {seller_coords ? (
               <MapComponent
-                usercoords={context.postcode[0] ? context.postcode[0] : null}
+                usercoords={context.postcode ? context.postcode : null}
                 sellercoords={seller_coords}
                 isMarkerShown={true}
               />
@@ -144,7 +144,7 @@ export default function CompareItem(props) {
 
         <div className="card-footer">
           <div
-            className={classnames('dropdown is-up', {
+            className={classnames('dropdown is-up ', {
               'is-active': drop
             })}
           >
@@ -191,7 +191,7 @@ export default function CompareItem(props) {
           </div>
 
           <div>
-            <button className="delete is-large" onClick={removeCar} />
+            <button className="delete is-large " onClick={removeCar} />
           </div>
         </div>
       </div>

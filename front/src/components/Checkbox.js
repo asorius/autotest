@@ -7,7 +7,7 @@ export default function Checkbox({
   onCheckboxChange
 }) {
   return (
-    <label htmlFor={value} className="checkbox">
+    <label htmlFor={value} className="checkbox center">
       <input
         type="checkbox"
         name={value}

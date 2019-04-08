@@ -10,8 +10,8 @@ export default function DropItem(props) {
   return (
     <React.Fragment>
       {props.index !== 0 ? <hr className="dropdown-divider" /> : null}
-      <div className="dropdown-item columns ">
-        <div className="column is-three-quarters has-text-centered">
+      <div className="dropdown-item columns is-paddingless">
+        <div className="column is-three-quarters has-text-centered is-marginless">
           <div>
             {motEvent.status === 'pass' ? (
               <span className="mot-status pass has-text-success">Passed</span>

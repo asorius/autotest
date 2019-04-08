@@ -16,7 +16,7 @@ export default function GlobalState(props) {
   lsdata = lsdata ? JSON.parse(lsdata) : {};
   const [listState, dispatch] = useReducer(listReducer, {
     list: lsdata.list || [],
-    postcode: lsdata.postcode || [],
+    postcode: lsdata.postcode || false,
     settings: lsdata.settings || [],
     errors: [],
     options: [

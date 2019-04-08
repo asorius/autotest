@@ -24,7 +24,7 @@ export default function LandingPage(props) {
         settings: context.settings
       })
     );
-  }, [context.settings, context.list]);
+  }, [context.settings, context.list, context.postcode]);
 
   const onPost = e => {
     setPost(
@@ -59,6 +59,10 @@ export default function LandingPage(props) {
       console.log(e);
     }
   };
+  const onDeletePostcode = e => {
+    e.preventDefault();
+    context.removePostFromList(context.postcode.postcode);
+  };
   return (
     <React.Fragment>
       <header className="hero is-medium is-light is-bold">
@@ -70,32 +74,44 @@ export default function LandingPage(props) {
         </div>
       </header>
       <main>
-        <section className="section container">
-          <form className="control postcode center" onSubmit={addPost}>
-            <input
-              className="input is-rounded"
-              type="text"
-              onChange={onPost}
-              value={post}
-              placeholder="Your postcode"
-            />
-            <button
-              className={classnames('button ', {
-                'is-loading': loadingPost
-              })}
-              type="submit"
-            >
-              Find
-            </button>
-            {context.postcode.length > 0 ? (
-              <div className="tag is-light is-fullwidth">
-                Current postcode:{context.postcode[0].postcode}
-              </div>
-            ) : (
-              <div className="tag is-light is-fullwidth">
-                Enter postcode to instantly get directions from you to the car!
-              </div>
-            )}
+        <section className="section">
+          <form className="control postcode " onSubmit={addPost}>
+            <div className="center">
+              <input
+                className="input is-rounded"
+                type="text"
+                onChange={onPost}
+                value={post}
+                placeholder="Your postcode"
+              />
+              <button
+                className={classnames('button ', {
+                  'is-loading': loadingPost
+                })}
+                type="submit"
+              >
+                Find
+              </button>
+            </div>
+            <div className="post-info">
+              {context.postcode ? (
+                <React.Fragment>
+                  <div className="tag is-light is-fullwidth">
+                    Current postcode : {context.postcode.postcode}
+                  </div>
+                  <button
+                    className="delete is-medium"
+                    onClick={onDeletePostcode}
+                  />
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <div className="tag is-light is-fullwidth">
+                    Enter postcode to get directions from You to the car!
+                  </div>
+                </React.Fragment>
+              )}
+            </div>
           </form>
           <form className="control urlinput" onSubmit={addCarFunc}>
             <input

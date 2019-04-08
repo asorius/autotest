@@ -30,7 +30,16 @@ const popError = (data, state) => {
 };
 const addPost = (data, state) => {
   //data looks like {postcode:'23423',lat:2342,lng:asdfsdf}
-  return { ...state, postcode: [{ ...data }] };
+  return { ...state, postcode: { ...data } };
+};
+const removePost = (postcode, state) => {
+  const result = state.postcode.postcode === postcode;
+  console.log(result);
+  if (state.postcode.postcode !== postcode) {
+    return { ...state };
+  } else {
+    return { ...state, postcode: false };
+  }
 };
 const updateSettings = (newSettings, state) => {
   return { ...state, settings: newSettings };
@@ -47,8 +56,8 @@ export const listReducer = (state, action) => {
       return updateSettings(action.payload, state);
     case ERROR:
       return popError(action.payload, state);
-    // case REMOVE_POST:
-    //   return removePost(action.payload, state);
+    case REMOVE_POST:
+      return removePost(action.payload, state);
     default:
       return state;
   }
