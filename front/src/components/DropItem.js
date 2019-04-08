@@ -10,8 +10,8 @@ export default function DropItem(props) {
   return (
     <React.Fragment>
       {props.index !== 0 ? <hr className="dropdown-divider" /> : null}
-      <div className="dropdown-item columns is-paddingless">
-        <div className="column is-three-quarters has-text-centered is-marginless">
+      <div className="dropdown-item  is-paddingless">
+        <div className="has-text-centered is-marginless mot-main-info">
           <div>
             {motEvent.status === 'pass' ? (
               <span className="mot-status pass has-text-success">Passed</span>
@@ -27,7 +27,7 @@ export default function DropItem(props) {
         {motEvent.data.notices.length > 0 ||
         motEvent.data.refusal.length > 0 ? (
           <div
-            className={classnames('column expand-dropdown-button', {
+            className={classnames('expand-dropdown-button mot-expand-btn', {
               active: drop
             })}
             onClick={toggleDrop}

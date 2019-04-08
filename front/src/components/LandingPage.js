@@ -74,7 +74,7 @@ export default function LandingPage(props) {
         </div>
       </header>
       <main>
-        <section className="section">
+        <section className="section inputs-container container">
           <form className="control postcode " onSubmit={addPost}>
             <div className="center">
               <input
@@ -96,7 +96,7 @@ export default function LandingPage(props) {
             <div className="post-info">
               {context.postcode ? (
                 <React.Fragment>
-                  <div className="tag is-light is-fullwidth">
+                  <div className="tag is-light ">
                     Current postcode : {context.postcode.postcode}
                   </div>
                   <button

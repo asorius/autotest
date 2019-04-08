@@ -161,7 +161,11 @@ export default function CompareItem(props) {
                 </span>
               </button>
             </div>
-            <div className="dropdown-menu " id="dropdown-menu1" role="menu">
+            <div
+              className="dropdown-menu menu-container"
+              id="dropdown-menu1"
+              role="menu"
+            >
               <div className="dropdown-content">
                 {events || events.length < 0
                   ? events.map((item, index) => {

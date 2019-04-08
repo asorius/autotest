@@ -26,8 +26,10 @@
 .column {
   margin-bottom: 1rem;
 }
+
 .urlinput button {
   margin: 0.5rem 0;
+  width: 100%;
 }
 .card-content,
 .card-footer {
@@ -50,14 +52,7 @@ img {
   height: 100%;
   object-fit: cover;
 }
-@media (min-width: 1024px) {
-  .image img {
-    max-height: 40rem;
-  }
-  img {
-    object-fit: fill;
-  }
-}
+
 .drp {
   left: -7rem;
   max-height: 50vh;
@@ -65,15 +60,7 @@ img {
   border-radius: 5px;
   border: 1px solid #8b8b8b91;
 }
-@media (min-width: 1024px) {
-  .drp {
-    left: 0;
-    overflow: unset;
-    max-height: unset;
-    border-radius: 0;
-    border: none;
-  }
-}
+
 /* dropdown styling */
 li {
   list-style: none;
@@ -125,6 +112,7 @@ li:hover {
 /* settings modal styling */
 .mdl {
   height: 90vh;
+  width: 95vw;
   background-color: white;
   z-index: 5000;
   border-radius: 5px;
@@ -140,11 +128,7 @@ li:hover {
   height: 4rem;
   padding: 0.5rem;
 }
-@media (max-width: 768px) {
-  .mdl {
-    width: 95vw;
-  }
-}
+
 .checkbox {
   display: block;
   width: 8rem;
@@ -179,6 +163,11 @@ li:hover {
 .hover {
   background-color: #6b6b6b3d;
   border-radius: 5px;
+}
+.mot-expand-btn {
+  width: 75%;
+  margin: 0.5rem auto;
+  height: 2rem;
 }
 /* image arrows */
 .card-image {
@@ -223,4 +212,81 @@ li:hover {
 .card-footer {
   display: flex;
   justify-content: space-around;
+}
+/* for screens bigger than 768px tablet*/
+@media only screen and (min-width: 768px) {
+  .inputs-container {
+    width: 50%;
+  }
+  .mdl {
+    width: 60vw;
+    height: 75vh;
+  }
+  .column {
+    max-width: 50%;
+    margin: 0.5rem;
+  }
+  .dropdown-item > .column {
+    width: 100%;
+  }
+  .menu-container {
+    width: 15rem;
+  }
+}
+/* for screens bigger then 1024px desktop*/
+@media only screen and (min-width: 1024px) {
+  .column {
+    max-width: 33%;
+  }
+  .mdl {
+    width: 40rem;
+    height: 25rem;
+  }
+  .inputs-container {
+    width: 50%;
+  }
+  .urlinput button {
+    margin: 0.5rem auto;
+    width: 25%;
+  }
+  main {
+    width: 90%;
+    margin: 0 auto;
+  }
+  .image img {
+    max-height: 40rem;
+  }
+  img {
+    object-fit: fill;
+  }
+  .subs {
+    height: unset;
+  }
+
+  .drp {
+    left: 0;
+    overflow: unset;
+    max-height: unset;
+    border-radius: 0;
+    border: none;
+  }
+}
+/* for screens bigger then 1216px widescreen */
+@media only screen and (min-width: 1216px) {
+  .column {
+    max-width: 33%;
+  }
+  .inputs-container {
+    width: 30%;
+  }
+
+  main {
+    width: 80%;
+  }
+  .image img {
+    max-height: 40rem;
+  }
+  .mot-expand-btn {
+    width: 25%;
+  }
 }
