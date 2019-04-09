@@ -10,7 +10,7 @@ export default function DropItem(props) {
   return (
     <React.Fragment>
       {props.index !== 0 ? <hr className="dropdown-divider" /> : null}
-      <div className="dropdown-item  is-paddingless">
+      <div className="dropdown-item  main-item is-paddingless">
         <div className="has-text-centered is-marginless mot-main-info">
           <div>
             {motEvent.status === 'pass' ? (
@@ -35,7 +35,7 @@ export default function DropItem(props) {
             <div className="dropdown">
               <div className="dropdown-trigger">
                 <div aria-haspopup="true" aria-controls="dropdown-menu2">
-                  <span className="icon is-small">
+                  <span className="icon is-small sub-btn">
                     <i className="fas fa-angle-right" aria-hidden="true" />
                   </span>
                 </div>

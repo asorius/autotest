@@ -7,7 +7,8 @@ import {
   ADD_POST,
   REMOVE_POST,
   SETTINGS_UPDATE,
-  ERROR
+  ERROR,
+  CLEAR_ERROR
 } from './reducers';
 export default function GlobalState(props) {
   //if there is data in localstorage , the state will pull data from it , if not, defaults will be applied
@@ -81,12 +82,14 @@ export default function GlobalState(props) {
         }
       });
       const json = await graphResponse.json();
-      console.log(json);
       if (json.data.getAutodata) {
         const addedCar = json.data.getAutodata;
         dispatch({ type: ADD_CAR, payload: { addedCar, url: data.url } });
       } else {
-        dispatch({ type: ERROR, payload: json.errors });
+        dispatch({ type: ERROR, payload: 'Something went wrong..' });
+        setTimeout(() => {
+          dispatch({ type: CLEAR_ERROR });
+        }, 2000);
       }
     } catch (e) {
       console.log(e);
@@ -138,6 +141,7 @@ export default function GlobalState(props) {
     <Context.Provider
       value={{
         list: listState.list,
+        errors: listState.errors,
         addCarToList,
         removeCarFromList,
         postcode: listState.postcode,

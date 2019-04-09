@@ -4,6 +4,7 @@ export const ADD_POST = 'ADD_POST';
 export const REMOVE_POST = 'REMOVE_POST';
 export const SETTINGS_UPDATE = 'SETTINGS_UPDATE';
 export const ERROR = 'ERROR';
+export const CLEAR_ERROR = 'CLEAR_ERROR';
 
 const addCar = (data, state) => {
   const car = { ...data.addedCar, url: data.url };
@@ -25,16 +26,17 @@ const removeCar = (carId, state) => {
   }
   return { ...state, list: newList };
 };
-const popError = (data, state) => {
-  return { ...state, errors: data.errors };
+const popError = (string, state) => {
+  return { ...state, errors: [string] };
+};
+const clearError = state => {
+  return { ...state, errors: [] };
 };
 const addPost = (data, state) => {
   //data looks like {postcode:'23423',lat:2342,lng:asdfsdf}
   return { ...state, postcode: { ...data } };
 };
 const removePost = (postcode, state) => {
-  const result = state.postcode.postcode === postcode;
-  console.log(result);
   if (state.postcode.postcode !== postcode) {
     return { ...state };
   } else {
@@ -56,6 +58,8 @@ export const listReducer = (state, action) => {
       return updateSettings(action.payload, state);
     case ERROR:
       return popError(action.payload, state);
+    case CLEAR_ERROR:
+      return clearError(state);
     case REMOVE_POST:
       return removePost(action.payload, state);
     default:

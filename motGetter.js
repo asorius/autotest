@@ -6,6 +6,7 @@ const getMotData = async vrm => {
     const res = await axios.get(url);
     return res.data;
   } catch (e) {
+    console.log({ errorInfoMot: e });
     return null;
   }
 };

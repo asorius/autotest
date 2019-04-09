@@ -10,8 +10,8 @@ module.exports = {
       const { lat, lon: lng } = res.results[0].position;
       return { postcode: pc, lat, lng };
     } catch (e) {
-      console.log(e);
-      throw e;
+      console.log({ errorfrompc: e });
+      return { errorfrompc: e };
     }
   },
   getAutodata: async args => {
@@ -154,8 +154,8 @@ module.exports = {
         events
       };
     } catch (e) {
-      console.log(e.response.data.text);
-      return { error: e.response.data.text };
+      console.log({ errorInfoResolver: e.response.data.text });
+      return { error: 'unable to retrieve data' };
     }
   }
 };

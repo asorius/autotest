@@ -156,7 +156,7 @@ export default function CompareItem(props) {
                 aria-controls="dropdown-menu1"
               >
                 <span>MOT history</span>
-                <span className="icon is-small">
+                <span className="icon is-small main-arrow">
                   <i className="fas fa-angle-up" aria-hidden="true" />
                 </span>
               </button>

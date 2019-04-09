@@ -102,12 +102,27 @@ li:hover {
   padding: 0.5rem;
   width: 20rem;
 }
+.mot-expand-btn {
+  width: 75%;
+  margin: 0.5rem auto;
+  height: 2rem;
+}
+.icon {
+  transition: all 0.5s;
+}
+
+.is-active .main-arrow,
+.active .icon {
+  transform: rotate(180deg);
+}
 
 .delete {
   background-color: hsl(348, 100%, 61%);
+  transition: all 0.5s;
 }
 .delete:hover {
   background-color: hsl(348, 100%, 84%);
+  transform: rotate(90deg);
 }
 /* settings modal styling */
 .mdl {
@@ -164,11 +179,7 @@ li:hover {
   background-color: #6b6b6b3d;
   border-radius: 5px;
 }
-.mot-expand-btn {
-  width: 75%;
-  margin: 0.5rem auto;
-  height: 2rem;
-}
+
 /* image arrows */
 .card-image {
   position: relative;
@@ -212,6 +223,12 @@ li:hover {
 .card-footer {
   display: flex;
   justify-content: space-around;
+}
+.errors {
+  color: hsl(348, 100%, 61%);
+  width: 100%;
+  text-align: center;
+  padding: 2rem;
 }
 /* for screens bigger than 768px tablet*/
 @media only screen and (min-width: 768px) {
@@ -286,7 +303,17 @@ li:hover {
   .image img {
     max-height: 40rem;
   }
+  .main-item {
+    display: flex;
+    justify-content: space-around;
+  }
+  .mpt-main-info {
+    width: 85%;
+    margin: 0 auto;
+  }
   .mot-expand-btn {
-    width: 25%;
+    width: 10%;
+    margin: 0.5rem;
+    height: 4rem;
   }
 }

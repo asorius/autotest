@@ -133,6 +133,10 @@ export default function LandingPage(props) {
           <Settings />
         </section>
         <section className="columns is-multiline is-paddingless">
+          {context.errors.length > 0 ? (
+            <div className="errors ">{context.errors[0]}</div>
+          ) : null}
+
           {context.list.map(item => {
             return <CompareItem key={item._id} item={item} />;
           })}
