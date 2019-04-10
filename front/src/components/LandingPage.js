@@ -49,6 +49,14 @@ export default function LandingPage(props) {
   const addPost = async e => {
     setPostLoading(!loadingPost);
     e.preventDefault();
+    if (post.length < 4) {
+      context.setError({ msg: 'Invalid postcode', to: 'post' });
+      setTimeout(() => {
+        setPost('');
+        setPostLoading(false);
+      }, 500);
+      return;
+    }
     try {
       await context.addPostToList(post);
       setTimeout(() => {
@@ -86,11 +94,12 @@ export default function LandingPage(props) {
               />
               <button
                 className={classnames('button ', {
-                  'is-loading': loadingPost
+                  'is-loading': loadingPost,
+                  'is-danger': context.errors.to === 'post'
                 })}
                 type="submit"
               >
-                Find
+                {context.errors.to === 'post' ? 'Error !' : 'Find'}
               </button>
             </div>
             <div className="post-info">
@@ -106,8 +115,14 @@ export default function LandingPage(props) {
                 </React.Fragment>
               ) : (
                 <React.Fragment>
-                  <div className="tag is-light is-fullwidth">
-                    Enter postcode to get directions from You to the car!
+                  <div
+                    className={classnames('tag is-light is-fullwidth', {
+                      'is-danger': context.errors.to === 'post'
+                    })}
+                  >
+                    {context.errors.to === 'post'
+                      ? context.errors.msg
+                      : 'Enter postcode to get directions from You to the car!'}
                   </div>
                 </React.Fragment>
               )}
@@ -123,20 +138,17 @@ export default function LandingPage(props) {
             />
             <button
               className={classnames('button is-info is-fullwidth', {
-                'is-loading': loading
+                'is-loading': loading,
+                'is-danger': context.errors.to === 'add'
               })}
               type="submit"
             >
-              Add
+              {context.errors.to === 'add' ? `${context.errors.msg} !` : 'Add'}
             </button>
           </form>
           <Settings />
         </section>
         <section className="columns is-multiline is-paddingless">
-          {context.errors.length > 0 ? (
-            <div className="errors ">{context.errors[0]}</div>
-          ) : null}
-
           {context.list.map(item => {
             return <CompareItem key={item._id} item={item} />;
           })}

@@ -97,37 +97,48 @@ export default function CompareItem(props) {
             </h3>
           </div>
         </div>
-        <div className="content has-text-centered">
-          <div className="c">
-            {Object.entries(rest).map(el => {
-              //rest is our options sent back from the server, each el looks like ['acceleration','fast']
-              //loops through user-set options stored in context to get full definition,matches them with according values from data from the server and returns li
-              let name = context.options.filter(opt => opt.value === el[0])[0]
-                .name;
-              let classname = context.options.filter(
-                opt => opt.value === el[0]
-              )[0].value;
-              return (
-                <li
-                  className={classname}
-                  key={Math.random()}
-                  onMouseEnter={sethover}
-                  onMouseLeave={unsethover}
-                >
-                  {name}:
-                  {el[1] === false || el[1] === null || false ? 'n/a' : el[1]}
-                </li>
-              );
-            })}
+        <div className="content ">
+          <div className="c media">
+            <div className="div media-left has-text-success">
+              <span className="icon is-large">
+                <i className="fas fa-car fa-lg" />
+              </span>
+            </div>
+            <div className="media-content">
+              {Object.entries(rest).map(el => {
+                //rest is our options sent back from the server, each el looks like ['acceleration','fast']
+                //loops through user-set options stored in context to get full definition,matches them with according values from data from the server and returns li
+                let name = context.options.filter(opt => opt.value === el[0])[0]
+                  .name;
+                let classname = context.options.filter(
+                  opt => opt.value === el[0]
+                )[0].value;
+                return (
+                  <li
+                    className={classname}
+                    key={Math.random()}
+                    onMouseEnter={sethover}
+                    onMouseLeave={unsethover}
+                  >
+                    {name} :{' '}
+                    {el[1] === false || el[1] === null || false ? 'n/a' : el[1]}
+                  </li>
+                );
+              })}
+            </div>
           </div>
-          <div className="seller">
-            {seller.name}
-            <br />
-            Contacts:
-            <br />
-            {seller.phone1}
-            <br />
-            {seller.phone2}
+          <div className="seller media">
+            <div className="media-left has-text-warning">
+              <span className="icon is-large">
+                <i className="fas fa-money-check-alt fa-lg" />
+              </span>
+            </div>
+            <div className="media-content">
+              {seller.name}
+              <br />
+              Contacts : {seller.phone1}
+              {seller.phone2}
+            </div>
           </div>
           <div className="div">
             {seller_coords ? (

@@ -60,11 +60,11 @@ module.exports = {
       const converter = (string, type) => {
         switch (type) {
           case 'power':
-            return `${string} / ${Math.round(parseInt(string) / 1.341)} kW`;
+            return `${string} (${Math.round(parseInt(string) / 1.341)} kW)`;
           case 'fuel':
-            return `${string} / ${parseFloat(
+            return `${string} (${parseFloat(
               235.215 / parseFloat(string)
-            ).toFixed(2)} l/100km`;
+            ).toFixed(2)} l/100km)`;
           case 'torque':
             return `${string} (${Math.round(parseFloat(string) / 0.73756)} Nm)`;
           default:

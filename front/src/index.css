@@ -65,7 +65,7 @@ img {
 li {
   list-style: none;
   transition: all 0.5s;
-  text-align: center;
+  /* text-align: center; */
 }
 ol li::after {
   display: block;
@@ -294,7 +294,7 @@ li:hover {
     max-width: 33%;
   }
   .inputs-container {
-    width: 30%;
+    width: 40%;
   }
 
   main {

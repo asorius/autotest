@@ -19,7 +19,7 @@ export default function GlobalState(props) {
     list: lsdata.list || [],
     postcode: lsdata.postcode || false,
     settings: lsdata.settings || [],
-    errors: [],
+    errors: {},
     options: [
       { name: 'Make year', value: 'year' },
       { name: 'Engine size', value: 'engine' },
@@ -86,7 +86,7 @@ export default function GlobalState(props) {
         const addedCar = json.data.getAutodata;
         dispatch({ type: ADD_CAR, payload: { addedCar, url: data.url } });
       } else {
-        dispatch({ type: ERROR, payload: 'Something went wrong..' });
+        setError({ msg: 'Invalid link', to: 'add' });
         setTimeout(() => {
           dispatch({ type: CLEAR_ERROR });
         }, 2000);
@@ -137,6 +137,13 @@ export default function GlobalState(props) {
       addCarToList({ url, settings: newSettings });
     });
   };
+  const setError = data => {
+    //data={msg,to}
+    dispatch({ type: ERROR, payload: data });
+    setTimeout(() => {
+      dispatch({ type: CLEAR_ERROR });
+    }, 2000);
+  };
   return (
     <Context.Provider
       value={{
@@ -150,7 +157,8 @@ export default function GlobalState(props) {
         settings: listState.settings,
         updateSettings,
         updateListWithNewSettings,
-        options: listState.options
+        options: listState.options,
+        setError
       }}
     >
       {props.children}

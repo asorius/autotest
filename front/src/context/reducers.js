@@ -26,11 +26,11 @@ const removeCar = (carId, state) => {
   }
   return { ...state, list: newList };
 };
-const popError = (string, state) => {
-  return { ...state, errors: [string] };
+const popError = (data, state) => {
+  return { ...state, errors: data };
 };
 const clearError = state => {
-  return { ...state, errors: [] };
+  return { ...state, errors: {} };
 };
 const addPost = (data, state) => {
   //data looks like {postcode:'23423',lat:2342,lng:asdfsdf}
