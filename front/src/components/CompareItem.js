@@ -16,7 +16,11 @@ export default function CompareItem(props) {
     context.removeCarFromList(props.item._id);
   };
   const sethover = e => {
-    document.querySelectorAll(`.${e.target.className}`).forEach(el => {
+    let classname =
+      e.target.tagName === 'STRONG'
+        ? e.target.parentNode.className
+        : e.target.className;
+    document.querySelectorAll(`.${classname}`).forEach(el => {
       el.classList.add('hover');
     });
   };
@@ -106,7 +110,7 @@ export default function CompareItem(props) {
             </div>
             <div className="media-content">
               {Object.entries(rest).map(el => {
-                //rest is our options sent back from the server, each el looks like ['acceleration','fast']
+                //rest is our options sent back from the server, like ['acceleration','fast']
                 //loops through user-set options stored in context to get full definition,matches them with according values from data from the server and returns li
                 let name = context.options.filter(opt => opt.value === el[0])[0]
                   .name;
@@ -120,7 +124,7 @@ export default function CompareItem(props) {
                     onMouseEnter={sethover}
                     onMouseLeave={unsethover}
                   >
-                    {name} :{' '}
+                    <strong>{name}</strong> :{' '}
                     {el[1] === false || el[1] === null || false ? 'n/a' : el[1]}
                   </li>
                 );
@@ -134,10 +138,10 @@ export default function CompareItem(props) {
               </span>
             </div>
             <div className="media-content">
-              {seller.name}
+              <strong>{seller.name}</strong>
               <br />
-              Contacts : {seller.phone1}
-              {seller.phone2}
+              <strong>Contacts</strong> : {seller.phone1}
+              {seller.phone2 ? `, ${seller.phone2}` : null}
             </div>
           </div>
           <div className="div">
