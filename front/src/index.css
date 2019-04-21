@@ -44,22 +44,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.image img {
-  max-height: 20rem;
-}
-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.drp {
-  left: -7rem;
-  max-height: 50vh;
-  overflow: scroll;
-  border-radius: 5px;
-  border: 1px solid #8b8b8b91;
-}
 
 /* dropdown styling */
 li {
@@ -179,7 +163,15 @@ li:hover {
   background-color: #6b6b6b3d;
   border-radius: 5px;
 }
-
+/* images */
+.image img {
+  max-height: 20rem;
+}
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 /* image arrows */
 .card-image {
   position: relative;
@@ -206,6 +198,14 @@ li:hover {
   padding: 0.1rem 0.5rem;
   border-radius: 5px;
 }
+.img-magnify {
+  width: 100%;
+  height: 100%;
+  color: rgba(177, 177, 177, 0.158);
+}
+.img-magnify:hover {
+  color: rgba(255, 248, 248, 0.288);
+}
 .prev,
 .next {
   height: 95%;
@@ -219,6 +219,25 @@ li:hover {
 .next:hover {
   background: rgba(92, 92, 92, 0.438);
 }
+/* large image modal  */
+.img-mdl {
+  height: auto;
+  width: auto;
+}
+.img-mdl img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.drp {
+  left: -7rem;
+  max-height: 50vh;
+  overflow: scroll;
+  border-radius: 5px;
+  border: 1px solid #8b8b8b91;
+}
+
 /* card foot */
 .card-footer {
   display: flex;

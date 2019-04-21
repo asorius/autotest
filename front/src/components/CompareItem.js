@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import DropItem from './DropItem';
 import Context from '../context/context';
 import MapComponent from './MapComponent';
-
+import ImgModal from './ImgModal';
 export default function CompareItem(props) {
   const [drop, setDrop] = useState(false);
   const context = useContext(Context);
@@ -59,7 +59,7 @@ export default function CompareItem(props) {
     }
   };
   let seller_coords;
-  if (map === undefined) {
+  if (map === undefined || map.lat === null || map.lng === null) {
     seller_coords = null;
   } else {
     seller_coords = {
@@ -67,6 +67,7 @@ export default function CompareItem(props) {
       lng: map.lng
     };
   }
+  console.log({ seller_coords, map });
   return (
     <div className="column is-paddingless  is-half-tablet is-half-desktop is-one-third-widescreen is-one-third-fullhd">
       <div className="card">
@@ -80,6 +81,7 @@ export default function CompareItem(props) {
                 <i className="fas fa-angle-left prev" />
               </span>
             </button>
+            <ImgModal images={images} current={current} />
             <div className="current">
               <span className="txt">
                 {current + 1} / {images.length}
@@ -97,7 +99,8 @@ export default function CompareItem(props) {
           <div className="subs">
             <h2 className="subtitle1 is-size-4">{price}</h2>
             <h3 className="subtitle2">
-              MOT : {events.length > 0 ? events[0].data.expiredate : null}
+              <i>MOT</i> :{' '}
+              {events.length > 0 ? events[0].data.expiredate : null}
             </h3>
           </div>
         </div>
@@ -152,7 +155,11 @@ export default function CompareItem(props) {
                 isMarkerShown={true}
               />
             ) : map === undefined ? null : (
-              <div>map unavailable due to selller</div>
+              <div className="center">
+                <p>
+                  <i>Map unavailable due to seller.</i>
+                </p>
+              </div>
             )}
           </div>
         </div>
