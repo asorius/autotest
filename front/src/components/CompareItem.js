@@ -68,7 +68,7 @@ export default function CompareItem(props) {
     };
   }
   return (
-    <div className="column is-paddingless ">
+    <div className="column is-paddingless  is-half-tablet is-half-desktop is-one-third-widescreen is-one-third-fullhd">
       <div className="card">
         <div className="card-image">
           <figure className="image ">

@@ -52,8 +52,8 @@ type autodata{
   cylinders:String
   enginepower:String
   torque:String
-  electrics:[String]
-  safety:[String]
+  electrics:String
+  safety:String
   tank:String
   weight:String
   map:sellermapdata

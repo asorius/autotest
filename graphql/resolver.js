@@ -44,7 +44,7 @@ module.exports = {
         );
         let value;
         if (neededItemName === 'all') {
-          value = parent[0].specs;
+          value = parent[0].specs.join();
         } else {
           let valueobj = parent[0].specs.filter(
             el => el.name === neededItemName

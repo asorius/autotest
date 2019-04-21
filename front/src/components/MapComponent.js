@@ -7,7 +7,6 @@ const {
   DirectionsRenderer,
   Marker
 } = require('react-google-maps');
-
 const MapComponent = compose(
   withProps({
     googleMapURL:
@@ -67,12 +66,14 @@ const MapComponent = compose(
       {props.usercoords !== null ? (
         <DirectionsRenderer directions={props.directions} />
       ) : (
-        <Marker
-          position={{
-            lat: parseFloat(props.sellercoords.lat),
-            lng: parseFloat(props.sellercoords.lng)
-          }}
-        />
+        <React.Fragment>
+          <Marker
+            position={{
+              lat: parseFloat(props.sellercoords.lat),
+              lng: parseFloat(props.sellercoords.lng)
+            }}
+          />
+        </React.Fragment>
       )}
     </GoogleMap>
   );
