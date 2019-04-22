@@ -154,6 +154,11 @@ export default function LandingPage(props) {
           })}
         </section>
       </main>
+      <footer className="footer">
+        <div className="contect has-text-centered">
+          <button className="button">Share the List!</button>
+        </div>
+      </footer>
     </React.Fragment>
   );
 }

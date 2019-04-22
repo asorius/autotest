@@ -34,6 +34,7 @@ export default function GlobalState(props) {
       { name: 'Engine torque', value: 'torque' },
       { name: 'Driver Convenience', value: 'electrics' },
       { name: 'Safety', value: 'safety' },
+      { name: 'Fuel type', value: 'fuel' },
       { name: 'Fuel consumption (urban)', value: 'urban' },
       { name: 'Fuel consumption (extra urban)', value: 'extra' },
       { name: 'Fuel consumption (combined)', value: 'combined' },

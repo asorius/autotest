@@ -220,17 +220,14 @@ export default function CompareItem(props) {
               </div>
             </div>
           </div>
-          <div className="at-link ">
+          <div className="center">
             <a
-              className="center"
+              className="at-link"
               href={`${url}`}
               target="_blank"
               rel="noopener noreferrer"
             >
-              AutoTrader Link
-              <span className="icon is-medium">
-                <i className="fas fa-external-link-alt fa-lg" />
-              </span>
+              View on AutoTrader
             </a>
           </div>
           <div>
