@@ -206,13 +206,17 @@ img {
 .img-magnify:hover {
   color: rgba(255, 248, 248, 0.288);
 }
-.prev,
-.next {
-  height: 95%;
+button:focus {
+  outline: none !important;
+}
+button.prev,
+button.next {
+  height: 100%;
+  margin-bottom: 0 !important;
   width: 10%;
-  outline: none;
   color: white;
   border: none;
+  border-radius: 0;
   background: transparent;
 }
 .prev:hover,
@@ -221,8 +225,11 @@ img {
 }
 /* large image modal  */
 .img-mdl {
-  height: auto;
-  width: auto;
+  height: 75vh;
+  width: 60vw;
+  border-radius: 5px;
+  background: #ffffff1a;
+  overflow: hidden;
 }
 .img-mdl img {
   width: 100%;
