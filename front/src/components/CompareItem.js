@@ -41,6 +41,7 @@ export default function CompareItem(props) {
     url,
     ...rest
   } = props.item;
+  const listEntries = Object.entries(rest).length > 0 ? false : true;
   const [current, incrementImg] = useState(0);
   const [img, setImg] = useState(images[current]);
   const changeImg = e => {
@@ -67,7 +68,7 @@ export default function CompareItem(props) {
       lng: map.lng
     };
   }
-  console.log({ seller_coords, map });
+  console.log({ listEntries });
   return (
     <div className="column is-paddingless  is-half-tablet is-half-desktop is-one-third-widescreen is-one-third-fullhd">
       <div className="card">
@@ -105,7 +106,11 @@ export default function CompareItem(props) {
           </div>
         </div>
         <div className="content ">
-          <div className="c media">
+          <div
+            className={classnames('c media', {
+              ' is-invisible': listEntries
+            })}
+          >
             <div className="div media-left has-text-success">
               <span className="icon is-large">
                 <i className="fas fa-car fa-lg" />
@@ -215,7 +220,19 @@ export default function CompareItem(props) {
               </div>
             </div>
           </div>
-
+          <div className="at-link ">
+            <a
+              className="center"
+              href={`${url}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              AutoTrader Link
+              <span className="icon is-medium">
+                <i className="fas fa-external-link-alt fa-lg" />
+              </span>
+            </a>
+          </div>
           <div>
             <button className="delete is-large " onClick={removeCar} />
           </div>

@@ -13,6 +13,9 @@
 .fail {
   border: 1px solid hsl(348, 100%, 61%);
 }
+.is-invisible {
+  display: none;
+}
 .postcode {
   padding: 1rem;
 }
@@ -48,7 +51,7 @@
 /* dropdown styling */
 li {
   list-style: none;
-  transition: all 0.5s;
+  transition: all 0.2s;
   /* text-align: center; */
 }
 ol li::after {
