@@ -5,6 +5,9 @@
 .pass {
   border: 1px solid hsl(141, 71%, 48%);
 }
+.c {
+  padding: 0.5rem 0;
+}
 .center {
   display: flex;
   justify-content: center;
@@ -217,7 +220,7 @@ button.prev,
 button.next {
   height: 100%;
   margin-bottom: 0 !important;
-  width: 10%;
+  width: 20%;
   color: white;
   border: none;
   border-radius: 0;
@@ -242,10 +245,10 @@ button.next {
   height: 100%;
   /* object-fit: contain; */
 }
-/* .img-mdl button.prev,
-button.next {
-  width: 5%;
-} */
+.img-mdl button.prev,
+.img-mdl button.next {
+  width: 10%;
+}
 .drp {
   left: -7rem;
   max-height: 50vh;
@@ -291,6 +294,10 @@ footer {
 }
 /* for screens bigger then 1024px (laptop)*/
 @media only screen and (min-width: 1024px) {
+  button.next,
+  button.prev {
+    width: 10%;
+  }
   .column {
     max-width: 33%;
     margin: 1rem auto;
