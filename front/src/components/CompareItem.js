@@ -68,7 +68,6 @@ export default function CompareItem(props) {
       lng: map.lng
     };
   }
-  console.log({ listEntries });
   return (
     <div className="column is-paddingless  is-half-tablet is-half-desktop is-one-third-widescreen is-one-third-fullhd">
       <div className="card">

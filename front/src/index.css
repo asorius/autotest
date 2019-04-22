@@ -28,12 +28,14 @@
 }
 .column {
   margin-bottom: 1rem;
+  min-height: 100%;
 }
 
 .urlinput button {
   margin: 0.5rem 0;
   width: 100%;
 }
+
 .card-content,
 .card-footer {
   background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
@@ -167,12 +169,12 @@ li:hover {
 }
 /* images */
 .image img {
-  max-height: 20rem;
+  height: 20rem;
+  object-fit: cover;
 }
 img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
 }
 /* image arrows */
 .card-image {
@@ -223,12 +225,14 @@ button.next {
 }
 .prev:hover,
 .next:hover {
-  background: rgba(92, 92, 92, 0.438);
+  background: rgba(139, 139, 139, 0.438);
 }
 /* large image modal  */
 .img-mdl {
-  height: 75vh;
-  width: 60vw;
+  height: auto;
+  width: auto;
+  max-height: 95vh;
+  max-width: 80vw;
   border-radius: 5px;
   background: #ffffff1a;
   overflow: hidden;
@@ -236,9 +240,12 @@ button.next {
 .img-mdl img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  /* object-fit: contain; */
 }
-
+/* .img-mdl button.prev,
+button.next {
+  width: 5%;
+} */
 .drp {
   left: -7rem;
   max-height: 50vh;
