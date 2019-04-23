@@ -63,6 +63,7 @@ type autodata{
 type RootQuery {
   getPostCoords(postcode:String!):coords
   getAutodata(url:String!):autodata
+  saveList(key:String,list:[String]!):String
 }
 schema {
   query: RootQuery

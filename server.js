@@ -4,6 +4,8 @@ const getData = require('./dataGetter');
 const getMot = require('./motGetter');
 const getPost = require('./postGetter');
 const cors = require('cors');
+const { mongoURI } = require('./keys/dist');
+const mongoose = require('mongoose');
 //-----
 const graphqlHTTP = require('express-graphql');
 const graphQLschema = require('./graphql/schema');
@@ -72,6 +74,12 @@ app.use(
 );
 
 //----------------------------------------------
-app.listen(5000, () => {
-  console.log('server is up on 5000');
-});
+//launches server just after successfull connection to mongodb
+mongoose
+  .connect(mongoURI, { useNewUrlParser: true })
+  .then(() =>
+    app.listen(5000, () => {
+      console.log('server is up on 5000 on mode ' + process.env.NODE_ENV);
+    })
+  )
+  .catch(e => console.log(e));

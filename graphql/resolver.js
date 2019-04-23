@@ -1,7 +1,8 @@
 const getPost = require('../postGetter');
 const getGraphData = require('../graphData');
 const getMot = require('../motGetter');
-
+const uuid = require('uuid');
+const List = require('../mongodb/list');
 module.exports = {
   getPostCoords: async args => {
     try {
@@ -156,6 +157,25 @@ module.exports = {
     } catch (e) {
       console.log({ errorInfoResolver: e.response.data.text });
       return { error: 'unable to retrieve data' };
+    }
+  },
+  saveList: async args => {
+    const carUrlsArray = args.list;
+    const searchKey = args.key !== null ? args.key : false;
+    if (searchKey) {
+      //get back url list from db by key
+    } else {
+      //create new list
+      let newKey;
+      try {
+        const list = new List({ key: newKey, list: carUrlsArray });
+        const createdList = await list.save();
+        newKey = createdList._id;
+        console.log(createdList);
+        return newKey;
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
 };
