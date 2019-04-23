@@ -48,6 +48,7 @@ const updateSettings = (newSettings, state) => {
   return { ...state, settings: newSettings };
 };
 const addKey = (data, state) => {
+  console.log({ state, data });
   return { ...state, sharekey: data.sharekey };
 };
 export const listReducer = (state, action) => {

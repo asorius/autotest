@@ -16,15 +16,11 @@ export default function GlobalState(props) {
   let lsdata = localStorage.getItem('atpdata');
   //to enable inline checking without errors
   lsdata = lsdata ? JSON.parse(lsdata) : {};
-  //if there is data in localstorage , the state will pull data from it , if not, defaults will be applied
-  let lskey = localStorage.getItem('atpkey');
-  //to enable inline checking without errors
-  lskey = lskey ? lskey : null;
   const [listState, dispatch] = useReducer(listReducer, {
     list: lsdata.list || [],
     postcode: lsdata.postcode || false,
     settings: lsdata.settings || [],
-    sharekey: lskey,
+    sharekey: null,
     errors: {},
     options: [
       { name: 'Make year', value: 'year' },
@@ -102,13 +98,13 @@ export default function GlobalState(props) {
       console.log(e);
     }
   };
-  const saveList = async data => {
+  const saveCarList = async data => {
     try {
-      console.log(data);
+      console.log(`data:${[...data.list]}`);
       const reqbody = {
         query: `
       query {
-        saveList(key:${data.key},list:${data.list})
+        saveList(key:${data.key},list:[${data.list.map(el => `"${el}"`)}])
       }
     `
       };
@@ -121,7 +117,6 @@ export default function GlobalState(props) {
         }
       });
       const json = await graphResponse.json();
-      console.log(json);
       const sharekey = json.data.saveList;
       dispatch({ type: ADD_KEY, payload: { sharekey } });
     } catch (e) {
@@ -192,7 +187,7 @@ export default function GlobalState(props) {
         updateListWithNewSettings,
         options: listState.options,
         setError,
-        saveList
+        saveCarList
       }}
     >
       {props.children}

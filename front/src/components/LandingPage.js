@@ -77,9 +77,8 @@ export default function LandingPage(props) {
       (accumulator, current) => [...accumulator, current.url],
       []
     );
-    console.log({ urls });
     const data = { key: null, list: urls };
-    context.saveList(data);
+    context.saveCarList(data);
     console.log(`${window.location.pathname}/${context.sharekey}`);
   };
   return (
