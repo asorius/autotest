@@ -5,6 +5,7 @@ export const REMOVE_POST = 'REMOVE_POST';
 export const SETTINGS_UPDATE = 'SETTINGS_UPDATE';
 export const ERROR = 'ERROR';
 export const CLEAR_ERROR = 'CLEAR_ERROR';
+export const ADD_KEY = 'ADD_KEY';
 
 const addCar = (data, state) => {
   const car = { ...data.addedCar, url: data.url };
@@ -46,6 +47,9 @@ const removePost = (postcode, state) => {
 const updateSettings = (newSettings, state) => {
   return { ...state, settings: newSettings };
 };
+const addKey = (data, state) => {
+  return { ...state, sharekey: data.sharekey };
+};
 export const listReducer = (state, action) => {
   switch (action.type) {
     case ADD_CAR:
@@ -62,6 +66,8 @@ export const listReducer = (state, action) => {
       return clearError(state);
     case REMOVE_POST:
       return removePost(action.payload, state);
+    case ADD_KEY:
+      return addKey(action.payload, state);
     default:
       return state;
   }

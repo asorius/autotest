@@ -8,17 +8,23 @@ import {
   REMOVE_POST,
   SETTINGS_UPDATE,
   ERROR,
-  CLEAR_ERROR
+  CLEAR_ERROR,
+  ADD_KEY
 } from './reducers';
 export default function GlobalState(props) {
   //if there is data in localstorage , the state will pull data from it , if not, defaults will be applied
   let lsdata = localStorage.getItem('atpdata');
   //to enable inline checking without errors
   lsdata = lsdata ? JSON.parse(lsdata) : {};
+  //if there is data in localstorage , the state will pull data from it , if not, defaults will be applied
+  let lskey = localStorage.getItem('atpkey');
+  //to enable inline checking without errors
+  lskey = lskey ? lskey : null;
   const [listState, dispatch] = useReducer(listReducer, {
     list: lsdata.list || [],
     postcode: lsdata.postcode || false,
     settings: lsdata.settings || [],
+    sharekey: lskey,
     errors: {},
     options: [
       { name: 'Make year', value: 'year' },
@@ -96,6 +102,32 @@ export default function GlobalState(props) {
       console.log(e);
     }
   };
+  const saveList = async data => {
+    try {
+      console.log(data);
+      const reqbody = {
+        query: `
+      query {
+        saveList(key:${data.key},list:${data.list})
+      }
+    `
+      };
+      const graphResponse = await fetch('http://localhost:5000/graphql', {
+        method: 'POST',
+        body: JSON.stringify(reqbody),
+        headers: {
+          'Content-Type': 'application/json',
+          Accepts: 'application/json'
+        }
+      });
+      const json = await graphResponse.json();
+      console.log(json);
+      const sharekey = json.data.saveList;
+      dispatch({ type: ADD_KEY, payload: { sharekey } });
+    } catch (e) {
+      console.log(e);
+    }
+  };
   const removeCarFromList = id => {
     dispatch({ type: REMOVE_CAR, payload: id });
   };
@@ -159,7 +191,8 @@ export default function GlobalState(props) {
         updateSettings,
         updateListWithNewSettings,
         options: listState.options,
-        setError
+        setError,
+        saveList
       }}
     >
       {props.children}

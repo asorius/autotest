@@ -4,6 +4,7 @@ export default React.createContext({
   list: [],
   postcode: [],
   settings: [],
+  sharekey: null,
   errors: [],
   options: [],
   addCarToList: () => {},
@@ -12,5 +13,6 @@ export default React.createContext({
   removePostFromList: () => {},
   updateSettings: () => {},
   updateListWithNewSettings: () => {},
-  setError: () => {}
+  setError: () => {},
+  saveList: () => {}
 });

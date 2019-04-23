@@ -7,6 +7,7 @@ type coords {
   lng:Float
   error:String
 }
+
 input PostCoordsInput {
   postcode:String!
 }

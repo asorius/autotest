@@ -71,6 +71,17 @@ export default function LandingPage(props) {
     e.preventDefault();
     context.removePostFromList(context.postcode.postcode);
   };
+  const shareList = e => {
+    e.preventDefault();
+    const urls = context.list.reduce(
+      (accumulator, current) => [...accumulator, current.url],
+      []
+    );
+    console.log({ urls });
+    const data = { key: null, list: urls };
+    context.saveList(data);
+    console.log(`${window.location.pathname}/${context.sharekey}`);
+  };
   return (
     <React.Fragment>
       <header className="hero is-medium is-light is-bold">
@@ -156,7 +167,9 @@ export default function LandingPage(props) {
       </main>
       <footer className="footer">
         <div className="contect has-text-centered">
-          <button className="button">Share the List!</button>
+          <button className="button" onClick={shareList}>
+            Share the List!
+          </button>
         </div>
       </footer>
     </React.Fragment>
