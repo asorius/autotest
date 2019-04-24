@@ -14,16 +14,45 @@ export default function LandingPage(props) {
   const onChange = e => {
     setUrl(e.target.value.toLowerCase());
   };
-
+  const buildList = async () => {
+    setLoading(!loading);
+    try {
+      await context.addCarToList({ url, settings: context.settings });
+      setLoading(false);
+      setUrl('');
+    } catch (e) {
+      return { errored: e };
+    }
+  };
   useEffect(() => {
-    localStorage.setItem(
-      'atpdata',
-      JSON.stringify({
-        list: context.list,
-        postcode: context.postcode,
-        settings: context.settings
-      })
-    );
+    const key = props.match.params.key;
+    //on initial page renger, if key is present, send graphql req to retrieve list by key from db
+    if (key) {
+      context.getCarList(key).then(list => {
+        list.forEach(el => {
+          setUrl(el);
+          buildList();
+        });
+      });
+
+      localStorage.setItem(
+        'shatpdata',
+        JSON.stringify({
+          list: context.list,
+          postcode: context.postcode,
+          settings: context.settings
+        })
+      );
+    } else {
+      localStorage.setItem(
+        'atpdata',
+        JSON.stringify({
+          list: context.list,
+          postcode: context.postcode,
+          settings: context.settings
+        })
+      );
+    }
   }, [context.settings, context.list, context.postcode]);
 
   const onPost = e => {
@@ -72,14 +101,15 @@ export default function LandingPage(props) {
     context.removePostFromList(context.postcode.postcode);
   };
   const shareList = e => {
+    console.log('before actions ' + context.sharekey);
     e.preventDefault();
     const urls = context.list.reduce(
       (accumulator, current) => [...accumulator, current.url],
       []
     );
-    const data = { key: null, list: urls };
+    const data = { key: context.sharekey, list: urls };
     context.saveCarList(data);
-    console.log(`${window.location.pathname}/${context.sharekey}`);
+    console.log(`${window.location.href}${context.sharekey}`);
   };
   return (
     <React.Fragment>
@@ -169,6 +199,15 @@ export default function LandingPage(props) {
           <button className="button" onClick={shareList}>
             Share the List!
           </button>
+          {context.sharekey !== null ? (
+            <input
+              type="text"
+              disabled
+              value={`${window.location.href}${context.sharekey}`}
+            />
+          ) : (
+            'no sharekey'
+          )}
         </div>
       </footer>
     </React.Fragment>

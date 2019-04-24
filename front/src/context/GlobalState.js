@@ -14,8 +14,14 @@ import {
 export default function GlobalState(props) {
   //if there is data in localstorage , the state will pull data from it , if not, defaults will be applied
   let lsdata = localStorage.getItem('atpdata');
-  //to enable inline checking without errors
-  lsdata = lsdata ? JSON.parse(lsdata) : {};
+  //shareddate will be present if user is on sharedlist page
+  let shareddata = localStorage.getItem('shatpdata');
+  //lsdata=personal list,shareddata=sharedlist saved to ls on separate name on initial page load if key is presented. if lsdata is present it will be used to render list on page, if its not, and instead shareddata is present, then use shared data, if none are available, use empty list
+  lsdata = lsdata
+    ? JSON.parse(lsdata)
+    : shareddata
+    ? JSON.parse(shareddata)
+    : {};
   const [listState, dispatch] = useReducer(listReducer, {
     list: lsdata.list || [],
     postcode: lsdata.postcode || false,
@@ -47,11 +53,12 @@ export default function GlobalState(props) {
     ]
   });
   const addCarToList = async data => {
+    console.log({ link: `"${data.url.replace(/['"]+/g, '')}"` });
     try {
       const reqbody = {
         query: `
       query {
-        getAutodata(url:"${data.url}"){
+        getAutodata(url:"${data.url.replace(/['"]+/g, '')}"){
           _id
           price
           title
@@ -123,6 +130,30 @@ export default function GlobalState(props) {
       console.log(e);
     }
   };
+  const getCarList = async key => {
+    try {
+      const reqbody = {
+        query: `
+      query {
+        getList(key:"${key}")
+      }
+    `
+      };
+      const graphResponse = await fetch('http://localhost:5000/graphql', {
+        method: 'POST',
+        body: JSON.stringify(reqbody),
+        headers: {
+          'Content-Type': 'application/json',
+          Accepts: 'application/json'
+        }
+      });
+      const json = await graphResponse.json();
+      const list = json.data.getList;
+      return list;
+    } catch (e) {
+      console.log(e);
+    }
+  };
   const removeCarFromList = id => {
     dispatch({ type: REMOVE_CAR, payload: id });
   };
@@ -187,7 +218,9 @@ export default function GlobalState(props) {
         updateListWithNewSettings,
         options: listState.options,
         setError,
-        saveCarList
+        saveCarList,
+        getCarList,
+        sharekey: listState.sharekey
       }}
     >
       {props.children}

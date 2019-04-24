@@ -163,7 +163,11 @@ module.exports = {
     const carUrlsArray = args.list;
     const searchKey = args.key !== null ? args.key : false;
     if (searchKey) {
-      //get back url list from db by key
+      //if serchkey is not null ,that means user is on shared page, share the list button is now update shared list, and when user clicks it, get list by id and update it
+      console.log(
+        'key is already existing, meaning user is currently on shared listpage'
+      );
+      return searchKey;
     } else {
       //create new list
       let newKey;
@@ -176,6 +180,15 @@ module.exports = {
       } catch (e) {
         console.log(e);
       }
+    }
+  },
+  getList: async args => {
+    const searchKey = args.key;
+    try {
+      const res = await List.findById(searchKey);
+      return res.list;
+    } catch (e) {
+      console.log(e);
     }
   }
 };
