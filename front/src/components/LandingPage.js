@@ -14,36 +14,27 @@ export default function LandingPage(props) {
   const onChange = e => {
     setUrl(e.target.value.toLowerCase());
   };
-  const buildList = async () => {
-    setLoading(!loading);
-    try {
-      await context.addCarToList({ url, settings: context.settings });
-      setLoading(false);
-      setUrl('');
-    } catch (e) {
-      return { errored: e };
-    }
-  };
+
   useEffect(() => {
     const key = props.match.params.key;
-    //on initial page renger, if key is present, send graphql req to retrieve list by key from db
+    //on initial page renger, if key is present, send graphql req to retrieve list by key from db and addcar by each list el
     if (key) {
-      context.getCarList(key).then(list => {
-        list.forEach(el => {
-          setUrl(el);
-          buildList();
-        });
-      });
+      console.log('share mode');
+      // context.getCarList(key).then(list => {
+      //   build(list);
+      // });
 
-      localStorage.setItem(
-        'shatpdata',
-        JSON.stringify({
-          list: context.list,
-          postcode: context.postcode,
-          settings: context.settings
-        })
-      );
+      // localStorage.setItem(
+      //   'shatpdata',
+      //   JSON.stringify({
+      //     list: context.list,
+      //     postcode: context.postcode,
+      //     settings: context.settings
+      //   })
+      // );
     } else {
+      console.log('private mode');
+
       localStorage.setItem(
         'atpdata',
         JSON.stringify({
@@ -109,7 +100,6 @@ export default function LandingPage(props) {
     );
     const data = { key: context.sharekey, list: urls };
     context.saveCarList(data);
-    console.log(`${window.location.href}${context.sharekey}`);
   };
   return (
     <React.Fragment>

@@ -60,6 +60,7 @@ type autodata{
   map:sellermapdata
   seller:sellerdata
   events:[event]
+  actualLink:String
 }
 type RootQuery {
   getPostCoords(postcode:String!):coords

@@ -53,16 +53,16 @@ export default function GlobalState(props) {
     ]
   });
   const addCarToList = async data => {
-    console.log({ link: `"${data.url.replace(/['"]+/g, '')}"` });
     try {
       const reqbody = {
         query: `
       query {
-        getAutodata(url:"${data.url.replace(/['"]+/g, '')}"){
+        getAutodata(url:"${data.url}"){
           _id
           price
           title
           images
+          actualLink
           events{
             date
             status
@@ -107,7 +107,6 @@ export default function GlobalState(props) {
   };
   const saveCarList = async data => {
     try {
-      console.log(`data:${[...data.list]}`);
       const reqbody = {
         query: `
       query {

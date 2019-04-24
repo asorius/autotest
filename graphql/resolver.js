@@ -19,7 +19,9 @@ module.exports = {
     const url = args.url;
     try {
       const data = await getGraphData(url);
+
       const { vrm } = data.vehicle;
+      const { actualLink } = data.pageData.canonical;
       const motdata = await getMot(vrm);
       let reducedevents;
       if (motdata) {
@@ -72,6 +74,7 @@ module.exports = {
             'default ';
         }
       };
+
       const title = data.advert.title,
         _id = Math.random(),
         price = data.advert.price,
@@ -152,7 +155,8 @@ module.exports = {
         weight,
         map,
         seller,
-        events
+        events,
+        actualLink
       };
     } catch (e) {
       console.log({ errorInfoResolver: e.response.data.text });
