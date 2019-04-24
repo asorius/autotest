@@ -21,25 +21,31 @@ module.exports = {
       const data = await getGraphData(url);
 
       const { vrm } = data.vehicle;
-      const { actualLink } = data.pageData.canonical;
+      const actualLink = data.pageData.canonical;
+      console.log('1');
       const motdata = await getMot(vrm);
+      console.log('2');
       let reducedevents;
       if (motdata) {
-        reducedevents = motdata.events.map(el => {
-          return {
-            date: el.eventDate,
-            status: el.status.substring(11),
-            data: {
-              notices: [...el.data['advisory_notice_reasons']],
-              expiredate: el.data['expiry_date'],
-              mileage: el.data.mileageData.value,
-              refusal: [...el.data['reason_for_refusal_to_issue_certificate']]
-            }
-          };
-        });
+        // console.log(motdata.events.filter(el => el.status !== 'pending'));
+        reducedevents = motdata.events
+          .filter(el => el.status !== 'pending')
+          .map(el => {
+            return {
+              date: el.eventDate,
+              status: el.status.substring(11),
+              data: {
+                notices: [...el.data['advisory_notice_reasons']],
+                expiredate: el.data['expiry_date'],
+                mileage: el.data.mileageData.value,
+                refusal: [...el.data['reason_for_refusal_to_issue_certificate']]
+              }
+            };
+          });
       } else {
         reducedevents = [];
       }
+      console.log('3');
 
       const spec = (parentName, neededItemName) => {
         const parent = data.techSpecs.techSpecs.filter(
@@ -60,6 +66,8 @@ module.exports = {
           return null;
         }
       };
+      console.log('4');
+
       const converter = (string, type) => {
         switch (type) {
           case 'power':
@@ -74,6 +82,7 @@ module.exports = {
             'default ';
         }
       };
+      console.log('5');
 
       const title = data.advert.title,
         _id = Math.random(),
