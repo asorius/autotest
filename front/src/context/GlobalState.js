@@ -53,7 +53,6 @@ export default function GlobalState(props) {
     ]
   });
   const addCarToList = async data => {
-    console.log({ setings: data.settings });
     try {
       const reqbody = {
         query: `
@@ -95,7 +94,6 @@ export default function GlobalState(props) {
       const json = await graphResponse.json();
       if (json.data.getAutodata) {
         const addedCar = json.data.getAutodata;
-        console.log({ addedCar });
         dispatch({
           type: ADD_CAR,
           payload: { addedCar, url: data.actualLink }

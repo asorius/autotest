@@ -15,23 +15,28 @@ export default function LandingPage(props) {
     setUrl(e.target.value.toLowerCase());
   };
 
+  const build = async el => {
+    await context.addCarToList({ url: el, settings: context.settings });
+  };
+
   useEffect(() => {
     const key = props.match.params.key;
     //on initial page renger, if key is present, send graphql req to retrieve list by key from db and addcar by each list el
     if (key) {
       console.log('share mode');
-      // context.getCarList(key).then(list => {
-      //   build(list);
-      // });
+      context.getCarList(key).then(list => {
+        console.log({ list });
+        list.forEach(el => build(el));
+      });
 
-      // localStorage.setItem(
-      //   'shatpdata',
-      //   JSON.stringify({
-      //     list: context.list,
-      //     postcode: context.postcode,
-      //     settings: context.settings
-      //   })
-      // );
+      localStorage.setItem(
+        'shatpdata',
+        JSON.stringify({
+          list: context.list,
+          postcode: context.postcode,
+          settings: context.settings
+        })
+      );
     } else {
       console.log('private mode');
 
@@ -95,7 +100,7 @@ export default function LandingPage(props) {
     console.log('before actions ' + context.sharekey);
     e.preventDefault();
     const urls = context.list.reduce(
-      (accumulator, current) => [...accumulator, current.url],
+      (accumulator, current) => [...accumulator, current.actualLink],
       []
     );
     const data = { key: context.sharekey, list: urls };
