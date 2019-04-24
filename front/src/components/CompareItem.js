@@ -39,6 +39,7 @@ export default function CompareItem(props) {
     _id,
     map,
     url,
+    actualLink,
     ...rest
   } = props.item;
   const listEntries = Object.entries(rest).length > 0 ? false : true;
