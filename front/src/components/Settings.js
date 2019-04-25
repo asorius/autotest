@@ -37,7 +37,7 @@ export default function Settings() {
 
   const submit = e => {
     e.preventDefault();
-    const urls = context.list.map(el => el.url);
+    const urls = context.list.map(el => el.actualLink);
     context.list.forEach(element => {
       context.removeCarFromList(element._id);
     });

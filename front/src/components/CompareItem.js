@@ -38,8 +38,8 @@ export default function CompareItem(props) {
     seller,
     _id,
     map,
-    url,
     actualLink,
+    url,
     ...rest
   } = props.item;
   const listEntries = Object.entries(rest).length > 0 ? false : true;
@@ -120,6 +120,7 @@ export default function CompareItem(props) {
               {Object.entries(rest).map(el => {
                 //rest is our options sent back from the server, like ['acceleration','fast']
                 //loops through user-set options stored in context to get full definition,matches them with according values from data from the server and returns li
+                console.log({ el });
                 let name = context.options.filter(opt => opt.value === el[0])[0]
                   .name;
                 let classname = context.options.filter(
@@ -223,7 +224,7 @@ export default function CompareItem(props) {
           <div className="center">
             <a
               className="at-link"
-              href={`${url}`}
+              href={`${actualLink}`}
               target="_blank"
               rel="noopener noreferrer"
             >
