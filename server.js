@@ -76,7 +76,7 @@ app.use(
 //----------------------------------------------
 //launches server just after successfull connection to mongodb
 mongoose
-  .connect(mongoURI, { useNewUrlParser: true })
+  .connect(mongoURI, { useNewUrlParser: true, useFindAndModify: false })
   .then(() =>
     app.listen(5000, () => {
       console.log('server is up on 5000 on mode ' + process.env.NODE_ENV);

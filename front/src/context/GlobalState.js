@@ -109,9 +109,6 @@ export default function GlobalState(props) {
     }
   };
   const saveCarList = async data => {
-    console.log(
-      `saveList(key:${data.key},list:[${data.list.map(el => `"${el}"`)}])`
-    );
     try {
       const reqbody = {
         query: `

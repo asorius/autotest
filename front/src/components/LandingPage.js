@@ -22,15 +22,15 @@ export default function LandingPage(props) {
 
   //
 
+  //on initial page renger, if key is present, send graphql req to retrieve list by key from db and addcar by each list el
   useEffect(() => {
-    console.log({ mode });
     const key = props.match.params.key;
-    //on initial page renger, if key is present, send graphql req to retrieve list by key from db and addcar by each list el
     if (key) {
       const existingList = context.list.reduce(
         (acc, el) => [...acc, el.actualLink],
         []
       );
+      //if there is already some data in list, in order to avoid readding same list items on top of current, only build components of unmatched items
       context.getCarList(key).then(list => {
         list.forEach(el => {
           if (existingList.indexOf(el) < 0) {
@@ -48,8 +48,6 @@ export default function LandingPage(props) {
         })
       );
     } else {
-      console.log('private mode');
-
       localStorage.setItem(
         'atpdata',
         JSON.stringify({
@@ -59,21 +57,24 @@ export default function LandingPage(props) {
         })
       );
     }
-    // return function unmount() {
-    //   console.log('unoumnted');
-    //   const urls = context.list.reduce(
-    //     (accumulator, current) => [...accumulator, current.actualLink],
-    //     []
-    //   );
-    //   const data = { key, list: urls };
-    //   context.saveCarList(data);
-    // };
   }, []);
   //
 
   useEffect(() => {
+    //on list changes, udpdates context list
+    if (mode !== undefined) {
+      const urls = context.list.reduce(
+        (accumulator, current) => [...accumulator, current.actualLink],
+        []
+      );
+      const data = { key: `"${mode}"`, list: urls };
+      context.saveCarList(data);
+    }
+  }, [context.list]);
+
+  useEffect(() => {
     const key = props.match.params.key;
-    //on initial page renger, if key is present, send graphql req to retrieve list by key from db and addcar by each list el
+    // if key is present or not, update ls settings and post changes
     if (key) {
       localStorage.setItem(
         'shatpdata',
@@ -84,7 +85,6 @@ export default function LandingPage(props) {
         })
       );
     } else {
-      console.log('private mode');
       localStorage.setItem(
         'atpdata',
         JSON.stringify({
@@ -110,15 +110,7 @@ export default function LandingPage(props) {
     e.preventDefault();
     try {
       await context.addCarToList({ url, settings: context.settings });
-      if (mode !== undefined) {
-        console.log('should update');
-        const urls = context.list.reduce(
-          (accumulator, current) => [...accumulator, current.actualLink],
-          []
-        );
-        const data = { key: `"${mode}"`, list: urls };
-        context.saveCarList(data);
-      }
+
       setLoading(false);
       setUrl('');
     } catch (e) {
@@ -151,7 +143,6 @@ export default function LandingPage(props) {
     context.removePostFromList(context.postcode.postcode);
   };
   const shareList = e => {
-    console.log('before actions ' + context.sharekey);
     e.preventDefault();
     const urls = context.list.reduce(
       (accumulator, current) => [...accumulator, current.actualLink],

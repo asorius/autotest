@@ -22,12 +22,9 @@ module.exports = {
 
       const { vrm } = data.vehicle;
       const actualLink = data.pageData.canonical;
-      console.log('1');
       const motdata = await getMot(vrm);
-      console.log('2');
       let reducedevents;
       if (motdata) {
-        // console.log(motdata.events.filter(el => el.status !== 'pending'));
         reducedevents = motdata.events
           .filter(el => el.status !== 'pending')
           .map(el => {
@@ -45,8 +42,6 @@ module.exports = {
       } else {
         reducedevents = [];
       }
-      console.log('3');
-
       const spec = (parentName, neededItemName) => {
         const parent = data.techSpecs.techSpecs.filter(
           el => el.specName === parentName
@@ -66,8 +61,6 @@ module.exports = {
           return null;
         }
       };
-      console.log('4');
-
       const converter = (string, type) => {
         switch (type) {
           case 'power':
@@ -82,8 +75,6 @@ module.exports = {
             'default ';
         }
       };
-      console.log('5');
-
       const title = data.advert.title,
         _id = Math.random(),
         price = data.advert.price,
@@ -177,12 +168,10 @@ module.exports = {
     const searchKey = args.key !== null ? args.key : false;
     if (searchKey) {
       //if serchkey is not null ,that means user is on shared page, share the list button is now update shared list, and when user clicks it, get list by id and update it
-      console.log(
-        'key is already existing, meaning user is currently on shared listpage' +
-          searchKey
-      );
-      const list = await List.findByIdAndUpdate(key, { list: carUrlsArray });
-      console.log({ newList: list.list });
+
+      const list = await List.findByIdAndUpdate(searchKey, {
+        list: carUrlsArray
+      });
       return searchKey;
     } else {
       //create new list
@@ -191,7 +180,6 @@ module.exports = {
         const list = new List({ key: newKey, list: carUrlsArray });
         const createdList = await list.save();
         newKey = createdList._id;
-        console.log(createdList);
         return newKey;
       } catch (e) {
         console.log(e);
