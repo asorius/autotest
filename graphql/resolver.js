@@ -178,8 +178,11 @@ module.exports = {
     if (searchKey) {
       //if serchkey is not null ,that means user is on shared page, share the list button is now update shared list, and when user clicks it, get list by id and update it
       console.log(
-        'key is already existing, meaning user is currently on shared listpage'
+        'key is already existing, meaning user is currently on shared listpage' +
+          searchKey
       );
+      const list = await List.findByIdAndUpdate(key, { list: carUrlsArray });
+      console.log({ newList: list.list });
       return searchKey;
     } else {
       //create new list

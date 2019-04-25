@@ -9,6 +9,7 @@ export default function LandingPage(props) {
   const [post, setPost] = useState('');
   const [loading, setLoading] = useState(false);
   const [loadingPost, setPostLoading] = useState(false);
+  const [mode, setMode] = useState(props.match.params.key);
   const context = useContext(Context);
 
   const onChange = e => {
@@ -19,14 +20,23 @@ export default function LandingPage(props) {
     await context.addCarToList({ url: el, settings: context.settings });
   };
 
+  //
+
   useEffect(() => {
+    console.log({ mode });
     const key = props.match.params.key;
     //on initial page renger, if key is present, send graphql req to retrieve list by key from db and addcar by each list el
     if (key) {
-      console.log('share mode');
+      const existingList = context.list.reduce(
+        (acc, el) => [...acc, el.actualLink],
+        []
+      );
       context.getCarList(key).then(list => {
-        console.log({ list });
-        list.forEach(el => build(el));
+        list.forEach(el => {
+          if (existingList.indexOf(el) < 0) {
+            build(el);
+          }
+        });
       });
 
       localStorage.setItem(
@@ -40,6 +50,41 @@ export default function LandingPage(props) {
     } else {
       console.log('private mode');
 
+      localStorage.setItem(
+        'atpdata',
+        JSON.stringify({
+          list: context.list,
+          postcode: context.postcode,
+          settings: context.settings
+        })
+      );
+    }
+    // return function unmount() {
+    //   console.log('unoumnted');
+    //   const urls = context.list.reduce(
+    //     (accumulator, current) => [...accumulator, current.actualLink],
+    //     []
+    //   );
+    //   const data = { key, list: urls };
+    //   context.saveCarList(data);
+    // };
+  }, []);
+  //
+
+  useEffect(() => {
+    const key = props.match.params.key;
+    //on initial page renger, if key is present, send graphql req to retrieve list by key from db and addcar by each list el
+    if (key) {
+      localStorage.setItem(
+        'shatpdata',
+        JSON.stringify({
+          list: context.list,
+          postcode: context.postcode,
+          settings: context.settings
+        })
+      );
+    } else {
+      console.log('private mode');
       localStorage.setItem(
         'atpdata',
         JSON.stringify({
@@ -65,6 +110,15 @@ export default function LandingPage(props) {
     e.preventDefault();
     try {
       await context.addCarToList({ url, settings: context.settings });
+      if (mode !== undefined) {
+        console.log('should update');
+        const urls = context.list.reduce(
+          (accumulator, current) => [...accumulator, current.actualLink],
+          []
+        );
+        const data = { key: `"${mode}"`, list: urls };
+        context.saveCarList(data);
+      }
       setLoading(false);
       setUrl('');
     } catch (e) {
