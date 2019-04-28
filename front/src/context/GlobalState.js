@@ -15,15 +15,11 @@ export default function GlobalState(props) {
   //if there is data in localstorage , the state will pull data from it , if not, defaults will be applied
   const list = JSON.parse(localStorage.getItem('atplist'));
   const shared = JSON.parse(localStorage.getItem('sharelist'));
-  const mode = JSON.parse(localStorage.getItem('mode')) || {
-    pagemode: 'private'
-  };
   let lsdata;
-  console.log({ mode });
-  if (mode.pagemode === 'private') {
-    lsdata = list || { list: [] };
-  } else {
+  if (window.location.pathname.length > 1) {
     lsdata = shared || { list: [] };
+  } else {
+    lsdata = list || { list: [] };
   }
   let atpsettings = JSON.parse(localStorage.getItem('atpsettings')) || {
     settings: [],
