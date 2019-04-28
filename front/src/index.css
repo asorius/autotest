@@ -107,7 +107,17 @@ li:hover {
 .active .icon {
   transform: rotate(180deg);
 }
+.dropdown-menu {
+  display: block;
+}
+.menu-container {
+  opacity: 0;
+  transition: all 0.5s;
+}
 
+.is-active > .menu-container {
+  opacity: 1;
+}
 .delete {
   background-color: hsl(348, 100%, 61%);
   transition: all 0.5s;
@@ -144,18 +154,18 @@ li:hover {
   width: 75%;
   padding-left: 0.5rem;
 }
-input[type='checkbox'] + div {
+label input[type='checkbox'] + div {
   opacity: 1;
   transition: all 0.2s;
 }
-input[type='checkbox']:checked + div {
+label input[type='checkbox']:checked + div {
   opacity: 0.2;
   transition: all 0.2s;
 }
-input[type='checkbox'] + div:hover {
+label input[type='checkbox'] + div:hover {
   opacity: 0.2;
 }
-input[type='checkbox']:checked + div:hover {
+label input[type='checkbox']:checked + div:hover {
   opacity: 1;
 }
 .flx {

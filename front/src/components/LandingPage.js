@@ -225,11 +225,7 @@ export default function LandingPage(props) {
       <footer className="footer">
         {mode === undefined ? (
           <div className="contect has-text-centered">
-            {context.sharekey !==
-            null ? // <button className="button" onClick={copyLink}>
-            //   Copy to clipboard
-            // </button>
-            null : (
+            {context.sharekey !== null ? null : (
               <button className="button" onClick={shareList}>
                 Generate sharable link
               </button>
