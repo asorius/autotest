@@ -144,9 +144,19 @@ li:hover {
   width: 75%;
   padding-left: 0.5rem;
 }
-.checkbox:hover {
-  border-left: 1px solid grey;
-  border-radius: 10px;
+input[type='checkbox'] + div {
+  opacity: 1;
+  transition: all 0.2s;
+}
+input[type='checkbox']:checked + div {
+  opacity: 0.2;
+  transition: all 0.2s;
+}
+input[type='checkbox'] + div:hover {
+  opacity: 0.2;
+}
+input[type='checkbox']:checked + div:hover {
+  opacity: 1;
 }
 .flx {
   display: flex;
