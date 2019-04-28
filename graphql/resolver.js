@@ -70,7 +70,9 @@ module.exports = {
               235.215 / parseFloat(string)
             ).toFixed(2)} l/100km)`;
           case 'torque':
-            return `${string} (${Math.round(parseFloat(string) / 0.73756)} Nm)`;
+            return string
+              ? `${string} (${Math.round(parseFloat(string) / 0.73756)} Nm)`
+              : 'Unavailable';
           default:
             'default ';
         }

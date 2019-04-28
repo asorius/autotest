@@ -13,19 +13,26 @@ import {
 } from './reducers';
 export default function GlobalState(props) {
   //if there is data in localstorage , the state will pull data from it , if not, defaults will be applied
-  let lsdata = localStorage.getItem('atpdata');
-  //shareddate will be present if user is on sharedlist page
-  let shareddata = localStorage.getItem('shatpdata');
-  //lsdata=personal list,shareddata=sharedlist saved to ls on separate name on initial page load if key is presented. if lsdata is present it will be used to render list on page, if its not, and instead shareddata is present, then use shared data, if none are available, use empty list
-  lsdata = lsdata
-    ? JSON.parse(lsdata)
-    : shareddata
-    ? JSON.parse(shareddata)
-    : {};
+  const list = JSON.parse(localStorage.getItem('atplist'));
+  const shared = JSON.parse(localStorage.getItem('sharelist'));
+  const mode = JSON.parse(localStorage.getItem('mode')) || {
+    pagemode: 'private'
+  };
+  let lsdata;
+  console.log({ mode });
+  if (mode.pagemode === 'private') {
+    lsdata = list || { list: [] };
+  } else {
+    lsdata = shared || { list: [] };
+  }
+  let atpsettings = JSON.parse(localStorage.getItem('atpsettings')) || {
+    settings: [],
+    postcode: false
+  };
   const [listState, dispatch] = useReducer(listReducer, {
     list: lsdata.list || [],
-    postcode: lsdata.postcode || false,
-    settings: lsdata.settings || [],
+    postcode: atpsettings.postcode,
+    settings: atpsettings.settings,
     sharekey: null,
     errors: {},
     options: [
@@ -151,6 +158,7 @@ export default function GlobalState(props) {
       });
       const json = await graphResponse.json();
       const list = json.data.getList;
+      console.log({ list });
       return list;
     } catch (e) {
       console.log(e);

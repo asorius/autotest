@@ -120,7 +120,6 @@ export default function CompareItem(props) {
               {Object.entries(rest).map(el => {
                 //rest is our options sent back from the server, like ['acceleration','fast']
                 //loops through user-set options stored in context to get full definition,matches them with according values from data from the server and returns li
-                console.log({ el });
                 let name = context.options.filter(opt => opt.value === el[0])[0]
                   .name;
                 let classname = context.options.filter(

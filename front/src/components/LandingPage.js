@@ -38,22 +38,10 @@ export default function LandingPage(props) {
           }
         });
       });
-
       localStorage.setItem(
-        'shatpdata',
+        'sharelist',
         JSON.stringify({
-          list: context.list,
-          postcode: context.postcode,
-          settings: context.settings
-        })
-      );
-    } else {
-      localStorage.setItem(
-        'atpdata',
-        JSON.stringify({
-          list: context.list,
-          postcode: context.postcode,
-          settings: context.settings
+          list: context.list
         })
       );
     }
@@ -61,40 +49,40 @@ export default function LandingPage(props) {
   //
 
   useEffect(() => {
-    //on list changes, udpdates context list
+    //if check for mode, if anythign else but undefined, it means its on shared page, so udate db on all context.list changes
     if (mode !== undefined) {
       const urls = context.list.reduce(
         (accumulator, current) => [...accumulator, current.actualLink],
         []
       );
+      console.log({ key: `"${mode}"`, list: urls });
       const data = { key: `"${mode}"`, list: urls };
       context.saveCarList(data);
-    }
-  }, [context.list]);
-
-  useEffect(() => {
-    const key = props.match.params.key;
-    // if key is present or not, update ls settings and post changes
-    if (key) {
       localStorage.setItem(
-        'shatpdata',
+        'sharelist',
         JSON.stringify({
-          list: context.list,
-          postcode: context.postcode,
-          settings: context.settings
+          list: context.list
         })
       );
     } else {
       localStorage.setItem(
-        'atpdata',
+        'atplist',
         JSON.stringify({
-          list: context.list,
-          postcode: context.postcode,
-          settings: context.settings
+          list: context.list
         })
       );
     }
-  }, [context.settings, context.list, context.postcode]);
+  }, [context.list]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      'atpsettings',
+      JSON.stringify({
+        postcode: context.postcode,
+        settings: context.settings
+      })
+    );
+  }, [context.settings, context.postcode]);
 
   const onPost = e => {
     setPost(
@@ -237,17 +225,18 @@ export default function LandingPage(props) {
       <footer className="footer">
         <div className="contect has-text-centered">
           <button className="button" onClick={shareList}>
-            Share the List!
+            {context.sharekey !== null
+              ? 'Update shared list'
+              : 'Share the list'}
           </button>
           {context.sharekey !== null ? (
             <input
+              className="input"
               type="text"
               disabled
               value={`${window.location.href}${context.sharekey}`}
             />
-          ) : (
-            'no sharekey'
-          )}
+          ) : null}
         </div>
       </footer>
     </React.Fragment>
