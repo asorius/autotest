@@ -7,6 +7,7 @@ const {
   DirectionsRenderer,
   Marker
 } = require('react-google-maps');
+const { InfoBox } = require('react-google-maps/lib/components/addons/InfoBox');
 const MapComponent = compose(
   withProps({
     googleMapURL:
@@ -58,11 +59,29 @@ const MapComponent = compose(
         )
       }
     >
-      {props.directions
-        ? `${props.directions.routes[0].legs[0].distance.text} , ${
-            props.directions.routes[0].legs[0].duration.text
-          }`
-        : null}
+      {props.directions ? (
+        <InfoBox
+          defaultPosition={
+            new window.google.maps.LatLng(
+              props.sellercoords.lat,
+              props.sellercoords.lng
+            )
+          }
+          options={{
+            closeBoxURL: ``
+          }}
+        >
+          <div className="travel">
+            <div className="km">
+              {props.directions.routes[0].legs[0].distance.text}
+            </div>
+            <div className="time">
+              {props.directions.routes[0].legs[0].duration.text}
+            </div>
+          </div>
+        </InfoBox>
+      ) : null}
+
       {props.usercoords !== null ? (
         <DirectionsRenderer directions={props.directions} />
       ) : (

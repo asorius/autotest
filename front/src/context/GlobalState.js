@@ -154,7 +154,6 @@ export default function GlobalState(props) {
       });
       const json = await graphResponse.json();
       const list = json.data.getList;
-      console.log({ list });
       return list;
     } catch (e) {
       console.log(e);

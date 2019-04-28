@@ -212,7 +212,8 @@ img {
   color: rgba(177, 177, 177, 0.158);
 }
 .img-magnify:hover {
-  color: rgba(255, 248, 248, 0.288);
+  color: rgba(255, 248, 248, 0.705);
+  cursor: pointer;
 }
 button:focus {
   outline: none !important;
@@ -272,6 +273,20 @@ button.next {
 footer {
   margin-top: 3rem;
   height: 50px;
+}
+.sharelink {
+  width: 25%;
+}
+/* google maps box ------------------------------------------- */
+.travel {
+  font-size: 1rem;
+  background-color: rgba(255, 255, 255, 0.815);
+  border-radius: 0 15px 15px 15px;
+  border: 1px solid rgba(236, 17, 17, 0.534);
+  padding: 0.5rem;
+}
+.km {
+  min-width: 5rem;
 }
 /* for screens bigger than 768px (tablet)*/
 @media only screen and (min-width: 768px) {

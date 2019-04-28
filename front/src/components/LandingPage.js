@@ -55,7 +55,6 @@ export default function LandingPage(props) {
         (accumulator, current) => [...accumulator, current.actualLink],
         []
       );
-      console.log({ key: `"${mode}"`, list: urls });
       const data = { key: `"${mode}"`, list: urls };
       context.saveCarList(data);
       localStorage.setItem(
@@ -139,6 +138,7 @@ export default function LandingPage(props) {
     const data = { key: context.sharekey, list: urls };
     context.saveCarList(data);
   };
+
   return (
     <React.Fragment>
       <header className="hero is-medium is-light is-bold">
@@ -223,21 +223,33 @@ export default function LandingPage(props) {
         </section>
       </main>
       <footer className="footer">
-        <div className="contect has-text-centered">
-          <button className="button" onClick={shareList}>
-            {context.sharekey !== null
-              ? 'Update shared list'
-              : 'Share the list'}
-          </button>
-          {context.sharekey !== null ? (
-            <input
-              className="input"
-              type="text"
-              disabled
-              value={`${window.location.href}${context.sharekey}`}
-            />
-          ) : null}
-        </div>
+        {mode === undefined ? (
+          <div className="contect has-text-centered">
+            {context.sharekey !==
+            null ? // <button className="button" onClick={copyLink}>
+            //   Copy to clipboard
+            // </button>
+            null : (
+              <button className="button" onClick={shareList}>
+                Generate sharable link
+              </button>
+            )}
+            {context.sharekey !== null ? (
+              <input
+                className="input sharelink"
+                type="text"
+                readOnly
+                value={`${window.location.href}${context.sharekey}`}
+              />
+            ) : null}
+          </div>
+        ) : (
+          <div className="contect has-text-centered">
+            Shared lists are automatically updated on every addition or
+            deletion. Everyone who has this link can freely edit and share
+            current list!
+          </div>
+        )}
       </footer>
     </React.Fragment>
   );
