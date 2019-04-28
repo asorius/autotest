@@ -16,7 +16,7 @@ export default function Checkbox({
         id={value}
         onChange={onCheckboxChange}
       />
-      {name}
+      <div className="check-name">{name}</div>
     </label>
   );
 }

@@ -53,7 +53,7 @@
   text-overflow: ellipsis;
 }
 
-/* dropdown styling */
+/*-------------------------------------- dropdown styling */
 li {
   list-style: none;
   transition: all 0.2s;
@@ -73,7 +73,7 @@ li:hover {
   background-color: #6b6b6b3d;
 }
 
-/* dropdown on clicking on more MOT info */
+/*---------------------------------- dropdown on clicking on more MOT info */
 
 .expand-dropdown-button {
   background-color: rgba(165, 165, 165, 0.562);
@@ -116,7 +116,7 @@ li:hover {
   background-color: hsl(348, 100%, 84%);
   transform: rotate(90deg);
 }
-/* settings modal styling */
+/* ------------------------------------settings modal styling */
 .mdl {
   height: 90vh;
   width: 95vw;
@@ -135,10 +135,18 @@ li:hover {
   height: 4rem;
   padding: 0.5rem;
 }
-
+/* -----------------------------------checkboxes */
 .checkbox {
-  display: block;
-  width: 8rem;
+  width: 9rem;
+  margin-bottom: 0.5rem;
+}
+.check-name {
+  width: 75%;
+  padding-left: 0.5rem;
+}
+.checkbox:hover {
+  border-left: 1px solid grey;
+  border-radius: 10px;
 }
 .flx {
   display: flex;
@@ -166,12 +174,12 @@ li:hover {
 .subtitle2 h3 {
   font-size: 0.3rem;
 }
-/* multiline hover class */
+/*----------------------------------- multiline hover class */
 .hover {
   background-color: #6b6b6b3d;
   border-radius: 5px;
 }
-/* images */
+/* ------------------------------------images */
 .image img {
   height: 20rem;
   object-fit: cover;
@@ -180,7 +188,7 @@ img {
   width: 100%;
   height: 100%;
 }
-/* image arrows */
+/*-------------------------------- image arrows */
 .card-image {
   position: relative;
 }
@@ -232,7 +240,7 @@ button.next {
 .next:hover {
   background: rgba(139, 139, 139, 0.438);
 }
-/* large image modal  */
+/* ------------------------------------------------------large image modal  */
 .img-mdl {
   height: auto;
   width: auto;
@@ -245,7 +253,6 @@ button.next {
 .img-mdl img {
   width: 100%;
   height: 100%;
-  /* object-fit: contain; */
 }
 .img-mdl button.prev,
 .img-mdl button.next {
@@ -259,7 +266,7 @@ button.next {
   border: 1px solid #8b8b8b91;
 }
 
-/* card foot */
+/* ----------------------------------------------------card foot */
 .card-footer {
   display: flex;
   justify-content: space-around;
@@ -277,7 +284,7 @@ footer {
 .sharelink {
   width: 25%;
 }
-/* google maps box ------------------------------------------- */
+/* -------------------------------------------- google maps box */
 .travel {
   font-size: 1rem;
   background-color: rgba(255, 255, 255, 0.815);
@@ -288,7 +295,7 @@ footer {
 .km {
   min-width: 5rem;
 }
-/* for screens bigger than 768px (tablet)*/
+/* -----------------------------------for screens bigger than 768px (tablet)*/
 @media only screen and (min-width: 768px) {
   .inputs-container {
     width: 50%;
@@ -308,7 +315,7 @@ footer {
     width: 15rem;
   }
 }
-/* for screens bigger then 1024px (laptop)*/
+/* --------------------------------for screens bigger then 1024px (laptop)*/
 @media only screen and (min-width: 1024px) {
   button.next,
   button.prev {
@@ -320,7 +327,7 @@ footer {
   }
   .mdl {
     width: 40rem;
-    height: 30rem;
+    height: 35rem;
   }
   .inputs-container {
     width: 50%;
@@ -351,7 +358,7 @@ footer {
     border: none;
   }
 }
-/* for screens bigger then 1216px widescreen */
+/* -------------------------------for screens bigger then 1216px widescreen */
 @media only screen and (min-width: 1216px) {
   .column {
     max-width: 33%;
