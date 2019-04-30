@@ -1,7 +1,6 @@
 const getPost = require('../postGetter');
 const getGraphData = require('../graphData');
 const getMot = require('../motGetter');
-const uuid = require('uuid');
 const List = require('../mongodb/list');
 module.exports = {
   getPostCoords: async args => {

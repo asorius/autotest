@@ -4,7 +4,7 @@ const getData = require('./dataGetter');
 const getMot = require('./motGetter');
 const getPost = require('./postGetter');
 const cors = require('cors');
-const { mongoURI } = require('./keys/dist');
+const { mongoURI, gapi } = require('./keys/dist');
 const mongoose = require('mongoose');
 //-----
 const graphqlHTTP = require('express-graphql');
@@ -15,7 +15,6 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
 // sends back data
 app.post('/api', async function(req, res) {
   try {

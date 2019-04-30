@@ -9,7 +9,7 @@ export default function LandingPage(props) {
   const [post, setPost] = useState('');
   const [loading, setLoading] = useState(false);
   const [loadingPost, setPostLoading] = useState(false);
-  const [mode, setMode] = useState(props.match.params.key);
+  const [mode] = useState(props.match.params.key);
   const context = useContext(Context);
 
   const onChange = e => {

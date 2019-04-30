@@ -19,15 +19,12 @@ const addCar = (data, state) => {
 };
 
 const removeCar = (carId, state) => {
-  console.log({ listbeforedeletion: state.list });
-
   let newList = [...state.list];
   const carIndex = newList.findIndex(item => item._id === carId);
 
   if (carIndex >= 0) {
     newList = newList.filter(car => car._id !== carId);
   }
-  console.log({ listafterdeletion: newList });
   return { ...state, list: newList };
 };
 const popError = (data, state) => {
