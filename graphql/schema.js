@@ -61,6 +61,8 @@ type autodata{
   seller:sellerdata
   events:[event]
   actualLink:String
+  addedDate:String
+  dealerLink:String
 }
 type RootQuery {
   getPostCoords(postcode:String!):coords

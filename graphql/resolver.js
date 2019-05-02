@@ -21,6 +21,8 @@ module.exports = {
 
       const { vrm } = data.vehicle;
       const actualLink = data.pageData.canonical;
+      const addedDate = data.pageData.ods.advertId.substring(0, 8);
+      const dealerLink = data.seller.dealerWebsite || null;
       const motdata = await getMot(vrm);
       let reducedevents;
       if (motdata) {
@@ -129,6 +131,7 @@ module.exports = {
           phone2: data.seller.secondaryContactNumber || null
         }),
         (events = reducedevents.slice(0, 6));
+
       return {
         _id,
         title,
@@ -157,7 +160,9 @@ module.exports = {
         map,
         seller,
         events,
-        actualLink
+        actualLink,
+        addedDate,
+        dealerLink
       };
     } catch (e) {
       console.log({ errorInfoResolver: e.response.data.text });

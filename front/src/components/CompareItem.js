@@ -44,6 +44,8 @@ export default function CompareItem(props) {
     map,
     actualLink,
     url,
+    addedDate,
+    dealerLink,
     ...rest
   } = props.item;
   const listEntries = Object.entries(rest).length > 0 ? false : true;
@@ -150,10 +152,31 @@ export default function CompareItem(props) {
               </span>
             </div>
             <div className="media-content">
-              <strong>{seller.name}</strong>
+              {dealerLink ? (
+                <strong>
+                  <a
+                    className="at-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={dealerLink}
+                  >
+                    {seller.name}
+                  </a>
+                </strong>
+              ) : (
+                <strong>{seller.name}</strong>
+              )}
               <br />
               <strong>Contacts</strong> : {seller.phone1}
               {seller.phone2 ? `, ${seller.phone2}` : null}
+              {addedDate ? (
+                <React.Fragment>
+                  <br />
+                  <strong>Advert added : </strong>
+                  {addedDate.substring(0, 4)} {addedDate.substring(4, 6)}{' '}
+                  {addedDate.substring(6, 8)}
+                </React.Fragment>
+              ) : null}
             </div>
           </div>
           <div className="div">

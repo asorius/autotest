@@ -49,6 +49,18 @@ app.post('/api', async function(req, res) {
     res.status(404).send({ error: e });
   }
 });
+app.post('/ddd', async function(req, res) {
+  try {
+    const { url } = req.body;
+    const dataFromAutotrader = await getData(url);
+
+    res.send({
+      ...dataFromAutotrader
+    });
+  } catch (e) {
+    res.status(404).send({ error: e });
+  }
+});
 app.post('/api/postcode', async (req, res) => {
   const { postcode } = req.body;
   if (postcode.length < 5 || postcode.length > 7) {

@@ -66,6 +66,8 @@ export default function GlobalState(props) {
           title
           images
           actualLink
+          addedDate
+          dealerLink
           events{
             date
             status
