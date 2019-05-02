@@ -10,7 +10,6 @@ const {
   Marker
 } = require('react-google-maps');
 const { InfoBox } = require('react-google-maps/lib/components/addons/InfoBox');
-console.log(googleAPI);
 const MapComponent = compose(
   withProps({
     googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${googleAPI}&v=3.exp&libraries=geometry,drawing,places`,

@@ -20,6 +20,10 @@ export default function CompareItem(props) {
       e.target.tagName === 'STRONG'
         ? e.target.parentNode.className
         : e.target.className;
+    //remove hover class from other elements before adding it to currently hovered
+    document.querySelectorAll('.hover').forEach(el => {
+      el.classList.remove('hover');
+    });
     document.querySelectorAll(`.${classname}`).forEach(el => {
       el.classList.add('hover');
     });

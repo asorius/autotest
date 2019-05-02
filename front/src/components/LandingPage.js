@@ -19,9 +19,6 @@ export default function LandingPage(props) {
   const build = async el => {
     await context.addCarToList({ url: el, settings: context.settings });
   };
-
-  //
-
   //on initial page renger, if key is present, send graphql req to retrieve list by key from db and addcar by each list el
   useEffect(() => {
     const key = props.match.params.key;
@@ -46,8 +43,6 @@ export default function LandingPage(props) {
       );
     }
   }, []);
-  //
-
   useEffect(() => {
     //if check for mode, if anythign else but undefined, it means its on shared page, so udate db on all context.list changes
     if (mode !== undefined) {
@@ -138,7 +133,10 @@ export default function LandingPage(props) {
     const data = { key: context.sharekey, list: urls };
     context.saveCarList(data);
   };
-
+  const redirectPrivate = e => {
+    e.preventDefault();
+    window.location.href = '/';
+  };
   return (
     <React.Fragment>
       <header className="hero is-medium is-light is-bold">
@@ -216,6 +214,14 @@ export default function LandingPage(props) {
           </form>
           <Settings />
         </section>
+        {mode ? (
+          <button
+            className="button has-background-success"
+            onClick={redirectPrivate}
+          >
+            Back to Your private list
+          </button>
+        ) : null}
         <section className="columns is-multiline is-paddingless">
           {context.list.map(item => {
             return <CompareItem key={item._id} item={item} />;
