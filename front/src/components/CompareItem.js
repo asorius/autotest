@@ -106,8 +106,10 @@ export default function CompareItem(props) {
           <div className="subs">
             <h2 className="subtitle1 is-size-4">{price}</h2>
             <h3 className="subtitle2">
-              <i>MOT</i> :{' '}
-              {events.length > 0 ? events[0].data.expiredate : null}
+              <strong>
+                <i>MOT</i>
+              </strong>{' '}
+              : {events.length > 0 ? events[0].data.expiredate : null}
             </h3>
           </div>
         </div>
