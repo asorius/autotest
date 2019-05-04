@@ -171,7 +171,9 @@ export default function LandingPage(props) {
                 })}
                 type="submit"
               >
-                {context.errors.to === 'post' ? 'Error !' : 'Find'}
+                <span className="icon is-large">
+                  <i className="fas fa-search fa-lg" />
+                </span>
               </button>
             </div>
             <div className="post-info">
@@ -225,8 +227,18 @@ export default function LandingPage(props) {
             className="button has-background-success"
             onClick={redirectPrivate}
           >
-            Back to Your private list
+            <span className="icon is-large has-text-white">
+              <i className="fas fa-arrow-circle-left fa-lg" />
+            </span>
+            <span>Back to Your private list</span>
           </button>
+        ) : null}
+        {mode ? (
+          <div className="tag has-text-centered">
+            This is a shared list. Shared lists are automatically updated on
+            every addition or deletion. Everyone who has this link can freely
+            edit and share current list!
+          </div>
         ) : null}
         <section className="columns is-multiline is-paddingless">
           {context.list.map(item => {
@@ -253,11 +265,6 @@ export default function LandingPage(props) {
           </div>
         ) : (
           <div className="container has-text-centered">
-            <div className="has-text-centered">
-              Shared lists are automatically updated on every addition or
-              deletion. Everyone who has this link can freely edit and share
-              current list!
-            </div>
             <button
               className="button is-danger delete-btn"
               onClick={deleteList}
