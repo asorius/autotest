@@ -83,6 +83,7 @@ li:hover {
   justify-content: center;
   align-items: center;
 }
+
 .active,
 .expand-dropdown-button:hover {
   color: white;
@@ -94,6 +95,7 @@ li:hover {
   padding: 0.5rem;
   width: 20rem;
 }
+
 .mot-expand-btn {
   width: 75%;
   margin: 0.5rem auto;
@@ -107,22 +109,7 @@ li:hover {
 .active .icon {
   transform: rotate(180deg);
 }
-.dropdown-menu {
-  display: block;
-  transition: all 0.5s;
-  left: 90vw;
-}
-.is-active > .dropdown-menu {
-  left: 0;
-}
-.menu-container {
-  opacity: 0;
-  transition: all 0.5s;
-}
 
-.is-active > .menu-container {
-  opacity: 1;
-}
 .delete {
   background-color: hsl(348, 100%, 61%);
   transition: all 0.5s;

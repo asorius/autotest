@@ -20,9 +20,7 @@ export default function DropItem(props) {
             )}
           </div>
           <div>{motEvent.date}</div>
-          <div className="is-italic">
-            Miles driven since last MOT : {props.driven}
-          </div>
+          <div className="is-italic">Miles driven since : {props.driven}</div>
         </div>
         {motEvent.data.notices.length > 0 ||
         motEvent.data.refusal.length > 0 ? (
@@ -41,7 +39,7 @@ export default function DropItem(props) {
                 </div>
               </div>
               <div
-                className={classnames('dropdown-menu drp', {
+                className={classnames('dropdown-menu drp ', {
                   'is-hidden': !drop
                 })}
                 id="dropdown-menu2"
