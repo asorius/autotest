@@ -88,7 +88,7 @@ export default function GlobalState(props) {
       }
     `
       };
-      const graphResponse = await fetch('http://localhost:5000/graphql', {
+      const graphResponse = await fetch('/graphql', {
         method: 'POST',
         body: JSON.stringify(reqbody),
         headers: {
@@ -122,7 +122,7 @@ export default function GlobalState(props) {
       }
     `
       };
-      const graphResponse = await fetch('http://localhost:5000/graphql', {
+      const graphResponse = await fetch('/graphql', {
         method: 'POST',
         body: JSON.stringify(reqbody),
         headers: {
@@ -146,7 +146,7 @@ export default function GlobalState(props) {
       }
     `
       };
-      const graphResponse = await fetch('http://localhost:5000/graphql', {
+      const graphResponse = await fetch('/graphql', {
         method: 'POST',
         body: JSON.stringify(reqbody),
         headers: {
@@ -170,7 +170,7 @@ export default function GlobalState(props) {
       }
     `
       };
-      const graphResponse = await fetch('http://localhost:5000/graphql', {
+      const graphResponse = await fetch('/graphql', {
         method: 'POST',
         body: JSON.stringify(reqbody),
         headers: {
@@ -200,7 +200,7 @@ export default function GlobalState(props) {
         }
       `
       };
-      const graphResponse = await fetch('http://localhost:5000/graphql', {
+      const graphResponse = await fetch('/graphql', {
         method: 'POST',
         body: JSON.stringify(reqbody),
         headers: {
