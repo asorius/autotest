@@ -161,6 +161,29 @@ export default function GlobalState(props) {
       console.log(e);
     }
   };
+  const deleteList = async key => {
+    try {
+      const reqbody = {
+        query: `
+      query {
+        deleteList(key:"${key}")
+      }
+    `
+      };
+      const graphResponse = await fetch('http://localhost:5000/graphql', {
+        method: 'POST',
+        body: JSON.stringify(reqbody),
+        headers: {
+          'Content-Type': 'application/json',
+          Accepts: 'application/json'
+        }
+      });
+      const json = await graphResponse.json();
+      return json.data.deleteList;
+    } catch (e) {
+      console.log(e);
+    }
+  };
   const removeCarFromList = id => {
     dispatch({ type: REMOVE_CAR, payload: id });
   };
@@ -227,6 +250,7 @@ export default function GlobalState(props) {
         setError,
         saveCarList,
         getCarList,
+        deleteList,
         sharekey: listState.sharekey
       }}
     >

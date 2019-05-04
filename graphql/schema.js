@@ -69,6 +69,7 @@ type RootQuery {
   getAutodata(url:String!):autodata
   saveList(key:String,list:[String]!):String
   getList(key:String):[String]
+  deleteList(key:String):String
 }
 schema {
   query: RootQuery

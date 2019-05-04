@@ -137,6 +137,13 @@ export default function LandingPage(props) {
     e.preventDefault();
     window.location.href = '/';
   };
+  const deleteList = e => {
+    e.preventDefault();
+    context.deleteList(mode).then(res => {
+      console.log({ res });
+      res === 'success' ? window.close() : alert('deletion failed...');
+    });
+  };
   return (
     <React.Fragment>
       <header className="hero is-medium is-light is-bold">
@@ -246,10 +253,18 @@ export default function LandingPage(props) {
             ) : null}
           </div>
         ) : (
-          <div className="contect has-text-centered">
-            Shared lists are automatically updated on every addition or
-            deletion. Everyone who has this link can freely edit and share
-            current list!
+          <div className="container has-text-centered">
+            <div className="has-text-centered">
+              Shared lists are automatically updated on every addition or
+              deletion. Everyone who has this link can freely edit and share
+              current list!
+            </div>
+            <button
+              className="button is-danger delete-btn"
+              onClick={deleteList}
+            >
+              Delete the list
+            </button>
           </div>
         )}
       </footer>

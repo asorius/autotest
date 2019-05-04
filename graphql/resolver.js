@@ -200,5 +200,16 @@ module.exports = {
     } catch (e) {
       console.log(e);
     }
+  },
+  deleteList: async args => {
+    const searchKey = args.key;
+    console.log({ searchKey });
+    try {
+      const res = await List.findByIdAndDelete(searchKey);
+      console.log({ res });
+      return 'success';
+    } catch (e) {
+      console.log(e);
+    }
   }
 };

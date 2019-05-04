@@ -309,6 +309,12 @@ footer {
 .sharelink {
   width: 25%;
 }
+.delete-btn {
+  margin-top: 1rem;
+}
+.delete-btn:hover {
+  background-color: hsl(348, 100%, 84%);
+}
 /* -------------------------------------------- google maps box */
 .travel {
   font-size: 1rem;
