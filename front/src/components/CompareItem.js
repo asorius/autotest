@@ -141,7 +141,9 @@ export default function CompareItem(props) {
                     onMouseLeave={unsethover}
                   >
                     <strong>{name}</strong> :{' '}
-                    {el[1] === false || el[1] === null || false ? 'n/a' : el[1]}
+                    {el[1] === false || el[1] === null || false
+                      ? 'Unavailable'
+                      : el[1]}
                   </li>
                 );
               })}
