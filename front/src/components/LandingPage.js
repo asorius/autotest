@@ -140,7 +140,6 @@ export default function LandingPage(props) {
   const deleteList = e => {
     e.preventDefault();
     context.deleteList(mode).then(res => {
-      console.log({ res });
       res === 'success' ? window.close() : alert('deletion failed...');
     });
   };
