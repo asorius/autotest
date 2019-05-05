@@ -242,7 +242,13 @@ export default function LandingPage(props) {
         ) : null}
         <section className="columns is-multiline is-paddingless">
           {context.list.map(item => {
-            return <CompareItem key={item._id} item={item} />;
+            return (
+              <CompareItem
+                key={item._id}
+                item={item}
+                reload={context.postcode}
+              />
+            );
           })}
         </section>
       </main>
@@ -250,7 +256,7 @@ export default function LandingPage(props) {
         {mode === undefined ? (
           <div className="contect has-text-centered">
             {context.sharekey !== null ? null : (
-              <button className="button" onClick={shareList}>
+              <button className="button" onClick={shareList} disabled>
                 Generate sharable link
               </button>
             )}

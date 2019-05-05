@@ -7,6 +7,7 @@ import ImgModal from './ImgModal';
 export default function CompareItem(props) {
   const [drop, setDrop] = useState(false);
   const context = useContext(Context);
+
   const toggleDrop = e => {
     e.preventDefault();
     setDrop(!drop);
@@ -76,7 +77,7 @@ export default function CompareItem(props) {
     };
   }
   return (
-    <div className="column is-paddingless  is-half-tablet is-half-desktop is-one-third-widescreen is-one-third-fullhd">
+    <div className="column is-paddingless  is-half-tablet  is-one-third-widescreen is-one-third-fullhd">
       <div className="card">
         <div className="card-image">
           <figure className="image ">
@@ -246,6 +247,7 @@ export default function CompareItem(props) {
                           />
                         );
                       }
+                      return null;
                     })
                   : null}
               </div>

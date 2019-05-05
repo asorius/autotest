@@ -1,7 +1,7 @@
 import React from 'react';
 import { googleAPI } from '../keys/dist';
 const { compose, withProps, lifecycle } = require('recompose');
-
+console.log({ googleAPI });
 const {
   withScriptjs,
   withGoogleMap,

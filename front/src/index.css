@@ -337,7 +337,7 @@ footer {
 @media only screen and (min-width: 1024px) {
   button.next,
   button.prev {
-    width: 10%;
+    width: 15%;
   }
   .column {
     max-width: 33%;
@@ -375,9 +375,18 @@ footer {
     border-radius: 0;
     border: none;
   }
+  .expand-dropdown-button {
+    width: 50%;
+  }
+  .mot-expand-btn .icon {
+    transform: rotate(-90deg);
+  }
+  .active .icon {
+    transform: rotate(90deg);
+  }
 }
 /* -------------------------------for screens bigger then 1216px widescreen */
-@media only screen and (min-width: 1216px) {
+@media only screen and (min-width: 1370px) {
   .column {
     max-width: 33%;
     margin: 1rem auto;
@@ -406,5 +415,11 @@ footer {
     width: 10%;
     margin: 0.5rem;
     height: 4rem;
+  }
+  .mot-expand-btn .icon {
+    transform: rotate(0deg);
+  }
+  .active .icon {
+    transform: rotate(180deg);
   }
 }
