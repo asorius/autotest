@@ -1,7 +1,5 @@
 import React from 'react';
-import { googleAPI } from '../keys/dist';
 const { compose, withProps, lifecycle } = require('recompose');
-console.log({ googleAPI, keys: process.env });
 const {
   withScriptjs,
   withGoogleMap,
@@ -12,7 +10,7 @@ const {
 const { InfoBox } = require('react-google-maps/lib/components/addons/InfoBox');
 const MapComponent = compose(
   withProps({
-    googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${googleAPI}&v=3.exp&libraries=geometry,drawing,places`,
+    googleMapURL: `https://maps.googleapis.com/maps/api/js?key=AIzaSyDL2iDSF4s4uk1qPVCCF3ESBTZ4KnlBzdo&v=3.exp&libraries=geometry,drawing,places`,
     loadingElement: <div style={{ height: `100%` }} />,
     containerElement: <div style={{ height: `400px` }} />,
     mapElement: <div style={{ height: `100%` }} />

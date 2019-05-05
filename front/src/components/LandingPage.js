@@ -3,6 +3,7 @@ import Context from '../context/context';
 import CompareItem from './CompareItem';
 import Settings from './Settings';
 import classnames from 'classnames';
+import { setTimeout } from 'timers';
 
 export default function LandingPage(props) {
   const [url, setUrl] = useState('');
@@ -76,6 +77,8 @@ export default function LandingPage(props) {
         settings: context.settings
       })
     );
+    setLoading(true);
+    setTimeout(() => setLoading(false), 1000);
   }, [context.settings, context.postcode]);
 
   const onPost = e => {
@@ -112,6 +115,14 @@ export default function LandingPage(props) {
     }
     try {
       await context.addPostToList(post);
+      const urls = context.list.map(el => el.actualLink);
+      context.list.forEach(element => {
+        context.removeCarFromList(element._id);
+      });
+      context.updateListWithNewSettings({
+        urls,
+        newSettings: context.settings
+      });
       setTimeout(() => {
         setPost('');
         setPostLoading(false);
@@ -122,7 +133,13 @@ export default function LandingPage(props) {
   };
   const onDeletePostcode = e => {
     e.preventDefault();
+
     context.removePostFromList(context.postcode.postcode);
+    const urls = context.list.map(el => el.actualLink);
+    context.list.forEach(element => {
+      context.removeCarFromList(element._id);
+    });
+    context.updateListWithNewSettings({ urls, newSettings: context.settings });
   };
   const shareList = e => {
     e.preventDefault();
