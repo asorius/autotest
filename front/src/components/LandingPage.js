@@ -166,7 +166,7 @@ export default function LandingPage(props) {
         <div className="hero-body">
           <div className="container">
             <h1 className="title">AutoPare</h1>
-            <h2 className="subtitle">Expanded AutoTrader car comparing tool</h2>
+            <h2 className="subtitle">Expanded AutoTrader car lists</h2>
           </div>
         </div>
       </header>
@@ -225,7 +225,7 @@ export default function LandingPage(props) {
               type="text"
               value={url}
               onChange={onChange}
-              placeholder="Paste car link from AutoTrader to add to the list"
+              placeholder="Paste links from AutoTrader to add to the list"
             />
             <button
               className={classnames('button is-info is-fullwidth', {
