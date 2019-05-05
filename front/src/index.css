@@ -1,3 +1,11 @@
+.main-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.main-container main {
+  flex-grow: 1;
+}
 .mot-status {
   padding: 0.2rem;
   border-radius: 5px;
@@ -313,6 +321,7 @@ footer {
 .km {
   min-width: 5rem;
 }
+
 /* -----------------------------------for screens bigger than 768px (tablet)*/
 @media only screen and (min-width: 768px) {
   .inputs-container {

@@ -48,7 +48,7 @@ export default function Settings() {
   };
   return (
     <div className=" center">
-      <button className="button is-fullwidth" onClick={openModal}>
+      <button className="button " onClick={openModal}>
         Settings
       </button>
       <div className={classnames('modal', { 'is-active': modal })}>

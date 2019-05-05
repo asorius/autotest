@@ -161,7 +161,7 @@ export default function LandingPage(props) {
     });
   };
   return (
-    <React.Fragment>
+    <div className="main-container">
       <header className="hero is-medium is-light is-bold">
         <div className="hero-body">
           <div className="container">
@@ -297,6 +297,6 @@ export default function LandingPage(props) {
           </div>
         )}
       </footer>
-    </React.Fragment>
+    </div>
   );
 }
