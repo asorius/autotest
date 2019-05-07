@@ -24,18 +24,21 @@ export default function LandingPage(props) {
   useEffect(() => {
     const key = props.match.params.key;
     if (key) {
-      const existingList = context.list.reduce(
-        (acc, el) => [...acc, el.actualLink],
-        []
-      );
-      //if there is already some data in list, in order to avoid readding same list items on top of current, only build components of unmatched items
       context.getCarList(key).then(list => {
+        if (list === null) {
+          window.location.href = '/';
+        }
+        const existingList = context.list.reduce(
+          (acc, el) => [...acc, el.actualLink],
+          []
+        );
         list.forEach(el => {
           if (existingList.indexOf(el) < 0) {
             build(el);
           }
         });
       });
+      //if there is already some data in list, in order to avoid readding same list items on top of current, only build components of unmatched items
       localStorage.setItem(
         'sharelist',
         JSON.stringify({
@@ -155,9 +158,13 @@ export default function LandingPage(props) {
     window.location.href = '/';
   };
   const deleteList = e => {
+    console.log('about to delete');
     e.preventDefault();
     context.deleteList(mode).then(res => {
-      res === 'success' ? window.close() : alert('deletion failed...');
+      console.log({ res });
+      res === 'success'
+        ? (window.location.href = '/')
+        : alert('Deletion failed...');
     });
   };
   return (

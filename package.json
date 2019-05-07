@@ -2,12 +2,15 @@
   "name": "auto",
   "version": "1.0.0",
   "main": "server.js",
+  "engines": {
+    "node": "10.6.0"
+  },
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js",
     "front": "npm start --prefix front",
     "dev": "concurrently \"npm run server\" \"npm run front\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix front && npm run build --prefix front"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix front && npm run build --prefix front rm --prefix front build/static/js/*.map"
   },
   "author": "",
   "license": "ISC",

@@ -9,7 +9,7 @@ const App = props => {
       <BrowserRouter>
         <Switch>
           <Route path="/" component={LandingPage} exact />
-          <Route path="/shared/:key" component={LandingPage} exact />
+          <Route path="/:key" component={LandingPage} exact />
         </Switch>
       </BrowserRouter>
     </GlobalState>
