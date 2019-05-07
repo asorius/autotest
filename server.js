@@ -6,6 +6,8 @@ const getPost = require('./postGetter');
 const cors = require('cors');
 const { mongoURI, gapi } = require('./keys/dist');
 const mongoose = require('mongoose');
+const path = require('path');
+
 //-----
 const graphqlHTTP = require('express-graphql');
 const graphQLschema = require('./graphql/schema');
@@ -93,9 +95,6 @@ mongoose
     if (process.env.NODE_ENV === 'production') {
       //set static folder
       app.use(express.static('front/build'));
-      app.get('/key', (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'front', 'build', 'index.html'));
-      });
       app.get('*', (req, res) => {
         res.sendFile(path.resolve(__dirname, 'front', 'build', 'index.html'));
       });
