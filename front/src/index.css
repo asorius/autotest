@@ -433,4 +433,8 @@ footer {
   .active .icon {
     transform: rotate(180deg);
   }
+  .img-mdl {
+    max-height: 95vh;
+    max-width: 95vh;
+  }
 }
