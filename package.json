@@ -10,7 +10,7 @@
     "server": "nodemon server.js",
     "front": "npm start --prefix front",
     "dev": "concurrently \"npm run server\" \"npm run front\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix front && npm run build --prefix front && rm --prefix front build/static/js/*.map"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix front && npm run build --prefix front"
   },
   "author": "",
   "license": "ISC",
