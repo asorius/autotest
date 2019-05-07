@@ -240,23 +240,29 @@ export default function LandingPage(props) {
           <Settings />
         </section>
         {mode ? (
-          <button
-            className="button has-background-success"
-            onClick={redirectPrivate}
-          >
-            <span className="icon is-large has-text-white">
-              <i className="fas fa-arrow-circle-left fa-lg" />
-            </span>
-            <span>Back to Your private list</span>
-          </button>
-        ) : null}
-        {mode ? (
-          <div className="tag has-text-centered">
-            This is a shared list. Shared lists are automatically updated on
-            every addition or deletion. Everyone who has this link can freely
-            edit and share current list!
+          <div className="container">
+            <div className="message has-text-centered">
+              <div className="message-body">
+                <p>
+                  This is a shared list. Shared lists are automatically updated
+                  on every addition or deletion. Everyone who has this link can
+                  freely edit and share current list
+                </p>
+                <button
+                  className="button has-background-success"
+                  onClick={redirectPrivate}
+                >
+                  <span className="icon is-large has-text-white">
+                    <i className="fas fa-arrow-circle-left fa-lg" />
+                  </span>
+                  <span>Back to Your private list</span>
+                </button>
+              </div>
+            </div>
           </div>
         ) : null}
+        {mode ? <div className="container" /> : null}
+
         <section className="columns is-multiline is-paddingless">
           {context.list.map(item => {
             return (
@@ -273,7 +279,7 @@ export default function LandingPage(props) {
         {mode === undefined ? (
           <div className="contect has-text-centered">
             {context.sharekey !== null ? null : (
-              <button className="button" onClick={shareList} disabled>
+              <button className="button" onClick={shareList}>
                 Generate sharable link
               </button>
             )}
