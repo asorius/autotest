@@ -5,7 +5,7 @@ import Settings from './Settings';
 import classnames from 'classnames';
 import { setTimeout } from 'timers';
 
-export default function LandingPage(props) {
+export default function SharedPage(props) {
   const [url, setUrl] = useState('');
   const [post, setPost] = useState('');
   const [loading, setLoading] = useState(false);
@@ -20,11 +20,41 @@ export default function LandingPage(props) {
   const build = async el => {
     await context.addCarToList({ url: el, settings: context.settings });
   };
+  const getlist = async id => {
+    let list = await context.getCarList(id);
+    const existingList = context.list.reduce(
+      (acc, el) => [...acc, el.actualLink],
+      []
+    );
+    list.forEach(el => {
+      if (existingList.indexOf(el) < 0) {
+        build(el);
+      }
+    });
+    localStorage.setItem(
+      `SL${id}`,
+      JSON.stringify({
+        list: context.list
+      })
+    );
+  };
+  //on initial page renger, if key is present, send graphql req to retrieve list by key from db and addcar by each list el
+  useEffect(() => {
+    const key = props.match.params.key;
+    if (key) {
+      getlist(key);
+    }
+  }, []);
   useEffect(() => {
     //if check for mode, if anythign else but undefined, it means its on shared page, so udate db on all context.list changes
-
+    const urls = context.list.reduce(
+      (accumulator, current) => [...accumulator, current.actualLink],
+      []
+    );
+    const data = { key: `"${mode}"`, list: urls };
+    context.saveCarList(data);
     localStorage.setItem(
-      'atplist',
+      'sharelist',
       JSON.stringify({
         list: context.list
       })
@@ -103,16 +133,22 @@ export default function LandingPage(props) {
     });
     context.updateListWithNewSettings({ urls, newSettings: context.settings });
   };
-  const shareList = e => {
-    e.preventDefault();
-    const urls = context.list.reduce(
-      (accumulator, current) => [...accumulator, current.actualLink],
-      []
-    );
-    const data = { key: context.sharekey, list: urls };
-    context.saveCarList(data);
-  };
 
+  const redirectPrivate = e => {
+    e.preventDefault();
+    window.location.href = '/';
+  };
+  const deleteList = e => {
+    e.preventDefault();
+    context.deleteList(mode).then(res => {
+      if (res === 'success') {
+        localStorage.removeItem(`SL${mode}`);
+        window.location.href = '/';
+      } else {
+        alert('Deletion failed...');
+      }
+    });
+  };
   return (
     <div className="main-container">
       <header className="hero is-medium is-light is-bold">
@@ -192,6 +228,26 @@ export default function LandingPage(props) {
           </form>
           <Settings />
         </section>
+        <div className="container">
+          <div className="message has-text-centered">
+            <div className="message-body">
+              <p>
+                This is a shared list. Shared lists are automatically updated on
+                every addition or deletion. Everyone who has this link can
+                freely edit and share current list
+              </p>
+              <button
+                className="button has-background-success"
+                onClick={redirectPrivate}
+              >
+                <span className="icon is-large has-text-white">
+                  <i className="fas fa-arrow-circle-left fa-lg" />
+                </span>
+                <span>Back to Your private list</span>
+              </button>
+            </div>
+          </div>
+        </div>
         <section className="columns is-multiline is-paddingless">
           {context.list.map(item => {
             return (
@@ -205,20 +261,10 @@ export default function LandingPage(props) {
         </section>
       </main>
       <footer className="footer">
-        <div className="contect has-text-centered">
-          {context.sharekey !== null ? null : (
-            <button className="button" onClick={shareList}>
-              Generate sharable link
-            </button>
-          )}
-          {context.sharekey !== null ? (
-            <input
-              className="input sharelink"
-              type="text"
-              readOnly
-              value={`${window.location.href}${context.sharekey}`}
-            />
-          ) : null}
+        <div className="container has-text-centered">
+          <button className="button is-danger delete-btn" onClick={deleteList}>
+            Delete the list
+          </button>
         </div>
       </footer>
     </div>
