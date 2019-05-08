@@ -22,6 +22,9 @@ export default function SharedPage(props) {
   };
   const getlist = async id => {
     let list = await context.getCarList(id);
+    if (list === null) {
+      window.location.href = '/';
+    }
     const existingList = context.list.reduce(
       (acc, el) => [...acc, el.actualLink],
       []

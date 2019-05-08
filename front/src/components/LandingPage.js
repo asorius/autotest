@@ -10,19 +10,14 @@ export default function LandingPage(props) {
   const [post, setPost] = useState('');
   const [loading, setLoading] = useState(false);
   const [loadingPost, setPostLoading] = useState(false);
-  const [mode] = useState(props.match.params.key);
   const context = useContext(Context);
 
   const onChange = e => {
     setUrl(e.target.value.toLowerCase());
   };
 
-  const build = async el => {
-    await context.addCarToList({ url: el, settings: context.settings });
-  };
   useEffect(() => {
-    //if check for mode, if anythign else but undefined, it means its on shared page, so udate db on all context.list changes
-
+    //put list to context on initial render
     localStorage.setItem(
       'atplist',
       JSON.stringify({
