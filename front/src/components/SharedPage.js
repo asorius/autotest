@@ -56,8 +56,9 @@ export default function SharedPage(props) {
     );
     const data = { key: `"${mode}"`, list: urls };
     context.saveCarList(data);
+    //update localstorage with new list
     localStorage.setItem(
-      `SL^${mode}`,
+      `SL${mode}`,
       JSON.stringify({
         list: context.list
       })
