@@ -15,5 +15,6 @@ export default React.createContext({
   updateListWithNewSettings: () => {},
   setError: () => {},
   getCarList: () => {},
-  saveCarList: () => {}
+  saveCarList: () => {},
+  resetList: () => {}
 });

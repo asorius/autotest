@@ -21,25 +21,20 @@ export default function SharedPage(props) {
     await context.addCarToList({ url: el, settings: context.settings });
   };
   const getlist = async id => {
-    let list = await context.getCarList(id);
-    if (list === null) {
-      window.location.href = '/';
-    }
-    const existingList = context.list.reduce(
-      (acc, el) => [...acc, el.actualLink],
-      []
-    );
-    list.forEach(el => {
-      if (existingList.indexOf(el) < 0) {
-        build(el);
+    try {
+      let list = await context.getCarList(id);
+      if (list === null) {
+        window.location.href = '/';
       }
-    });
-    localStorage.setItem(
-      `SL${id}`,
-      JSON.stringify({
-        list: context.list
-      })
-    );
+      //reseting list to always render up to date lists from database, not local
+      context.resetList();
+      // build(addcar) for each link from database
+      list.forEach(el => {
+        build(el);
+      });
+    } catch (e) {
+      console.log({ errorfromgettinglist: e });
+    }
   };
   //on initial page renger, if key is present, send graphql req to retrieve list by key from db and addcar by each list el
   useEffect(() => {
@@ -56,13 +51,6 @@ export default function SharedPage(props) {
     );
     const data = { key: `"${mode}"`, list: urls };
     context.saveCarList(data);
-    //update localstorage with new list
-    localStorage.setItem(
-      `SL${mode}`,
-      JSON.stringify({
-        list: context.list
-      })
-    );
   }, [context.list]);
 
   useEffect(() => {

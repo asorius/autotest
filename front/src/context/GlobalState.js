@@ -9,19 +9,13 @@ import {
   SETTINGS_UPDATE,
   ERROR,
   CLEAR_ERROR,
-  ADD_KEY
+  ADD_KEY,
+  RESET
 } from './reducers';
 export default function GlobalState(props) {
-  //if there is data in localstorage , the state will pull data from it , if not, defaults will be applied
-  let key = window.location.pathname.slice(1, window.location.pathname.length);
   const list = JSON.parse(localStorage.getItem('atplist'));
-  const shared = JSON.parse(localStorage.getItem(`SL${key}`));
-  let lsdata;
-  if (window.location.pathname.length > 1) {
-    lsdata = shared || { list: [] };
-  } else {
-    lsdata = list || { list: [] };
-  }
+  let lsdata = list || { list: [] };
+
   let atpsettings = JSON.parse(localStorage.getItem('atpsettings')) || {
     settings: [],
     postcode: false
@@ -227,6 +221,9 @@ export default function GlobalState(props) {
       addCarToList({ url, settings: newSettings });
     });
   };
+  const resetList = () => {
+    dispatch({ type: RESET });
+  };
   const setError = data => {
     //data={msg,to}
     dispatch({ type: ERROR, payload: data });
@@ -252,6 +249,7 @@ export default function GlobalState(props) {
         saveCarList,
         getCarList,
         deleteList,
+        resetList,
         sharekey: listState.sharekey
       }}
     >
