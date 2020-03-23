@@ -27,6 +27,10 @@ type event{
   status: String
   data: eventdata
 }
+type miledata{
+  miles:String
+  year:String
+}
 type sellerdata{
   name:String
   phone1:String
@@ -62,7 +66,9 @@ type autodata{
   events:[event]
   actualLink:String
   addedDate:String
-  dealerLink:String
+  dealerLink:String,
+  mileageDataForDisplay:[miledata]
+
 }
 type RootQuery {
   getPostCoords(postcode:String!):coords

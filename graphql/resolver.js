@@ -18,12 +18,13 @@ module.exports = {
     const url = args.url;
     try {
       const data = await getGraphData(url);
-
       const { vrm } = data.vehicle;
       const actualLink = data.pageData.canonical;
       const addedDate = data.pageData.ods.advertId.substring(0, 8);
       const dealerLink = data.seller.dealerWebsite || null;
       const motdata = await getMot(vrm);
+      let mileageDataForDisplay;
+      let mileageYears;
       let reducedevents;
       if (motdata) {
         reducedevents = motdata.events
@@ -40,6 +41,18 @@ module.exports = {
               }
             };
           });
+        mileageDataForDisplay = motdata.events
+          .map(ev => {
+            let data;
+            if (ev.data && ev.data.expiry_date !== '') {
+              data = {
+                miles: ev.data.mileageData.mileage.toString(),
+                year: (ev.data.expiry_date.split(' ')[2] - 1).toString()
+              };
+            }
+            return data;
+          })
+          .filter(el => el !== undefined);
       } else {
         reducedevents = [];
       }
@@ -131,7 +144,6 @@ module.exports = {
           phone2: data.seller.secondaryContactNumber || null
         }),
         (events = reducedevents.slice(0, 6));
-
       return {
         _id,
         title,
@@ -162,7 +174,8 @@ module.exports = {
         events,
         actualLink,
         addedDate,
-        dealerLink
+        dealerLink,
+        mileageDataForDisplay
       };
     } catch (e) {
       console.log({ errorInfoResolver: e.response.data.text });

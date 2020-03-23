@@ -15,7 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "body-parser": "^1.18.3",
     "cheerio": "^1.0.0-rc.2",
     "concurrently": "^4.1.0",
@@ -25,9 +25,9 @@
     "express-graphql": "^0.7.1",
     "graphql": "^14.1.1",
     "mongodb": "^3.2.3",
-    "mongoose": "^5.5.3",
+    "mongoose": "^5.7.5",
     "nodemon": "^1.18.10",
-    "npm": "^6.9.0",
+    "npm": "^6.13.4",
     "uuid": "^3.3.2"
   },
   "devDependencies": {},

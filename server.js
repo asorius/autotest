@@ -89,7 +89,11 @@ app.use(
 //----------------------------------------------
 //launches server just after successfull connection to mongodb
 mongoose
-  .connect(mongoURI, { useNewUrlParser: true, useFindAndModify: false })
+  .connect(mongoURI, {
+    useNewUrlParser: true,
+    useFindAndModify: false,
+    useUnifiedTopology: true
+  })
   .then(() => {
     //server static assets if in production
     if (process.env.NODE_ENV === 'production') {
@@ -101,7 +105,7 @@ mongoose
     }
     const port = process.env.PORT || 5000;
     app.listen(port, () => {
-      console.log('server is up on 5000 on mode ' + process.env.NODE_ENV);
+      console.log('server is up on ' + port);
     });
   })
   .catch(e => console.log(e));
