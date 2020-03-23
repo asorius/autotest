@@ -84,17 +84,24 @@ li:hover {
 /*---------------------------------- dropdown on clicking on more MOT info */
 
 .expand-dropdown-button {
+  cursor: pointer;
   background-color: rgba(165, 165, 165, 0.562);
-  border-radius: 5px;
-  transition: all 0.5s;
+  border-radius: 15px;
+  max-width: 0.8rem;
+  transition: all 0.3s;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: absolute;
+  height: 80%;
+  right: 0;
+  bottom: -10%;
 }
 
 .active,
 .expand-dropdown-button:hover {
   color: white;
+  max-width: 1.2rem;
   background-color: rgba(97, 96, 96, 0.562);
 }
 
@@ -110,7 +117,7 @@ li:hover {
   height: 2rem;
 }
 .icon {
-  transition: all 0.5s;
+  transition: all 0.3s;
 }
 
 .is-active .main-arrow,
@@ -120,7 +127,7 @@ li:hover {
 
 .delete {
   background-color: hsl(348, 100%, 61%);
-  transition: all 0.5s;
+  transition: all 0.3s;
 }
 .delete:hover {
   background-color: hsl(348, 100%, 84%);
@@ -417,15 +424,16 @@ footer {
   .main-item {
     display: flex;
     justify-content: space-around;
+    min-height: 5rem;
   }
   .mot-main-info {
-    width: 85%;
+    width: 100%;
     margin: 0 auto;
   }
   .mot-expand-btn {
     width: 10%;
     margin: 0.5rem;
-    height: 4rem;
+    height: 80%;
   }
   .mot-expand-btn .icon {
     transform: rotate(0deg);

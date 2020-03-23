@@ -63,6 +63,10 @@ export default function GlobalState(props) {
           actualLink
           addedDate
           dealerLink
+          mileageDataForDisplay{
+            miles
+            year
+          }
           events{
             date
             status
@@ -92,6 +96,7 @@ export default function GlobalState(props) {
         }
       });
       const json = await graphResponse.json();
+      console.log(json);
       if (json.data.getAutodata) {
         const addedCar = json.data.getAutodata;
         dispatch({

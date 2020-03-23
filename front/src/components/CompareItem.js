@@ -4,10 +4,11 @@ import DropItem from './DropItem';
 import Context from '../context/context';
 import MapComponent from './MapComponent';
 import ImgModal from './ImgModal';
+import Chart from './Chart';
 export default function CompareItem(props) {
   const [drop, setDrop] = useState(false);
   const context = useContext(Context);
-
+  const [miles, showMiles] = useState(false);
   const toggleDrop = e => {
     e.preventDefault();
     setDrop(!drop);
@@ -47,6 +48,7 @@ export default function CompareItem(props) {
     url,
     addedDate,
     dealerLink,
+    mileageDataForDisplay,
     ...rest
   } = props.item;
   const listEntries = Object.entries(rest).length > 0 ? false : true;
@@ -200,7 +202,18 @@ export default function CompareItem(props) {
             )}
           </div>
         </div>
+        <div className="content" style={{ textAlign: 'center' }}>
+          <button
+            className="button "
+            onClick={() => {
+              showMiles(!miles);
+            }}
+          >
+            {miles ? 'Hide' : 'Show'} available mileage history
+          </button>
 
+          {miles ? <Chart mileages={mileageDataForDisplay}></Chart> : null}
+        </div>
         <div className="card-footer">
           <div
             className={classnames('dropdown is-up ', {
