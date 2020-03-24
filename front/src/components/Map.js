@@ -8,7 +8,7 @@ const {
   Marker
 } = require('react-google-maps');
 const { InfoBox } = require('react-google-maps/lib/components/addons/InfoBox');
-const MapComponent = compose(
+const Map = compose(
   withProps({
     googleMapURL: `https://maps.googleapis.com/maps/api/js?key=AIzaSyDL2iDSF4s4uk1qPVCCF3ESBTZ4KnlBzdo&v=3.exp&libraries=geometry,drawing,places`,
     loadingElement: <div style={{ height: `100%` }} />,
@@ -96,4 +96,4 @@ const MapComponent = compose(
     </GoogleMap>
   );
 });
-export default MapComponent;
+export default Map;

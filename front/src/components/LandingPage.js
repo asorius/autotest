@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import Context from '../context/context';
-import CompareItem from './CompareItem';
+import Car from './Car';
 import Settings from './Settings';
 import classnames from 'classnames';
 import { setTimeout } from 'timers';
@@ -189,13 +189,7 @@ export default function LandingPage(props) {
         </section>
         <section className="columns is-multiline is-paddingless">
           {context.list.map(item => {
-            return (
-              <CompareItem
-                key={item._id}
-                item={item}
-                reload={context.postcode}
-              />
-            );
+            return <Car key={item._id} item={item} reload={context.postcode} />;
           })}
         </section>
       </main>

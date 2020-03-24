@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import classnames from 'classnames';
-export default function DropItem(props) {
+export default function MotEvent(props) {
   const [drop, setDrop] = useState(false);
   const toggleDrop = e => {
     e.preventDefault();
@@ -54,7 +54,7 @@ export default function DropItem(props) {
                         </h4>
                         <ol>
                           {motEvent.data.notices.map((reason, index) => (
-                            <li key={index}>{reason}</li>
+                            <li key={index}>{reason.split('(')[0]}</li>
                           ))}
                         </ol>
                       </div>

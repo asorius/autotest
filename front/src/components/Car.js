@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react';
 import classnames from 'classnames';
-import DropItem from './DropItem';
+import MotEvent from './MotEvent';
 import Context from '../context/context';
-import MapComponent from './MapComponent';
+import Map from './Map';
 import ImgModal from './ImgModal';
 import Chart from './Chart';
-export default function CompareItem(props) {
+export default function Car(props) {
   const [drop, setDrop] = useState(false);
   const context = useContext(Context);
   const [miles, showMiles] = useState(false);
@@ -52,20 +52,27 @@ export default function CompareItem(props) {
     ...rest
   } = props.item;
   const listEntries = Object.entries(rest).length > 0 ? false : true;
-  const [current, incrementImg] = useState(0);
+  const [current, setCurrentImg] = useState(0);
   const [img, setImg] = useState(images[current]);
-  const changeImg = e => {
+  const changeImg = (e, fromsmall) => {
     e.preventDefault();
+    setCurrentImg(fromsmall);
     if (e.target.classList.contains('next')) {
       if (current + 1 <= images.length - 1) {
         setImg(images[current + 1]);
-        incrementImg(current + 1);
+        setCurrentImg(current + 1);
+      } else {
+        setImg(images[0]);
+        setCurrentImg(0);
       }
     }
     if (e.target.classList.contains('prev')) {
       if (current - 1 >= 0) {
         setImg(images[current - 1]);
-        incrementImg(current - 1);
+        setCurrentImg(current - 1);
+      } else {
+        setImg(images[images.length - 1]);
+        setCurrentImg(images.length - 1);
       }
     }
   };
@@ -91,7 +98,11 @@ export default function CompareItem(props) {
                 <i className="fas fa-angle-left prev" />
               </span>
             </button>
-            <ImgModal images={images} current={current} />
+            <ImgModal
+              images={images}
+              current={current}
+              smallImgChange={changeImg}
+            />
             <div className="current">
               <span className="txt">
                 {current + 1} / {images.length}
@@ -188,7 +199,7 @@ export default function CompareItem(props) {
           </div>
           <div className="div">
             {seller_coords ? (
-              <MapComponent
+              <Map
                 usercoords={context.postcode ? context.postcode : null}
                 sellercoords={seller_coords}
                 isMarkerShown={true}
@@ -252,7 +263,7 @@ export default function CompareItem(props) {
                             : newestmiles - milesbefore;
 
                         return (
-                          <DropItem
+                          <MotEvent
                             item={item}
                             driven={mileage}
                             key={Math.random()}

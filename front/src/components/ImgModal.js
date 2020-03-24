@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classnames from 'classnames';
-export default function ImgModal({ images, current: currentImg }) {
+export default function ImgModal({
+  images,
+  current: currentImg,
+  smallImgChange
+}) {
   const [modal, setModal] = useState(false);
-  const [current, incrementImg] = useState(0);
-  const [img, setImg] = useState(images[current]);
+  const [current, incrementImg] = useState(currentImg);
+  const [img, setImg] = useState(images[currentImg]);
   const openModal = e => {
     incrementImg(currentImg);
     setImg(images[currentImg]);
@@ -12,18 +16,26 @@ export default function ImgModal({ images, current: currentImg }) {
 
   const changeImg = e => {
     e.preventDefault();
+
     if (e.target.classList.contains('next')) {
       if (current + 1 <= images.length - 1) {
         setImg(images[current + 1]);
         incrementImg(current + 1);
+      } else {
+        setImg(images[0]);
+        incrementImg(0);
       }
     }
     if (e.target.classList.contains('prev')) {
       if (current - 1 >= 0) {
         setImg(images[current - 1]);
         incrementImg(current - 1);
+      } else {
+        setImg(images[images.length - 1]);
+        incrementImg(images.length - 1);
       }
     }
+    smallImgChange(e, current);
   };
   return (
     <div className=" center">

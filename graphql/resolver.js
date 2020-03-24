@@ -24,7 +24,6 @@ module.exports = {
       const dealerLink = data.seller.dealerWebsite || null;
       const motdata = await getMot(vrm);
       let mileageDataForDisplay;
-      let mileageYears;
       let reducedevents;
       if (motdata) {
         reducedevents = motdata.events
@@ -188,7 +187,7 @@ module.exports = {
     if (searchKey) {
       //if serchkey is not null ,that means user is on shared page, share the list button is now update shared list, and when user clicks it, get list by id and update it
 
-      const list = await List.findByIdAndUpdate(searchKey, {
+      await List.findByIdAndUpdate(searchKey, {
         list: carUrlsArray
       });
       return searchKey;
