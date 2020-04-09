@@ -2,9 +2,6 @@
   "name": "auto",
   "version": "1.0.0",
   "main": "server.js",
-  "engines": {
-    "node": "10.6.0"
-  },
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js",
