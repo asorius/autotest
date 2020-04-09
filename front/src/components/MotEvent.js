@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import classnames from 'classnames';
 export default function MotEvent(props) {
-  const [drop, setDrop] = useState(false);
+  const [drop, setdrop] = useState(false);
   const toggleDrop = e => {
     e.preventDefault();
-    setDrop(!drop);
+    setdrop(!drop);
   };
   const motEvent = props.item;
   return (

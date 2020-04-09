@@ -7,6 +7,7 @@ export default React.createContext({
   sharekey: [],
   errors: [],
   options: [],
+
   addCarToList: () => {},
   removeCarFromList: () => {},
   addPostToList: () => {},

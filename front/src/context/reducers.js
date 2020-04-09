@@ -74,6 +74,7 @@ export const listReducer = (state, action) => {
       return addKey(action.payload, state);
     case RESET:
       return reset(state);
+
     default:
       return state;
   }

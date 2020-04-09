@@ -4,34 +4,35 @@ import MotEvent from './MotEvent';
 import Context from '../context/context';
 import Map from './Map';
 import ImgModal from './ImgModal';
-import Chart from './Chart';
+import ChartItem from './ChartItem';
 export default function Car(props) {
-  const [drop, setDrop] = useState(false);
   const context = useContext(Context);
+  const [drop, setDrop] = useState(false);
   const [miles, showMiles] = useState(false);
-  const toggleDrop = e => {
+  const toggleDrop = (e) => {
     e.preventDefault();
+    context.toggleView({ name: 'motView' });
     setDrop(!drop);
   };
-  const removeCar = e => {
+  const removeCar = (e) => {
     e.preventDefault();
     context.removeCarFromList(props.item._id);
   };
-  const sethover = e => {
+  const sethover = (e) => {
     let classname =
       e.target.tagName === 'STRONG'
         ? e.target.parentNode.className
         : e.target.className;
     //remove hover class from other elements before adding it to currently hovered
-    document.querySelectorAll('.hover').forEach(el => {
+    document.querySelectorAll('.hover').forEach((el) => {
       el.classList.remove('hover');
     });
-    document.querySelectorAll(`.${classname}`).forEach(el => {
+    document.querySelectorAll(`.${classname}`).forEach((el) => {
       el.classList.add('hover');
     });
   };
-  const unsethover = e => {
-    document.querySelectorAll(`.${e.target.classList[0]}`).forEach(el => {
+  const unsethover = (e) => {
+    document.querySelectorAll(`.${e.target.classList[0]}`).forEach((el) => {
       el.classList.remove('hover');
     });
   };
@@ -82,7 +83,7 @@ export default function Car(props) {
   } else {
     seller_coords = {
       lat: map.lat,
-      lng: map.lng
+      lng: map.lng,
     };
   }
   return (
@@ -130,7 +131,7 @@ export default function Car(props) {
         <div className="content ">
           <div
             className={classnames('c media', {
-              ' is-invisible': listEntries
+              ' is-invisible': listEntries,
             })}
           >
             <div className="div media-left has-text-success">
@@ -139,13 +140,14 @@ export default function Car(props) {
               </span>
             </div>
             <div className="media-content">
-              {Object.entries(rest).map(el => {
+              {Object.entries(rest).map((el) => {
                 //rest is our options sent back from the server, like ['acceleration','fast']
                 //loops through user-set options stored in context to get full definition,matches them with according values from data from the server and returns li
-                let name = context.options.filter(opt => opt.value === el[0])[0]
-                  .name;
+                let name = context.options.filter(
+                  (opt) => opt.value === el[0]
+                )[0].name;
                 let classname = context.options.filter(
-                  opt => opt.value === el[0]
+                  (opt) => opt.value === el[0]
                 )[0].value;
                 return (
                   <li
@@ -223,12 +225,14 @@ export default function Car(props) {
             {miles ? 'Hide' : 'Show'} available mileage history
           </button>
 
-          {miles ? <Chart mileages={mileageDataForDisplay}></Chart> : null}
+          {miles ? (
+            <ChartItem mileages={mileageDataForDisplay}></ChartItem>
+          ) : null}
         </div>
         <div className="card-footer">
           <div
             className={classnames('dropdown is-up ', {
-              'is-active': drop
+              'is-active': drop,
             })}
           >
             <div className="dropdown-trigger">

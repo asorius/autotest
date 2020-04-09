@@ -236,6 +236,7 @@ export default function GlobalState(props) {
       dispatch({ type: CLEAR_ERROR });
     }, 2000);
   };
+
   return (
     <Context.Provider
       value={{
