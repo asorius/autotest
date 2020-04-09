@@ -1,17 +1,17 @@
 import React, { useContext, useState } from 'react';
 import classnames from 'classnames';
-import MotEvent from './MotEvent';
+import MotEvent from './secondary/MotEvent';
 import Context from '../context/context';
-import Map from './Map';
-import ImgModal from './ImgModal';
-import ChartItem from './ChartItem';
+import Map from './secondary/Map';
+import ImgModal from './secondary/ImgModal';
+import ChartItem from './secondary/ChartItem';
 export default function Car(props) {
   const context = useContext(Context);
   const [drop, setDrop] = useState(false);
   const [miles, showMiles] = useState(false);
   const toggleDrop = (e) => {
     e.preventDefault();
-    context.toggleView({ name: 'motView' });
+    // context.toggleView({ name: 'motView' });
     setDrop(!drop);
   };
   const removeCar = (e) => {

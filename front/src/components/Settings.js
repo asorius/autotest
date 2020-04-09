@@ -1,28 +1,28 @@
 import React, { useState, useContext } from 'react';
 import classnames from 'classnames';
 import Context from '../context/context';
-import Checkbox from './Checkbox';
+import Checkbox from './secondary/Checkbox';
 export default function Settings() {
   const context = useContext(Context);
   const [modal, setModal] = useState(false);
   const [checkboxes, setCheckbox] = useState(
-    context.options.map(option => ({
+    context.options.map((option) => ({
       ...option,
-      isSelected: context.settings.indexOf(option.value) < 0 ? false : true
+      isSelected: context.settings.indexOf(option.value) < 0 ? false : true,
     }))
   );
-  const onCheckFn = e => {
+  const onCheckFn = (e) => {
     const { value } = e.target;
 
     setCheckbox(
-      checkboxes.map(el => {
+      checkboxes.map((el) => {
         if (el.value === value) {
           if (context.settings.indexOf(e.target.name) < 0) {
             //means its a new setting, so add it and set its state to checked
             context.updateSettings([...context.settings, e.target.name]);
           } else {
             //means it was already there so its filtered out and unchecked
-            const neww = context.settings.filter(el => el !== e.target.name);
+            const neww = context.settings.filter((el) => el !== e.target.name);
             context.updateSettings([...neww]);
           }
           el.isSelected = !el.isSelected;
@@ -31,14 +31,14 @@ export default function Settings() {
       })
     );
   };
-  const openModal = e => {
+  const openModal = (e) => {
     setModal(!modal);
   };
 
-  const submit = e => {
+  const submit = (e) => {
     e.preventDefault();
-    const urls = context.list.map(el => el.actualLink);
-    context.list.forEach(element => {
+    const urls = context.list.map((el) => el.actualLink);
+    context.list.forEach((element) => {
       context.removeCarFromList(element._id);
     });
     context.updateListWithNewSettings({ urls, newSettings: context.settings });
@@ -56,7 +56,7 @@ export default function Settings() {
         <div className="modal-content mdl">
           <form className="form" onSubmit={submit}>
             <div className="field mdl-labels is-grouped is-grouped-centered">
-              {checkboxes.map(el => (
+              {checkboxes.map((el) => (
                 <Checkbox
                   name={el.name}
                   value={el.value}
