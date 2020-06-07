@@ -11,7 +11,6 @@ export default function Car(props) {
   const [miles, showMiles] = useState(false);
   const toggleDrop = (e) => {
     e.preventDefault();
-    // context.toggleView({ name: 'motView' });
     setDrop(!drop);
   };
   const removeCar = (e) => {
