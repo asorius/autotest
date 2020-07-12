@@ -12,7 +12,7 @@ export default function LandingPage(props) {
   const [loadingPost, setPostLoading] = useState(false);
   const context = useContext(Context);
 
-  const onChange = e => {
+  const onChange = (e) => {
     setUrl(e.target.value.toLowerCase());
   };
 
@@ -21,7 +21,7 @@ export default function LandingPage(props) {
     localStorage.setItem(
       'atplist',
       JSON.stringify({
-        list: context.list
+        list: context.list,
       })
     );
   }, [context.list]);
@@ -31,23 +31,18 @@ export default function LandingPage(props) {
       'atpsettings',
       JSON.stringify({
         postcode: context.postcode,
-        settings: context.settings
+        settings: context.settings,
       })
     );
     setLoading(true);
     setTimeout(() => setLoading(false), 1000);
   }, [context.settings, context.postcode]);
 
-  const onPost = e => {
-    setPost(
-      e.target.value
-        .toUpperCase()
-        .trim()
-        .replace(/\s+/g, '')
-    );
+  const onPost = (e) => {
+    setPost(e.target.value.toUpperCase().trim().replace(/\s+/g, ''));
   };
 
-  const addCarFunc = async e => {
+  const addCarFunc = async (e) => {
     setLoading(!loading);
     e.preventDefault();
     try {
@@ -59,7 +54,7 @@ export default function LandingPage(props) {
       return { errored: e };
     }
   };
-  const addPost = async e => {
+  const addPost = async (e) => {
     setPostLoading(!loadingPost);
     e.preventDefault();
     if (post.length < 4) {
@@ -72,13 +67,13 @@ export default function LandingPage(props) {
     }
     try {
       await context.addPostToList(post);
-      const urls = context.list.map(el => el.actualLink);
-      context.list.forEach(element => {
+      const urls = context.list.map((el) => el.actualLink);
+      context.list.forEach((element) => {
         context.removeCarFromList(element._id);
       });
       context.updateListWithNewSettings({
         urls,
-        newSettings: context.settings
+        newSettings: context.settings,
       });
       setTimeout(() => {
         setPost('');
@@ -88,17 +83,17 @@ export default function LandingPage(props) {
       console.log(e);
     }
   };
-  const onDeletePostcode = e => {
+  const onDeletePostcode = (e) => {
     e.preventDefault();
 
     context.removePostFromList(context.postcode.postcode);
-    const urls = context.list.map(el => el.actualLink);
-    context.list.forEach(element => {
+    const urls = context.list.map((el) => el.actualLink);
+    context.list.forEach((element) => {
       context.removeCarFromList(element._id);
     });
     context.updateListWithNewSettings({ urls, newSettings: context.settings });
   };
-  const shareList = e => {
+  const shareList = (e) => {
     e.preventDefault();
     const urls = context.list.reduce(
       (accumulator, current) => [...accumulator, current.actualLink],
@@ -132,7 +127,7 @@ export default function LandingPage(props) {
               <button
                 className={classnames('button ', {
                   'is-loading': loadingPost,
-                  'is-danger': context.errors.to === 'post'
+                  'is-danger': context.errors.to === 'post',
                 })}
                 type="submit"
               >
@@ -156,12 +151,12 @@ export default function LandingPage(props) {
                 <React.Fragment>
                   <div
                     className={classnames('tag is-light is-fullwidth', {
-                      'is-danger': context.errors.to === 'post'
+                      'is-danger': context.errors.to === 'post',
                     })}
                   >
                     {context.errors.to === 'post'
                       ? context.errors.msg
-                      : 'Enter postcode to get directions from You to the car!'}
+                      : 'Enter postcode to get directions from you to the car!'}
                   </div>
                 </React.Fragment>
               )}
@@ -178,7 +173,7 @@ export default function LandingPage(props) {
             <button
               className={classnames('button is-info is-fullwidth', {
                 'is-loading': loading,
-                'is-danger': context.errors.to === 'add'
+                'is-danger': context.errors.to === 'add',
               })}
               type="submit"
             >
@@ -188,7 +183,7 @@ export default function LandingPage(props) {
           <Settings />
         </section>
         <section className="columns is-multiline is-paddingless">
-          {context.list.map(item => {
+          {context.list.map((item) => {
             return <Car key={item._id} item={item} reload={context.postcode} />;
           })}
         </section>
