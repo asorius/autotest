@@ -4,7 +4,7 @@ const getData = require('./dataGetter');
 const getMot = require('./motGetter');
 const getPost = require('./postGetter');
 const cors = require('cors');
-const { mongoURI, gapi } = require('./keys/dist');
+const { mongoURI } = require('./keys/dist');
 const mongoose = require('mongoose');
 const path = require('path');
 
@@ -37,7 +37,7 @@ app.use(
   graphqlHTTP({
     schema: graphQLschema,
     rootValue: graphQLresolver,
-    graphiql: true
+    graphiql: true,
   })
 );
 
@@ -47,7 +47,7 @@ mongoose
   .connect(mongoURI, {
     useNewUrlParser: true,
     useFindAndModify: false,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
   })
   .then(() => {
     //server static assets if in production
@@ -63,4 +63,4 @@ mongoose
       console.log('server is up on ' + port);
     });
   })
-  .catch(e => console.log(e));
+  .catch((e) => console.log(e));

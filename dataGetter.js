@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const getData = async link => {
+const getData = async (link) => {
   //get the main link without user search/page info which is added by autotrader if copying from their search page
   //actualink includes advertisement id @ guid
   const advertID = link.substring(47, 62);
