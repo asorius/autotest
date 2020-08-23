@@ -5,12 +5,17 @@ const getAutodata = async (link) => {
   //actualink includes advertisement id @ guid
   try {
     let advertID = link.substring(41, 56);
+    //changing settings generates different structure links, check for that occasion too before returning an error
+    if (!/^\d+$/.test(advertID)) {
+      advertID = link.substring(47, 62);
+    }
     const forGuid = await axios.get(link);
     const guID = forGuid.data
       .split('window.AT.correlationId =')[1]
       .substring(2, 38);
     const actualLink = `https://www.autotrader.co.uk/json/fpa/initial/${advertID}?guid=${guID}`;
-    const { data } = await axios.get(actualLink);
+    let { data } = await axios.get(actualLink);
+
     const { derivativeId } = data.vehicle;
     const { data: techs } = await axios.get(
       `https://www.autotrader.co.uk/json/taxonomy/technical-specification?derivative=${derivativeId}`
