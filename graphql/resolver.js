@@ -6,12 +6,15 @@ module.exports = {
   getPostCoords: async args => {
     try {
       const res = await getPost(args.postcode);
-      const pc = res.summary.query.toUpperCase();
-      const { lat, lon: lng } = res.results[0].position;
-      return { postcode: pc, lat, lng };
+      if (res.error) { throw new Error } else {
+        console.log({ res:res.results[0].position,from:'getpostcord resolver'})
+        const pc = res.summary.query.toUpperCase();
+        const { lat, lon: lng } = res.results[0].position;
+        return { postcode: pc, lat, lng };
+      }
     } catch (e) {
-      console.log({ errorfrompc: e });
-      return { errorfrompc: e };
+      // console.log({ error: e,from:'resolver catch' });
+      return { error: e ,from:'resolver catch' };
     }
   },
   getAutodata: async args => {

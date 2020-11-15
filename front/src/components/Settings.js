@@ -2,6 +2,8 @@ import React, { useState, useContext } from 'react';
 import classnames from 'classnames';
 import Context from '../context/context';
 import Checkbox from './secondary/Checkbox';
+import Fab from '@material-ui/core/Fab'
+
 export default function Settings() {
   const context = useContext(Context);
   const [modal, setModal] = useState(false);
