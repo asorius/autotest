@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import classnames from 'classnames';
 import Context from '../context/context';
 import Checkbox from './secondary/Checkbox';
-import Fab from '@material-ui/core/Fab'
+import Button from '@material-ui/core/Button';
 
 export default function Settings() {
   const context = useContext(Context);
@@ -50,9 +50,10 @@ export default function Settings() {
   };
   return (
     <div className=" center">
-      <button className="button " onClick={openModal}>
+      <Button variant="outlined" onClick={openModal} color="textSecondary">
         Settings
-      </button>
+      </Button>
+
       <div className={classnames('modal', { 'is-active': modal })}>
         <div className="modal-background" />
         <div className="modal-content mdl">

@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
 import Context from '../context/context';
-import Settings from './Settings';
 import { setTimeout } from 'timers';
 import TextField from '@material-ui/core/TextField';
 import Icon from '@material-ui/icons/AddCircleOutline';
@@ -9,8 +8,6 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
 import Container from '@material-ui/core/Container';
 import Chip from '@material-ui/core/Chip';
 export default function InputsForm() {
@@ -99,7 +96,7 @@ export default function InputsForm() {
         container
         direction="column"
         justify="center"
-        alignItems="center"
+        alignItems="stretch"
         spacing={3}
       >
         <Grid item xs={12}>
@@ -131,17 +128,15 @@ export default function InputsForm() {
                       label={
                         context.postcode.postcode
                           ? 'New location'
+                          : context.errors.to === 'post'
+                          ? `${context.errors.msg} !`
                           : 'Your postcode'
                       }
                       variant="outlined"
                       disabled={loadingPost}
                       error={postError}
                       value={post}
-                      helperText={
-                        context.errors.to === 'post'
-                          ? `${context.errors.msg} !`
-                          : ''
-                      }
+                      color="secondary"
                     />
                   </Grid>
                   <Grid item>
@@ -152,7 +147,7 @@ export default function InputsForm() {
                         size="medium"
                         type="submit"
                         variant="outlined"
-                        color="primary"
+                        color="secondary"
                         disabled={postError}
                         startIcon={<SearchIcon />}
                       >
@@ -171,38 +166,38 @@ export default function InputsForm() {
                     variant="outlined"
                   />
                 ) : (
-                  <Chip label="Enter postcode to get directions from you to the car"></Chip>
+                  <Chip
+                    label="Enter postcode to get directions from you to the car"
+                    color="secondary"
+                  ></Chip>
                 )}
               </Grid>
             </Grid>
           </form>
         </Grid>
 
-        <Grid
-          item
-          xs={12}
-          md={6}
-          style={{ display: 'flex', width: '80%', height: '10rem' }}
-        >
+        <Grid item xs={12} style={{ height: '10rem' }}>
           {/* Links input stuff item */}
           <form
             noValidate
             autoComplete="off"
             onSubmit={addCarFunc}
-            style={{ width: '100%' }}
+            style={{ width: '100%', textAlign: 'center', marginTop: '2rem' }}
           >
             <TextField
               id="urlInput"
               label="Paste links from Autotrader"
+              label={
+                context.errors.to === 'add'
+                  ? `${context.errors.msg} !`
+                  : 'Paste links from Autotrader here'
+              }
               value={url}
               onChange={onChange}
               variant="outlined"
               fullWidth
               disabled={loading}
               error={addError}
-              helperText={
-                context.errors.to === 'add' ? `${context.errors.msg} !` : ''
-              }
             ></TextField>
 
             {loading && url.length !== 0 && !addError ? (
@@ -213,10 +208,9 @@ export default function InputsForm() {
                 type="submit"
                 variant="contained"
                 color="primary"
-                fullWidth
                 disabled={addError}
                 startIcon={<Icon />}
-                style={{ marginTop: '1rem' }}
+                style={{ width: '50%', margin: '1rem auto' }}
               >
                 {' '}
                 Add
@@ -225,7 +219,6 @@ export default function InputsForm() {
           </form>
         </Grid>
       </Grid>
-      <Settings />
     </Container>
   );
 }
