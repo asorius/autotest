@@ -63,19 +63,18 @@ export default function InputsForm() {
     }
     try {
       await context.addPostToList(post);
+      const urls = context.list.map((el) => el.actualLink);
+      context.list.forEach((element) => {
+        context.removeCarFromList(element._id);
+      });
+      context.updateListWithNewSettings({
+        urls,
+        newSettings: context.settings,
+      });
       setTimeout(() => {
         setPost('');
         setPostLoading(false);
       }, 500);
-      //   const urls = context.list.map((el) => el.actualLink);
-      //   context.list.forEach((element) => {
-      //     context.removeCarFromList(element._id);
-      //   });
-      //   context.updateListWithNewSettings({
-      //     urls,
-      //     newSettings: context.settings,
-      //   });
-      //   console.log('post addition success',ress)
     } catch (e) {
       console.log(e);
     }

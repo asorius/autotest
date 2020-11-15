@@ -17,7 +17,7 @@ import HideOnScroll from './secondary/HideOnScroll';
 import Link from '@material-ui/core/Link';
 import Settings from './Settings';
 import Divider from '@material-ui/core/Divider';
-
+import Hidden from '@material-ui/core/Hidden';
 export default function LandingPage(props) {
   const context = useContext(Context);
   const [loading, setLoading] = useState(false);
@@ -79,19 +79,21 @@ export default function LandingPage(props) {
 
       <Grid
         container
-        style={{ height: '100vh', marginBottom: '1rem' }}
+        style={{ height: '100vh', marginBottom: '2rem' }}
         spacing={4}
       >
-        <Grid item sm={0} md={6} style={{ height: '100%' }}>
-          <header
-            style={{
-              backgroundImage: `url(${bg})`,
-              backgroundPosition: 'center',
-              backgroundSize: 'cover',
-              minHeight: '100vh',
-              clipPath: 'polygon(0% 0%, 88% 0, 100% 50%, 88% 100%, 0% 100%)',
-            }}
-          ></header>
+        <Grid item md={6}>
+          <Hidden smDown>
+            <header
+              style={{
+                backgroundImage: `url(${bg})`,
+                backgroundPosition: 'center',
+                backgroundSize: 'cover',
+                height: '100vh',
+                clipPath: 'polygon(0% 0%, 88% 0, 100% 50%, 88% 100%, 0% 100%)',
+              }}
+            ></header>
+          </Hidden>
         </Grid>
         <Grid item sm={12} md={6}>
           <Container
