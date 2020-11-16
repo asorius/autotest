@@ -8,6 +8,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Fab from '@material-ui/core/Fab';
 import SettingsIcon from '@material-ui/icons/Settings';
+import TextField from '@material-ui/core/TextField';
 export default function Settings() {
   const context = useContext(Context);
   const [modal, setModal] = useState(false);
@@ -19,17 +20,18 @@ export default function Settings() {
   );
   const onCheckFn = (e) => {
     const { value } = e.target;
+
     setCheckbox(
       checkboxes.map((el) => {
         if (el.value === value) {
-          if (context.settings.indexOf(e.target.name) < 0) {
-            //means its a new setting, so add it and set its state to checked
-            context.updateSettings([...context.settings, e.target.name]);
-          } else {
-            //means it was already there so its filtered out and unchecked
-            const neww = context.settings.filter((el) => el !== e.target.name);
-            context.updateSettings([...neww]);
-          }
+          // if (context.settings.indexOf(e.target.name) < 0) {
+          //   //means its a new setting, so add it and set its state to checked
+          //   context.updateSettings([...context.settings, e.target.name]);
+          // } else {
+          //   //means it was already there so its filtered out and unchecked
+          //   const neww = context.settings.filter((el) => el !== e.target.name);
+          //   context.updateSettings([...neww]);
+          // }
           el.isSelected = !el.isSelected;
         }
         return el;
@@ -41,17 +43,29 @@ export default function Settings() {
   };
 
   const submit = (e) => {
-    console.log(checkboxes);
-    console.log(context.settings);
+    const newSettings = checkboxes
+      .filter((el) => el.isSelected)
+      .map((el) => el.value);
+
     e.preventDefault();
+    context.updateSettings(newSettings);
     const urls = context.list.map((el) => el.actualLink);
     context.list.forEach((element) => {
       context.removeCarFromList(element._id);
     });
-    context.updateListWithNewSettings({ urls, newSettings: context.settings });
+    context.updateListWithNewSettings({ urls, newSettings });
     setTimeout(() => {
       setModal(!modal);
-    }, 500);
+    }, 200);
+  };
+  const shareList = (e) => {
+    e.preventDefault();
+    const urls = context.list.reduce(
+      (accumulator, current) => [...accumulator, current.actualLink],
+      []
+    );
+    const data = { key: context.sharekey, list: urls };
+    context.saveCarList(data);
   };
   return (
     <div
@@ -103,10 +117,34 @@ export default function Settings() {
                 type="submit"
                 variant="contained"
                 color="secondary"
-                style={{ width: '50%', margin: '1rem auto' }}
+                style={{
+                  width: '50%',
+                  margin: '.5rem auto',
+                  gridColumn: '1 / span 2',
+                }}
               >
                 Save settings
               </Button>
+              <div
+                className="contect has-text-centered"
+                style={{ margin: '.5rem auto', gridColumn: '1 / span 2' }}
+              >
+                {context.sharekey !== null ? null : (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={shareList}
+                  >
+                    Generate sharable link
+                  </Button>
+                )}
+                {context.sharekey !== null ? (
+                  <TextField
+                    readOnly
+                    value={`${window.location.href}${context.sharekey}`}
+                  />
+                ) : null}
+              </div>
             </Paper>
           </form>
         </div>

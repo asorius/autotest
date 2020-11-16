@@ -12,12 +12,13 @@ import Typography from '@material-ui/core/Typography';
 import 'fontsource-roboto';
 import bg from '../utils/bm.jpg';
 import Grid from '@material-ui/core/Grid';
-import AppBar from '@material-ui/core/AppBar';
-import HideOnScroll from './secondary/HideOnScroll';
-import Link from '@material-ui/core/Link';
+// import AppBar from '@material-ui/core/AppBar';
+// import HideOnScroll from './secondary/HideOnScroll';
+// import Link from '@material-ui/core/Link';
 import Settings from './Settings';
 import Divider from '@material-ui/core/Divider';
 import Hidden from '@material-ui/core/Hidden';
+import CircularProgress from '@material-ui/core/CircularProgress';
 export default function LandingPage(props) {
   const context = useContext(Context);
   const [loading, setLoading] = useState(false);
@@ -30,9 +31,6 @@ export default function LandingPage(props) {
         list: context.list,
       })
     );
-  }, [context.list]);
-
-  useEffect(() => {
     localStorage.setItem(
       'atpsettings',
       JSON.stringify({
@@ -40,47 +38,28 @@ export default function LandingPage(props) {
         settings: context.settings,
       })
     );
-    setLoading(true);
-    setTimeout(() => setLoading(false), 1000);
-  }, [context.settings, context.postcode]);
+    if (context.list.length > 0) {
+      setLoading(true);
+      setTimeout(() => setLoading(false), 1500);
+    }
+  }, [context.list, context.postcode, context.settings]);
 
-  const shareList = (e) => {
-    e.preventDefault();
-    const urls = context.list.reduce(
-      (accumulator, current) => [...accumulator, current.actualLink],
-      []
-    );
-    const data = { key: context.sharekey, list: urls };
-    context.saveCarList(data);
-  };
+  // useEffect(() => {
+  //   localStorage.setItem(
+  //     'atpsettings',
+  //     JSON.stringify({
+  //       postcode: context.postcode,
+  //       settings: context.settings,
+  //     })
+  //   );
+  //   setLoading(true);
+  //   setTimeout(() => setLoading(false), 1500);
+  // }, [context.settings, context.postcode]);
 
   return (
     <Container>
       <Toolbar id="back-to-top-anchor" style={{ position: 'absolute' }} />
-      {/* <HideOnScroll>
-        <AppBar>
-          <Toolbar
-            style={{
-              width: '80%',
-              margin: '0 auto',
-              display: 'flex',
-              justifyContent: 'space-between',
-            }}
-          >
-            <Typography variant="h6">
-              <Link href="#back-to-top-anchor" variant="h5" color="textPrimary">
-                AutoPare
-              </Link>
-            </Typography>
-          </Toolbar>
-        </AppBar>
-      </HideOnScroll> */}
-
-      <Grid
-        container
-        style={{ height: '100vh', marginBottom: '2rem', position: 'relative' }}
-        spacing={4}
-      >
+      <Grid container style={{ height: '100vh', position: 'relative' }}>
         <div
           style={{
             position: 'absolute',
@@ -115,8 +94,13 @@ export default function LandingPage(props) {
               textAlign: 'center',
             }}
           >
-            <Typography variant="h1" component="h1" gutterBottom>
-              Autopare
+            <Typography
+              variant="h1"
+              component="h1"
+              gutterBottom
+              color="textPrimary"
+            >
+              AutoPare
             </Typography>
             <Typography
               variant="h2"
@@ -133,7 +117,34 @@ export default function LandingPage(props) {
       </Grid>
       <Container>
         <main>
-          <section className="columns is-multiline is-paddingless">
+          <section
+            className="columns is-multiline is-paddingless"
+            style={{ position: 'relative', margin: '2rem' }}
+            id="list"
+          >
+            {loading ? (
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '0',
+                  right: '0',
+                  height: '100%',
+                  width: '100%',
+                  minHeight: '10rem',
+                  zIndex: '2',
+                  background: '#ffffffde',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  paddingTop: '5rem',
+                }}
+              >
+                <CircularProgress size={150} thickness={5} />
+                <Typography variant="h4" style={{ margin: '2rem' }}>
+                  Updating list...
+                </Typography>
+              </div>
+            ) : null}
             {context.list.map((item) => {
               return (
                 <Car key={item._id} item={item} reload={context.postcode} />
@@ -141,23 +152,6 @@ export default function LandingPage(props) {
             })}
           </section>
         </main>
-        <footer className="footer">
-          <div className="contect has-text-centered">
-            {context.sharekey !== null ? null : (
-              <button className="button" onClick={shareList}>
-                Generate sharable link
-              </button>
-            )}
-            {context.sharekey !== null ? (
-              <input
-                className="input sharelink"
-                type="text"
-                readOnly
-                value={`${window.location.href}${context.sharekey}`}
-              />
-            ) : null}
-          </div>
-        </footer>
         <ScrollToTop {...props}>
           <Fab color="secondary" size="small" aria-label="scroll back to top">
             <KeyboardArrowUpIcon />

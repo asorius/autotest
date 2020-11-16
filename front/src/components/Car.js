@@ -9,6 +9,7 @@ export default function Car(props) {
   const context = useContext(Context);
   const [drop, setDrop] = useState(false);
   const [miles, showMiles] = useState(false);
+  const list = document.getElementById('list');
   const toggleDrop = (e) => {
     e.preventDefault();
     setDrop(!drop);
@@ -16,6 +17,7 @@ export default function Car(props) {
   const removeCar = (e) => {
     e.preventDefault();
     context.removeCarFromList(props.item._id);
+    list.scrollIntoView();
   };
   const sethover = (e) => {
     let classname =

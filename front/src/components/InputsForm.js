@@ -11,13 +11,18 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
 import Chip from '@material-ui/core/Chip';
 export default function InputsForm() {
+  const context = useContext(Context);
   const [url, setUrl] = useState('');
   const [post, setPost] = useState('');
+  const [postcode, setPostcode] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingPost, setPostLoading] = useState(false);
-  const context = useContext(Context);
   const [addError, setAddError] = useState(false);
   const [postError, setPostError] = useState(false);
+  const list = document.getElementById('list');
+  useEffect(() => {
+    setPostcode(context.postcode.postcode);
+  }, [postcode]);
   useEffect(() => {
     if (context.errors.to === 'add') {
       setAddError(!addError);
@@ -27,7 +32,7 @@ export default function InputsForm() {
       setAddError(false);
       setPostError(false);
     }
-  }, [context]);
+  }, [context.errors.to]);
 
   const onChange = (e) => {
     setUrl(e.target.value.toLowerCase());
@@ -62,26 +67,35 @@ export default function InputsForm() {
       return;
     }
     try {
-      await context.addPostToList(post);
-      const urls = context.list.map((el) => el.actualLink);
-      context.list.forEach((element) => {
-        context.removeCarFromList(element._id);
-      });
-      context.updateListWithNewSettings({
-        urls,
-        newSettings: context.settings,
-      });
-      setTimeout(() => {
+      const res = await context.addPostToList(post);
+      if (res.result.data.getPostCoords.lat !== null) {
+        const urls = context.list.map((el) => el.actualLink);
+        context.list.forEach((element) => {
+          context.removeCarFromList(element._id);
+        });
+        context.updateListWithNewSettings({
+          urls,
+          newSettings: context.settings,
+        });
         setPost('');
+
+        setPostcode(res.result.data.getPostCoords.postcode);
         setPostLoading(false);
-      }, 500);
+        list.scrollIntoView();
+      } else {
+        context.setError({ msg: 'Invalid postcode', to: 'post' });
+        setTimeout(() => {
+          setPost('');
+          setPostLoading(false);
+        }, 500);
+      }
     } catch (e) {
       console.log(e);
     }
   };
   const onDeletePostcode = (e) => {
     e.preventDefault();
-
+    setPostcode(false);
     context.removePostFromList(context.postcode.postcode);
     const urls = context.list.map((el) => el.actualLink);
     context.list.forEach((element) => {
@@ -158,9 +172,9 @@ export default function InputsForm() {
                 </Grid>
               </Grid>
               <Grid item>
-                {context.postcode ? (
+                {postcode ? (
                   <Chip
-                    label={`Current postcode : ${context.postcode.postcode}`}
+                    label={`Current postcode : ${postcode}`}
                     onDelete={onDeletePostcode}
                     variant="outlined"
                   />

@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export default function ScrollTop(props) {
-  const { children, window } = props;
+  const { children } = props;
   const classes = useStyles();
   const trigger = useScrollTrigger({
     disableHysteresis: true,

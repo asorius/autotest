@@ -10,7 +10,7 @@ import {
   ERROR,
   CLEAR_ERROR,
   ADD_KEY,
-  RESET
+  RESET,
 } from './reducers';
 export default function GlobalState(props) {
   const list = JSON.parse(localStorage.getItem('atplist'));
@@ -18,7 +18,7 @@ export default function GlobalState(props) {
 
   let atpsettings = JSON.parse(localStorage.getItem('atpsettings')) || {
     settings: [],
-    postcode: false
+    postcode: false,
   };
   const [listState, dispatch] = useReducer(listReducer, {
     list: lsdata.list || [],
@@ -47,10 +47,10 @@ export default function GlobalState(props) {
       { name: 'Fuel tank capacity', value: 'tank' },
       { name: 'Weight', value: 'weight' },
       { name: 'CO2 emissions', value: 'co2' },
-      { name: 'Map & directions', value: 'map{lat lng}' }
-    ]
+      { name: 'Map & directions', value: 'map{lat lng}' },
+    ],
   });
-  const addCarToList = async data => {
+  const addCarToList = async (data) => {
     try {
       const reqbody = {
         query: `
@@ -85,23 +85,22 @@ export default function GlobalState(props) {
         ${data.settings.join(' ')}
         }
       }
-    `
+    `,
       };
       const graphResponse = await fetch('/graphql', {
         method: 'POST',
         body: JSON.stringify(reqbody),
         headers: {
           'Content-Type': 'application/json',
-          Accepts: 'application/json'
-        }
+          Accepts: 'application/json',
+        },
       });
       const json = await graphResponse.json();
-      console.log(json);
       if (json.data.getAutodata) {
         const addedCar = json.data.getAutodata;
         dispatch({
           type: ADD_CAR,
-          payload: { addedCar, url: data.actualLink }
+          payload: { addedCar, url: data.actualLink },
         });
       } else {
         setError({ msg: 'Invalid link', to: 'add' });
@@ -113,22 +112,22 @@ export default function GlobalState(props) {
       console.log(e);
     }
   };
-  const saveCarList = async data => {
+  const saveCarList = async (data) => {
     try {
       const reqbody = {
         query: `
       query {
-        saveList(key:${data.key},list:[${data.list.map(el => `"${el}"`)}])
+        saveList(key:${data.key},list:[${data.list.map((el) => `"${el}"`)}])
       }
-    `
+    `,
       };
       const graphResponse = await fetch('/graphql', {
         method: 'POST',
         body: JSON.stringify(reqbody),
         headers: {
           'Content-Type': 'application/json',
-          Accepts: 'application/json'
-        }
+          Accepts: 'application/json',
+        },
       });
       const json = await graphResponse.json();
       const sharekey = json.data.saveList;
@@ -137,22 +136,22 @@ export default function GlobalState(props) {
       console.log(e);
     }
   };
-  const getCarList = async key => {
+  const getCarList = async (key) => {
     try {
       const reqbody = {
         query: `
       query {
         getList(key:"${key}")
       }
-    `
+    `,
       };
       const graphResponse = await fetch('/graphql', {
         method: 'POST',
         body: JSON.stringify(reqbody),
         headers: {
           'Content-Type': 'application/json',
-          Accepts: 'application/json'
-        }
+          Accepts: 'application/json',
+        },
       });
       const json = await graphResponse.json();
       const list = json.data.getList;
@@ -161,22 +160,22 @@ export default function GlobalState(props) {
       console.log(e);
     }
   };
-  const deleteList = async key => {
+  const deleteList = async (key) => {
     try {
       const reqbody = {
         query: `
       query {
         deleteList(key:"${key}")
       }
-    `
+    `,
       };
       const graphResponse = await fetch('/graphql', {
         method: 'POST',
         body: JSON.stringify(reqbody),
         headers: {
           'Content-Type': 'application/json',
-          Accepts: 'application/json'
-        }
+          Accepts: 'application/json',
+        },
       });
       const json = await graphResponse.json();
       return json.data.deleteList;
@@ -184,10 +183,10 @@ export default function GlobalState(props) {
       console.log(e);
     }
   };
-  const removeCarFromList = id => {
+  const removeCarFromList = (id) => {
     dispatch({ type: REMOVE_CAR, payload: id });
   };
-  const addPostToList = async postcode => {
+  const addPostToList = async (postcode) => {
     try {
       const reqbody = {
         query: `
@@ -198,28 +197,28 @@ export default function GlobalState(props) {
             lng
           }
         }
-      `
+      `,
       };
       const graphResponse = await fetch('/graphql', {
         method: 'POST',
         body: JSON.stringify(reqbody),
         headers: {
           'Content-Type': 'application/json',
-          Accepts: 'application/json'
-        }
+          Accepts: 'application/json',
+        },
       });
       const json = await graphResponse.json();
-      console.log(json)
       const { postcode: pc, lat, lng } = json.data.getPostCoords;
       dispatch({ type: ADD_POST, payload: { postcode: pc, lat, lng } });
+      return { result: json };
     } catch (e) {
       return { error: e };
     }
   };
-  const removePostFromList = postcode => {
+  const removePostFromList = (postcode) => {
     dispatch({ type: REMOVE_POST, payload: postcode });
   };
-  const updateSettings = settings => {
+  const updateSettings = (settings) => {
     dispatch({ type: SETTINGS_UPDATE, payload: settings });
   };
   const updateListWithNewSettings = ({ urls, newSettings }) => {
@@ -230,7 +229,7 @@ export default function GlobalState(props) {
   const resetList = () => {
     dispatch({ type: RESET });
   };
-  const setError = data => {
+  const setError = (data) => {
     //data={msg,to}
     dispatch({ type: ERROR, payload: data });
     setTimeout(() => {
@@ -257,7 +256,7 @@ export default function GlobalState(props) {
         getCarList,
         deleteList,
         resetList,
-        sharekey: listState.sharekey
+        sharekey: listState.sharekey,
       }}
     >
       {props.children}
