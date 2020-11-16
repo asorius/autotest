@@ -6,7 +6,8 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-
+import Fab from '@material-ui/core/Fab';
+import SettingsIcon from '@material-ui/icons/Settings';
 export default function Settings() {
   const context = useContext(Context);
   const [modal, setModal] = useState(false);
@@ -61,9 +62,13 @@ export default function Settings() {
         }
       }}
     >
-      <Button variant="outlined" onClick={openModal}>
-        Settings
-      </Button>
+      <Fab
+        onClick={openModal}
+        size="small"
+        style={{ position: 'fixed', bottom: '1.1rem', right: '5rem' }}
+      >
+        <SettingsIcon></SettingsIcon>
+      </Fab>
 
       <div className={classnames('modal', { 'is-active': modal })}>
         <div className="modal-background" />
