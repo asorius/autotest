@@ -209,8 +209,11 @@ export default function GlobalState(props) {
       });
       const json = await graphResponse.json();
       const { postcode: pc, lat, lng } = json.data.getPostCoords;
-      dispatch({ type: ADD_POST, payload: { postcode: pc, lat, lng } });
-      return { result: json };
+      console.log({ lat });
+      if (lat !== null || lat !== undefined) {
+        dispatch({ type: ADD_POST, payload: { postcode: pc, lat, lng } });
+      }
+      return { res: pc };
     } catch (e) {
       return { error: e };
     }

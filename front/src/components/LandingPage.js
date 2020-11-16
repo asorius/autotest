@@ -119,7 +119,7 @@ export default function LandingPage(props) {
         <main>
           <section
             className="columns is-multiline is-paddingless"
-            style={{ position: 'relative', margin: '2rem' }}
+            style={{ position: 'relative', padding: '2rem' }}
             id="list"
           >
             {loading ? (

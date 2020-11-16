@@ -5,6 +5,15 @@ import Context from '../context/context';
 import Map from './secondary/Map';
 import ImgModal from './secondary/ImgModal';
 import ChartItem from './secondary/ChartItem';
+// import TextField from '@material-ui/core/TextField';
+// import Icon from '@material-ui/icons/AddCircleOutline';
+// import SearchIcon from '@material-ui/icons/Search';
+// import Button from '@material-ui/core/Button';
+// import Grid from '@material-ui/core/Grid';
+// import LinearProgress from '@material-ui/core/LinearProgress';
+// import CircularProgress from '@material-ui/core/CircularProgress';
+// import Container from '@material-ui/core/Container';
+// import Chip from '@material-ui/core/Chip';
 export default function Car(props) {
   const context = useContext(Context);
   const [drop, setDrop] = useState(false);
@@ -17,7 +26,7 @@ export default function Car(props) {
   const removeCar = (e) => {
     e.preventDefault();
     context.removeCarFromList(props.item._id);
-    list.scrollIntoView();
+    list.scrollIntoView(true);
   };
   const sethover = (e) => {
     let classname =

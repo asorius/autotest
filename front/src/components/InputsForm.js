@@ -50,6 +50,7 @@ export default function InputsForm() {
 
       setLoading(false);
       setUrl('');
+      list.scrollIntoView(true);
     } catch (e) {
       return { errored: e };
     }
@@ -68,7 +69,8 @@ export default function InputsForm() {
     }
     try {
       const res = await context.addPostToList(post);
-      if (res.result.data.getPostCoords.lat !== null) {
+      console.log({ res });
+      if (res.pc !== null) {
         const urls = context.list.map((el) => el.actualLink);
         context.list.forEach((element) => {
           context.removeCarFromList(element._id);
@@ -79,9 +81,9 @@ export default function InputsForm() {
         });
         setPost('');
 
-        setPostcode(res.result.data.getPostCoords.postcode);
+        setPostcode(res.pc);
         setPostLoading(false);
-        list.scrollIntoView();
+        list.scrollIntoView({ block: 'end' });
       } else {
         context.setError({ msg: 'Invalid postcode', to: 'post' });
         setTimeout(() => {
@@ -149,6 +151,7 @@ export default function InputsForm() {
                       disabled={loadingPost}
                       error={postError}
                       value={post}
+                      spellcheck="false"
                       color="secondary"
                     />
                   </Grid>
