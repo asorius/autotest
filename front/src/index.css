@@ -208,10 +208,10 @@ label input[type='checkbox']:checked + div:hover {
   font-size: 0.3rem;
 }  */
 /*----------------------------------- multiline hover class */
-/* .hover {
+.hover {
   background-color: #6b6b6b3d;
   border-radius: 5px;
-} */
+}
 /* ------------------------------------images */
 /* .image img {
   height: 20rem;

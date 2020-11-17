@@ -5,48 +5,56 @@ import Context from '../context/context';
 import Map from './secondary/Map';
 import ImgModal from './secondary/ImgModal';
 import ChartItem from './secondary/ChartItem';
-// import TextField from '@material-ui/core/TextField';
-// import Icon from '@material-ui/icons/AddCircleOutline';
-// import SearchIcon from '@material-ui/icons/Search';
-// import Button from '@material-ui/core/Button';
-// import Grid from '@material-ui/core/Grid';
-// import LinearProgress from '@material-ui/core/LinearProgress';
-// import CircularProgress from '@material-ui/core/CircularProgress';
-// import Container from '@material-ui/core/Container';
-// import Chip from '@material-ui/core/Chip';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import LocalAtmIcon from '@material-ui/icons/LocalAtm';
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import Collapse from '@material-ui/core/Collapse';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import { Divider } from '@material-ui/core';
+const useStyles = makeStyles((theme) => ({
+  root: {
+    position: 'relative',
+  },
+  title: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+  },
+  media: {
+    height: 0,
+    paddingTop: '56.25%', // 16:9
+  },
+  expand: {
+    transform: 'rotate(0deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  collapse: {
+    position: 'absolute',
+    bottom: 0,
+    left: '10%',
+    background: 'white',
+  },
+  expandOpen: {
+    transform: 'rotate(180deg)',
+  },
+}));
 export default function Car(props) {
-  const context = useContext(Context);
-  const [drop, setDrop] = useState(false);
-  const [miles, showMiles] = useState(false);
-  const list = document.getElementById('list');
-  const toggleDrop = (e) => {
-    e.preventDefault();
-    setDrop(!drop);
-  };
-  const removeCar = (e) => {
-    e.preventDefault();
-    context.removeCarFromList(props.item._id);
-    list.scrollIntoView(true);
-  };
-  const sethover = (e) => {
-    let classname =
-      e.target.tagName === 'STRONG'
-        ? e.target.parentNode.className
-        : e.target.className;
-    //remove hover class from other elements before adding it to currently hovered
-    document.querySelectorAll('.hover').forEach((el) => {
-      el.classList.remove('hover');
-    });
-    document.querySelectorAll(`.${classname}`).forEach((el) => {
-      el.classList.add('hover');
-    });
-  };
-  const unsethover = (e) => {
-    document.querySelectorAll(`.${e.target.classList[0]}`).forEach((el) => {
-      el.classList.remove('hover');
-    });
-  };
-
   const {
     title,
     price,
@@ -62,9 +70,18 @@ export default function Car(props) {
     mileageDataForDisplay,
     ...rest
   } = props.item;
-  const listEntries = Object.entries(rest).length > 0 ? false : true;
+  const classes = useStyles();
+  const context = useContext(Context);
+  const [drop, setDrop] = useState(false);
+  const [miles, showMiles] = useState(false);
+  const list = document.getElementById('list');
   const [current, setCurrentImg] = useState(0);
   const [img, setImg] = useState(images[current]);
+  const [expanded, setExpanded] = useState(false);
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
   const changeImg = (e, fromsmall) => {
     e.preventDefault();
     setCurrentImg(fromsmall);
@@ -87,6 +104,18 @@ export default function Car(props) {
       }
     }
   };
+  const toggleDrop = (e) => {
+    e.preventDefault();
+    setDrop(!drop);
+  };
+  const removeCar = (e) => {
+    e.preventDefault();
+    context.removeCarFromList(props.item._id);
+    list.scrollIntoView(true);
+  };
+
+  const listEntries = Object.entries(rest).length > 0 ? false : true;
+
   let seller_coords;
   if (map === undefined || map.lat === null || map.lng === null) {
     seller_coords = null;
@@ -97,91 +126,29 @@ export default function Car(props) {
     };
   }
   return (
-    <div className="column is-paddingless  is-half-tablet  is-one-third-widescreen is-one-third-fullhd">
-      <div className="card">
-        <div className="card-image">
-          <figure className="image ">
-            <img src={img} alt="Car" />
-          </figure>
-          <div className="buttons">
-            <button className="button prev" onClick={changeImg}>
-              <span className="icon is-small prev">
-                <i className="fas fa-angle-left prev" />
-              </span>
-            </button>
-            <ImgModal
-              images={images}
-              current={current}
-              smallImgChange={changeImg}
+    <Card className={classes.root}>
+      <Grid container>
+        <Grid item sm={12} md={8} container>
+          {/* photos and seller/map */}
+          <Grid item sm={12}>
+            <CardHeader
+              className={classes.title}
+              title={`${title} | ${price}`}
+              subheader={`MOT: ${
+                events.length > 0 ? events[0].data.expiredate : 'N/A'
+              }`}
             />
-            <div className="current">
-              <span className="txt">
-                {current + 1} / {images.length}
-              </span>
-            </div>
-            <button className="button next" onClick={changeImg}>
-              <span className="icon is-small next">
-                <i className="fas fa-angle-right next" />
-              </span>
-            </button>
-          </div>
-        </div>
-        <div className="card-content">
-          <h2 className="title is-size-3 car-title">{title}</h2>
-          <div className="subs">
-            <h2 className="subtitle1 is-size-4">{price}</h2>
-            <h3 className="subtitle2">
-              <strong>
-                <i>MOT</i>
-              </strong>{' '}
-              : {events.length > 0 ? events[0].data.expiredate : null}
-            </h3>
-          </div>
-        </div>
-        <div className="content ">
-          <div
-            className={classnames('c media', {
-              ' is-invisible': listEntries,
-            })}
-          >
-            <div className="div media-left has-text-success">
-              <span className="icon is-large">
-                <i className="fas fa-car fa-lg" />
-              </span>
-            </div>
-            <div className="media-content">
-              {Object.entries(rest).map((el) => {
-                //rest is our options sent back from the server, like ['acceleration','fast']
-                //loops through user-set options stored in context to get full definition,matches them with according values from data from the server and returns li
-                let name = context.options.filter(
-                  (opt) => opt.value === el[0]
-                )[0].name;
-                let classname = context.options.filter(
-                  (opt) => opt.value === el[0]
-                )[0].value;
-                return (
-                  <li
-                    className={classname}
-                    key={Math.random()}
-                    onMouseEnter={sethover}
-                    onMouseLeave={unsethover}
-                  >
-                    <strong>{name}</strong> :{' '}
-                    {el[1] === false || el[1] === null || false
-                      ? 'Unavailable'
-                      : el[1]}
-                  </li>
-                );
-              })}
-            </div>
-          </div>
-          <div className="seller media">
-            <div className="media-left has-text-warning">
-              <span className="icon is-large">
-                <i className="fas fa-money-check-alt fa-lg" />
-              </span>
-            </div>
-            <div className="media-content">
+          </Grid>
+          <Grid item sm={12}>
+            <CardMedia
+              className={classes.media}
+              image={img}
+              title="Paella dish"
+            />
+          </Grid>
+          <Divider></Divider>
+          <Grid item sm={12}>
+            <div>
               {dealerLink ? (
                 <strong>
                   <a
@@ -208,104 +175,313 @@ export default function Car(props) {
                 </React.Fragment>
               ) : null}
             </div>
-          </div>
-          <div className="div">
-            {seller_coords ? (
-              <Map
-                usercoords={context.postcode ? context.postcode : null}
-                sellercoords={seller_coords}
-                isMarkerShown={true}
-              />
-            ) : map === undefined ? null : (
-              <div className="center">
-                <p>
-                  <i>Map unavailable due to seller.</i>
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
-        <div className="content" style={{ textAlign: 'center' }}>
-          <button
-            className="button "
-            onClick={() => {
-              showMiles(!miles);
-            }}
-          >
-            {miles ? 'Hide' : 'Show'} available mileage history
-          </button>
 
-          {miles ? (
-            <ChartItem mileages={mileageDataForDisplay}></ChartItem>
-          ) : null}
-        </div>
-        <div className="card-footer">
-          <div
-            className={classnames('dropdown is-up ', {
-              'is-active': drop,
-            })}
-          >
-            <div className="dropdown-trigger">
-              <button
-                onClick={toggleDrop}
-                className="button"
-                aria-haspopup="true"
-                aria-controls="dropdown-menu1"
-              >
-                <span>MOT history</span>
-                <span className="icon is-small main-arrow">
-                  <i className="fas fa-angle-up" aria-hidden="true" />
-                </span>
-              </button>
+            <div className="div">
+              {seller_coords ? (
+                <Map
+                  usercoords={context.postcode ? context.postcode : null}
+                  sellercoords={seller_coords}
+                  isMarkerShown={true}
+                />
+              ) : map === undefined ? null : (
+                <div className="center">
+                  <p>
+                    <i>Map unavailable due to seller.</i>
+                  </p>
+                </div>
+              )}
             </div>
-            <div
-              className="dropdown-menu menu-container"
-              id="dropdown-menu1"
-              role="menu"
-            >
-              <div className="dropdown-content">
-                {events || events.length < 0
-                  ? events.map((item, index) => {
-                      if (index < 5) {
-                        const newestmiles = parseFloat(item.data.mileage);
-                        const milesbefore = events[index + 1]
-                          ? parseFloat(events[index + 1].data.mileage)
-                          : 0;
-                        let mileage =
-                          milesbefore === 0
-                            ? 'First MOT'
-                            : newestmiles - milesbefore;
+          </Grid>
+        </Grid>
 
-                        return (
-                          <MotEvent
-                            item={item}
-                            driven={mileage}
-                            key={Math.random()}
-                            index={index}
-                          />
-                        );
-                      }
-                      return null;
-                    })
-                  : null}
-              </div>
-            </div>
-          </div>
-          <div className="center">
-            <a
-              className="at-link"
-              href={`${actualLink}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              View on AutoTrader
-            </a>
-          </div>
-          <div>
-            <button className="delete is-large " onClick={removeCar} />
-          </div>
-        </div>
-      </div>
-    </div>
+        <Grid item sm={12} md={4}>
+          {/* main info  */}
+          <CardContent>
+            <List aria-label="main information">
+              <Grid container spacing={1}>
+                {Object.entries(rest).map((el) => {
+                  //rest is our options sent back from the server, like ['acceleration','fast']
+                  //loops through user-set options stored in context to get full definition,matches them with according values from data from the server and returns li
+                  let name = context.options.filter(
+                    (opt) => opt.value === el[0]
+                  )[0].name;
+                  let classname = context.options.filter(
+                    (opt) => opt.value === el[0]
+                  )[0].value;
+                  return (
+                    <Grid item sm={6}>
+                      <ListItem
+                        className={classname}
+                        key={Math.random()}
+                        style={{}}
+                      >
+                        <ListItemText
+                          primary={name}
+                          secondary={
+                            el[1] === false || el[1] === null || false
+                              ? 'Unavailable'
+                              : el[1]
+                          }
+                        />
+                      </ListItem>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </List>
+          </CardContent>
+        </Grid>
+      </Grid>
+
+      <CardActions disableSpacing>
+        <IconButton
+          className={expanded ? 'expandOpen' : 'expand'}
+          onClick={handleExpandClick}
+          aria-expanded={expanded}
+          aria-label="show more"
+        >
+          <ExpandMoreIcon />
+        </IconButton>
+      </CardActions>
+      <Collapse
+        in={expanded}
+        timeout="auto"
+        unmountOnExit
+        className={classes.collapse}
+      >
+        {events || events.length < 0
+          ? events.map((item, index) => {
+              if (index < 5) {
+                const newestmiles = parseFloat(item.data.mileage);
+                const milesbefore = events[index + 1]
+                  ? parseFloat(events[index + 1].data.mileage)
+                  : 0;
+                let mileage =
+                  milesbefore === 0 ? 'First MOT' : newestmiles - milesbefore;
+
+                return (
+                  <MotEvent
+                    item={item}
+                    driven={mileage}
+                    key={Math.random()}
+                    index={index}
+                  />
+                );
+              }
+              return null;
+            })
+          : null}
+      </Collapse>
+    </Card>
+    // <div className="column is-paddingless  is-half-tablet  is-one-third-widescreen is-one-third-fullhd">
+    //   <div className="card">
+    //     <div className="card-image">
+    //       <figure className="image ">
+    //         <img src={img} alt="Car" />
+    //       </figure>
+    //       <div className="buttons">
+    //         <button className="button prev" onClick={changeImg}>
+    //           <span className="icon is-small prev">
+    //             <i className="fas fa-angle-left prev" />
+    //           </span>
+    //         </button>
+    //         <ImgModal
+    //           images={images}
+    //           current={current}
+    //           smallImgChange={changeImg}
+    //         />
+    //         <div className="current">
+    //           <span className="txt">
+    //             {current + 1} / {images.length}
+    //           </span>
+    //         </div>
+    //         <button className="button next" onClick={changeImg}>
+    //           <span className="icon is-small next">
+    //             <i className="fas fa-angle-right next" />
+    //           </span>
+    //         </button>
+    //       </div>
+    //     </div>
+    //     <div className="card-content">
+    //       <h2 className="title is-size-3 car-title">{title}</h2>
+    //       <div className="subs">
+    //         <h2 className="subtitle1 is-size-4">{price}</h2>
+    //         <h3 className="subtitle2">
+    //           <strong>
+    //             <i>MOT</i>
+    //           </strong>{' '}
+    //           : {events.length > 0 ? events[0].data.expiredate : null}
+    //         </h3>
+    //       </div>
+    //     </div>
+    //     <div className="content ">
+    //       <div
+    //         className={classnames('c media', {
+    //           ' is-invisible': listEntries,
+    //         })}
+    //       >
+    //         <div className="div media-left has-text-success">
+    //           <span className="icon is-large">
+    //             <i className="fas fa-car fa-lg" />
+    //           </span>
+    //         </div>
+    //         <div className="media-content">
+    //           {Object.entries(rest).map((el) => {
+    //             //rest is our options sent back from the server, like ['acceleration','fast']
+    //             //loops through user-set options stored in context to get full definition,matches them with according values from data from the server and returns li
+    //             let name = context.options.filter(
+    //               (opt) => opt.value === el[0]
+    //             )[0].name;
+    //             let classname = context.options.filter(
+    //               (opt) => opt.value === el[0]
+    //             )[0].value;
+    //             return (
+    //               <li
+    //                 className={classname}
+    //                 key={Math.random()}
+    //                 onMouseEnter={sethover}
+    //                 onMouseLeave={unsethover}
+    //               >
+    //                 <strong>{name}</strong> :{' '}
+    //                 {el[1] === false || el[1] === null || false
+    //                   ? 'Unavailable'
+    //                   : el[1]}
+    //               </li>
+    //             );
+    //           })}
+    //         </div>
+    //       </div>
+    //       <div className="seller media">
+    //         <div className="media-left has-text-warning">
+    //           <span className="icon is-large">
+    //             <i className="fas fa-money-check-alt fa-lg" />
+    //           </span>
+    //         </div>
+    //         <div className="media-content">
+    //           {dealerLink ? (
+    //             <strong>
+    //               <a
+    //                 className="at-link"
+    //                 target="_blank"
+    //                 rel="noopener noreferrer"
+    //                 href={dealerLink}
+    //               >
+    //                 {seller.name}
+    //               </a>
+    //             </strong>
+    //           ) : (
+    //             <strong>{seller.name}</strong>
+    //           )}
+    //           <br />
+    //           <strong>Contacts</strong> : {seller.phone1}
+    //           {seller.phone2 ? `, ${seller.phone2}` : null}
+    //           {addedDate ? (
+    //             <React.Fragment>
+    //               <br />
+    //               <strong>Advert added : </strong>
+    //               {addedDate.substring(0, 4)} {addedDate.substring(4, 6)}{' '}
+    //               {addedDate.substring(6, 8)}
+    //             </React.Fragment>
+    //           ) : null}
+    //         </div>
+    //       </div>
+    //       <div className="div">
+    //         {seller_coords ? (
+    //           <Map
+    //             usercoords={context.postcode ? context.postcode : null}
+    //             sellercoords={seller_coords}
+    //             isMarkerShown={true}
+    //           />
+    //         ) : map === undefined ? null : (
+    //           <div className="center">
+    //             <p>
+    //               <i>Map unavailable due to seller.</i>
+    //             </p>
+    //           </div>
+    //         )}
+    //       </div>
+    //     </div>
+    //     <div className="content" style={{ textAlign: 'center' }}>
+    //       <button
+    //         className="button "
+    //         onClick={() => {
+    //           showMiles(!miles);
+    //         }}
+    //       >
+    //         {miles ? 'Hide' : 'Show'} available mileage history
+    //       </button>
+
+    //       {miles ? (
+    //         <ChartItem mileages={mileageDataForDisplay}></ChartItem>
+    //       ) : null}
+    //     </div>
+    //     <div className="card-footer">
+    //       <div
+    //         className={classnames('dropdown is-up ', {
+    //           'is-active': drop,
+    //         })}
+    //       >
+    //         <div className="dropdown-trigger">
+    //           <button
+    //             onClick={toggleDrop}
+    //             className="button"
+    //             aria-haspopup="true"
+    //             aria-controls="dropdown-menu1"
+    //           >
+    //             <span>MOT history</span>
+    //             <span className="icon is-small main-arrow">
+    //               <i className="fas fa-angle-up" aria-hidden="true" />
+    //             </span>
+    //           </button>
+    //         </div>
+    //         <div
+    //           className="dropdown-menu menu-container"
+    //           id="dropdown-menu1"
+    //           role="menu"
+    //         >
+    //           <div className="dropdown-content">
+    //             {events || events.length < 0
+    //               ? events.map((item, index) => {
+    //                   if (index < 5) {
+    //                     const newestmiles = parseFloat(item.data.mileage);
+    //                     const milesbefore = events[index + 1]
+    //                       ? parseFloat(events[index + 1].data.mileage)
+    //                       : 0;
+    //                     let mileage =
+    //                       milesbefore === 0
+    //                         ? 'First MOT'
+    //                         : newestmiles - milesbefore;
+
+    //                     return (
+    //                       <MotEvent
+    //                         item={item}
+    //                         driven={mileage}
+    //                         key={Math.random()}
+    //                         index={index}
+    //                       />
+    //                     );
+    //                   }
+    //                   return null;
+    //                 })
+    //               : null}
+    //           </div>
+    //         </div>
+    //       </div>
+    //       <div className="center">
+    //         <a
+    //           className="at-link"
+    //           href={`${actualLink}`}
+    //           target="_blank"
+    //           rel="noopener noreferrer"
+    //         >
+    //           View on AutoTrader
+    //         </a>
+    //       </div>
+    //       <div>
+    //         <button className="delete is-large " onClick={removeCar} />
+    //       </div>
+    //     </div>
+    //   </div>
+    // </div>
   );
 }

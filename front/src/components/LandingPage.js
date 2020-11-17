@@ -19,6 +19,7 @@ import Settings from './Settings';
 import Divider from '@material-ui/core/Divider';
 import Hidden from '@material-ui/core/Hidden';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { Grow } from '@material-ui/core';
 export default function LandingPage(props) {
   const context = useContext(Context);
   const [loading, setLoading] = useState(false);
@@ -118,9 +119,9 @@ export default function LandingPage(props) {
       <Container>
         <main>
           <section
-            className="columns is-multiline is-paddingless"
             style={{ position: 'relative', padding: '2rem' }}
             id="list"
+            //////////////////////////////// SORT OUT SCROLLING
           >
             {loading ? (
               <div
@@ -145,11 +146,21 @@ export default function LandingPage(props) {
                 </Typography>
               </div>
             ) : null}
-            {context.list.map((item) => {
-              return (
-                <Car key={item._id} item={item} reload={context.postcode} />
-              );
-            })}
+            <Grow in={!loading}>
+              <Grid container>
+                {context.list.map((item) => {
+                  return (
+                    <Grid item sm={12} md={context.list.length > 1 ? 6 : 12}>
+                      <Car
+                        key={item._id}
+                        item={item}
+                        reload={context.postcode}
+                      />
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </Grow>
           </section>
         </main>
         <ScrollToTop {...props}>
