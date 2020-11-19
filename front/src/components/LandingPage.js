@@ -147,7 +147,7 @@ export default function LandingPage(props) {
               </div>
             ) : null}
             <Grow in={!loading}>
-              <Grid container>
+              <Grid container spacing={1}>
                 {context.list.map((item) => {
                   return (
                     <Grid item sm={12} md={context.list.length > 1 ? 6 : 12}>

@@ -23,7 +23,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { Divider } from '@material-ui/core';
+import { Chip, Divider } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
   root: {
     position: 'relative',
@@ -32,10 +33,17 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     top: 0,
     left: 0,
+    background: 'rgba(255, 255, 255, 0.75)',
+    padding: '.2rem',
+    color: '#5c6bc0',
+    width: '100%',
+    textAlign: 'center',
+  },
+  info: {
+    // marginTop: '-5rem',
   },
   media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
+    minHeight: '35rem',
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -127,8 +135,8 @@ export default function Car(props) {
   }
   return (
     <Card className={classes.root}>
-      <Grid container>
-        <Grid item sm={12} md={8} container>
+      <Grid container direction="row">
+        <Grid item sm={12} container>
           {/* photos and seller/map */}
           <Grid item sm={12}>
             <CardHeader
@@ -140,65 +148,67 @@ export default function Car(props) {
             />
           </Grid>
           <Grid item sm={12}>
-            <CardMedia
-              className={classes.media}
-              image={img}
-              title="Paella dish"
-            />
+            <CardMedia className={classes.media} image={img} />
           </Grid>
-          <Divider></Divider>
-          <Grid item sm={12}>
-            <div>
-              {dealerLink ? (
-                <strong>
-                  <a
-                    className="at-link"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={dealerLink}
+          <Grid item sm={12} style={{ height: '2rem' }}>
+            <Grid
+              style={{
+                transform: 'translateY(-60px)',
+                zIndex: 2,
+                // background: '#26a69a',
+                background: 'white',
+                borderTopRightRadius: '4rem',
+                padding: '1rem ',
+              }}
+              container
+              spacing={0}
+            >
+              <Grid item sm={4}>
+                {dealerLink ? (
+                  <Typography variant="h5" color="secondary">
+                    <Link
+                      to={dealerLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {seller.name}
+                    </Link>
+                  </Typography>
+                ) : (
+                  <Typography
+                    variant="h5"
+                    color="secondary"
+                    style={{
+                      height: '100%',
+                      display: 'grid',
+                      placeItems: 'center',
+                    }}
                   >
                     {seller.name}
-                  </a>
-                </strong>
-              ) : (
-                <strong>{seller.name}</strong>
-              )}
-              <br />
-              <strong>Contacts</strong> : {seller.phone1}
-              {seller.phone2 ? `, ${seller.phone2}` : null}
-              {addedDate ? (
-                <React.Fragment>
-                  <br />
-                  <strong>Advert added : </strong>
-                  {addedDate.substring(0, 4)} {addedDate.substring(4, 6)}{' '}
-                  {addedDate.substring(6, 8)}
-                </React.Fragment>
-              ) : null}
-            </div>
-
-            <div className="div">
-              {seller_coords ? (
-                <Map
-                  usercoords={context.postcode ? context.postcode : null}
-                  sellercoords={seller_coords}
-                  isMarkerShown={true}
-                />
-              ) : map === undefined ? null : (
-                <div className="center">
-                  <p>
-                    <i>Map unavailable due to seller.</i>
-                  </p>
-                </div>
-              )}
-            </div>
+                  </Typography>
+                )}
+              </Grid>
+              <Grid item sm={8} style={{ textAlign: 'center' }}>
+                <Typography variant="h6">Contacts</Typography>
+                <Typography variant="body2">
+                  <Link to={`tel:${seller.phone1}`}>{seller.phone1}</Link>
+                  {seller.phone2 ? (
+                    <Link to={`tel:${seller.phone2}`}>, {seller.phone2}</Link>
+                  ) : null}
+                </Typography>
+              </Grid>
+              <Grid item sm={12} style={{ textAlign: 'center' }}></Grid>
+            </Grid>
           </Grid>
         </Grid>
 
-        <Grid item sm={12} md={4}>
+        <Grid item sm={12}>
           {/* main info  */}
+          <Divider></Divider>
+
           <CardContent>
             <List aria-label="main information">
-              <Grid container spacing={1}>
+              <Grid container>
                 {Object.entries(rest).map((el) => {
                   //rest is our options sent back from the server, like ['acceleration','fast']
                   //loops through user-set options stored in context to get full definition,matches them with according values from data from the server and returns li
@@ -210,10 +220,10 @@ export default function Car(props) {
                   )[0].value;
                   return (
                     <Grid item sm={6}>
-                      <ListItem
+                      <ListItemText
                         className={classname}
                         key={Math.random()}
-                        style={{}}
+                        style={{ padding: 0, textAlign: 'center' }}
                       >
                         <ListItemText
                           primary={name}
@@ -223,13 +233,43 @@ export default function Car(props) {
                               : el[1]
                           }
                         />
-                      </ListItem>
+                      </ListItemText>
                     </Grid>
                   );
                 })}
               </Grid>
             </List>
           </CardContent>
+        </Grid>
+        <Grid item sm={12} style={{ textAlign: 'center' }}>
+          <Chip
+            style={{ marginBottom: '1rem' }}
+            variant="outlined"
+            label={
+              addedDate
+                ? `Added on Autotrader : ${addedDate.substring(
+                    0,
+                    4
+                  )}-${addedDate.substring(4, 6)}-${addedDate.substring(6, 8)}`
+                : null
+            }
+          ></Chip>
+          <Divider></Divider>
+        </Grid>
+        <Grid item sm={12}>
+          {seller_coords ? (
+            <Map
+              usercoords={context.postcode ? context.postcode : null}
+              sellercoords={seller_coords}
+              isMarkerShown={true}
+            />
+          ) : map === undefined ? null : (
+            <div className="center">
+              <p>
+                <i>Map unavailable due to seller.</i>
+              </p>
+            </div>
+          )}
         </Grid>
       </Grid>
 
@@ -273,6 +313,7 @@ export default function Car(props) {
           : null}
       </Collapse>
     </Card>
+
     // <div className="column is-paddingless  is-half-tablet  is-one-third-widescreen is-one-third-fullhd">
     //   <div className="card">
     //     <div className="card-image">

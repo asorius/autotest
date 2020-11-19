@@ -46,11 +46,16 @@ export default function InputsForm() {
     setLoading(!loading);
     e.preventDefault();
     try {
-      await context.addCarToList({ url, settings: context.settings });
-
+      // await context.addCarToList({ url, settings: context.settings });
+      const res = await context.addCarToList({
+        url,
+        settings: context.settings,
+      });
       setLoading(false);
       setUrl('');
-      list.scrollIntoView(true);
+      if (res) {
+        list.scrollIntoView(true);
+      }
     } catch (e) {
       return { errored: e };
     }

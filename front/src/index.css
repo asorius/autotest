@@ -4,6 +4,10 @@
   margin: 0;
   scroll-behavior: smooth;
 }
+a {
+  /* text-decoration: none; */
+  color: inherit;
+}
 /* .main-container {
   min-height: 100vh;
   display: flex;
