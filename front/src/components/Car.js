@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '35rem',
   },
   expand: {
-    transform: 'rotate(0deg)',
+    transform: 'rotate(45deg)',
     marginLeft: 'auto',
     transition: theme.transitions.create('transform', {
       duration: theme.transitions.duration.shortest,
@@ -54,9 +54,11 @@ const useStyles = makeStyles((theme) => ({
   },
   collapse: {
     position: 'absolute',
-    bottom: 0,
-    left: '10%',
-    background: 'white',
+    bottom: '2%',
+    padding: '1rem',
+    borderRadius: '.5rem',
+    left: '15%',
+    background: 'rgba(245, 245, 245, 1)',
   },
   expandOpen: {
     transform: 'rotate(180deg)',
@@ -274,14 +276,26 @@ export default function Car(props) {
       </Grid>
 
       <CardActions disableSpacing>
-        <IconButton
-          className={expanded ? 'expandOpen' : 'expand'}
+        <Button
+          color="primary"
+          variant="contained"
           onClick={handleExpandClick}
           aria-expanded={expanded}
           aria-label="show more"
         >
-          <ExpandMoreIcon />
-        </IconButton>
+          MOT history
+        </Button>
+        <Button
+          color="secondary"
+          variant="contained"
+          onClick={() => {
+            showMiles(!miles);
+          }}
+          aria-expanded={miles}
+          aria-label="show more"
+        >
+          Mileage history
+        </Button>
       </CardActions>
       <Collapse
         in={expanded}
@@ -311,6 +325,18 @@ export default function Car(props) {
               return null;
             })
           : null}
+      </Collapse>
+      <Collapse
+        in={miles}
+        timeout="auto"
+        unmountOnExit
+        className={classes.collapse}
+      >
+        {miles ? (
+          <ChartItem mileages={mileageDataForDisplay}></ChartItem>
+        ) : (
+          'Not Available'
+        )}
       </Collapse>
     </Card>
 
