@@ -22,8 +22,10 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import ListItemText from '@material-ui/core/ListItemText';
-import { Chip, Divider } from '@material-ui/core';
+import { Chip, Divider, Fade } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -139,7 +141,7 @@ export default function Car(props) {
     <Card className={classes.root}>
       <Grid container direction="row">
         <Grid item sm={12} container>
-          {/* photos and seller/map */}
+          {/* photos */}
           <Grid item sm={12}>
             <CardHeader
               className={classes.title}
@@ -150,7 +152,28 @@ export default function Car(props) {
             />
           </Grid>
           <Grid item sm={12}>
-            <CardMedia className={classes.media} image={img} />
+            <Fade in={img}>
+              <CardMedia className={classes.media} image={img} />
+            </Fade>
+            <div>
+              <IconButton onClick={changeImg}>
+                <ArrowBackIosIcon></ArrowBackIosIcon>
+              </IconButton>
+
+              <ImgModal
+                images={images}
+                current={current}
+                smallImgChange={changeImg}
+              />
+              <div className="current">
+                <span className="txt">
+                  {current + 1} / {images.length}
+                </span>
+              </div>
+              <IconButton onClick={changeImg}>
+                <ArrowForwardIosIcon></ArrowForwardIosIcon>
+              </IconButton>
+            </div>
           </Grid>
           <Grid item sm={12} style={{ height: '2rem' }}>
             <Grid
