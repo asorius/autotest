@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
     color: '#5c6bc0',
     width: '100%',
     textAlign: 'center',
+    zIndex: 5,
   },
   info: {
     // marginTop: '-5rem',
@@ -94,26 +95,27 @@ export default function Car(props) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  const changeImg = (e, fromsmall) => {
+  const changeImgInc = (e, fromsmall) => {
     e.preventDefault();
-    setCurrentImg(fromsmall);
-    if (e.target.classList.contains('next')) {
-      if (current + 1 <= images.length - 1) {
-        setImg(images[current + 1]);
-        setCurrentImg(current + 1);
-      } else {
-        setImg(images[0]);
-        setCurrentImg(0);
-      }
+    // setCurrentImg(fromsmall);
+
+    if (current + 1 <= images.length - 1) {
+      setImg(images[current + 1]);
+      setCurrentImg(current + 1);
+    } else {
+      setImg(images[0]);
+      setCurrentImg(0);
     }
-    if (e.target.classList.contains('prev')) {
-      if (current - 1 >= 0) {
-        setImg(images[current - 1]);
-        setCurrentImg(current - 1);
-      } else {
-        setImg(images[images.length - 1]);
-        setCurrentImg(images.length - 1);
-      }
+  };
+  const changeImgDec = (e, fromsmall) => {
+    e.preventDefault();
+
+    if (current - 1 >= 0) {
+      setImg(images[current - 1]);
+      setCurrentImg(current - 1);
+    } else {
+      setImg(images[images.length - 1]);
+      setCurrentImg(images.length - 1);
     }
   };
   const toggleDrop = (e) => {
@@ -151,28 +153,63 @@ export default function Car(props) {
               }`}
             />
           </Grid>
-          <Grid item sm={12}>
+          <Grid item sm={12} style={{ position: 'relative' }}>
             <Fade in={img}>
               <CardMedia className={classes.media} image={img} />
             </Fade>
-            <div>
-              <IconButton onClick={changeImg}>
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                zIndex: 4,
+                color: 'white',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <IconButton onClick={changeImgDec} style={{ color: 'white' }}>
                 <ArrowBackIosIcon></ArrowBackIosIcon>
               </IconButton>
 
               <ImgModal
                 images={images}
                 current={current}
-                smallImgChange={changeImg}
+                // smallImgChange={changeImgInc}
               />
-              <div className="current">
-                <span className="txt">
-                  {current + 1} / {images.length}
-                </span>
-              </div>
-              <IconButton onClick={changeImg}>
+
+              <IconButton onClick={changeImgInc} style={{ color: 'white' }}>
                 <ArrowForwardIosIcon></ArrowForwardIosIcon>
               </IconButton>
+              <div
+                className="current"
+                style={{
+                  color: 'white',
+                  position: 'absolute',
+                  top: '85%',
+                  width: '100%',
+                  textAlign: 'center',
+                }}
+              >
+                <div
+                  style={{
+                    background: '#26a69a',
+                    height: '2rem',
+                    transform: 'translateY(5px)',
+                    width: '6rem',
+                    borderRadius: '2rem',
+                    padding: '.1rem',
+                    display: 'grid',
+                    placeItems: 'center',
+                    margin: '0 auto',
+                  }}
+                >
+                  {current + 1} / {images.length}
+                </div>
+              </div>
             </div>
           </Grid>
           <Grid item sm={12} style={{ height: '2rem' }}>

@@ -81,7 +81,7 @@ export default function ImgModal({
       incrementImg(images.length - 1);
     }
 
-    smallImgChange(e, current);
+    // smallImgChange(e, current);
   };
   return (
     <div>
