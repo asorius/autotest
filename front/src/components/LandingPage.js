@@ -119,7 +119,10 @@ export default function LandingPage(props) {
       <Container>
         <main>
           <section
-            style={{ position: 'relative', padding: '2rem' }}
+            style={{
+              position: 'relative',
+              padding: context.list.length > 0 ? '2rem' : 0,
+            }}
             id="list"
             //////////////////////////////// SORT OUT SCROLLING
           >

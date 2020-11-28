@@ -288,12 +288,12 @@ export default function Car(props) {
                         style={{ padding: 0, textAlign: 'center' }}
                       >
                         <ListItemText
-                          primary={name}
-                          secondary={
+                          primary={
                             el[1] === false || el[1] === null || false
                               ? 'Unavailable'
                               : el[1]
                           }
+                          secondary={name}
                         />
                       </ListItemText>
                     </Grid>

@@ -11,7 +11,6 @@ import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import { ArrowBackIos } from '@material-ui/icons';
 const useStyles = makeStyles((theme) => ({
   root: {
     position: 'absolute',
@@ -26,26 +25,20 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
   },
   modalContent: {
-    width: '80%',
+    maxWidth: '90%',
     height: '90%',
     position: 'relative',
-    border: 'none',
-  },
-  imgFig: {
-    height: '100%',
-    width: '100%',
-    maxHeight: '40rem',
+    // border: 'none',
   },
   img: {
+    height: '100%',
     width: '100%',
+    objectFit: 'cover',
+    // maxHeight: '80vh',
   },
-  buttons: {
-    position: 'absolute',
-    top: '80%',
-    left: 0,
-    width: '100%',
-    color: 'white',
-  },
+
+  buttonPrev: { position: 'absolute', top: '50%', left: '5%' },
+  buttonNext: { position: 'absolute', top: '50%', right: '5%' },
 }));
 export default function ImgModal({
   images,
@@ -102,18 +95,38 @@ export default function ImgModal({
       >
         <Fade in={modal}>
           <div className={classes.modalContent}>
-            <Fade in={images[current - 1] !== images[current]}>
-              <figure className={classes.img}>
-                <img className={classes.img} src={img} alt="Car" />
-              </figure>
-            </Fade>
-            <Grid container className={classes.buttons}>
-              <Grid item sm={1}>
-                <IconButton className="prev" onClick={changeImgDec}>
-                  <ArrowBackIos></ArrowBackIos>
+            <Grid container style={{ height: '100%' }}>
+              <Grid item style={{ height: '100%' }}>
+                <IconButton
+                  variant="contained"
+                  color="secondary"
+                  className={classes.buttonPrev}
+                  onClick={changeImgDec}
+                >
+                  <ArrowBackIosIcon></ArrowBackIosIcon>
+                </IconButton>
+                <Fade in={images[current - 1] !== images[current]}>
+                  <img className={classes.img} src={img} alt="Car" />
+                </Fade>
+                <IconButton
+                  variant="contained"
+                  color="secondary"
+                  className={classes.buttonNext}
+                  onClick={changeImgInc}
+                >
+                  <ArrowForwardIosIcon></ArrowForwardIosIcon>
                 </IconButton>
               </Grid>
-              <Grid item sm={10} container>
+              <Grid
+                item
+                container
+                style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                  width: '100%',
+                }}
+              >
                 <Grid item sm={12} style={{ textAlign: 'center' }}>
                   <Typography variant="h6">
                     {current + 1} / {images.length}
@@ -142,46 +155,10 @@ export default function ImgModal({
                   ))}
                 </Grid>
               </Grid>
-              <Grid item sm={1}>
-                <IconButton className="next" onClick={changeImgInc}>
-                  <ArrowForwardIosIcon></ArrowForwardIosIcon>
-                </IconButton>
-              </Grid>
             </Grid>
           </div>
         </Fade>
       </Modal>
-
-      {/* <div className={classnames('modal', { 'is-active': modal })}>
-        <div className="modal-background" />
-        <div className="modal-content img-mdl">
-          <figure className="image ">
-            <img src={img} alt="Car" />
-          </figure>
-          <div className="buttons">
-            <button className="button prev" onClick={changeImg}>
-              <span className="icon is-small prev">
-                <i className="fas fa-angle-left prev" />
-              </span>
-            </button>
-            <div className="current">
-              <span className="txt">
-                {current + 1} / {images.length}
-              </span>
-            </div>
-            <button className="button next" onClick={changeImg}>
-              <span className="icon is-small next">
-                <i className="fas fa-angle-right next" />
-              </span>
-            </button>
-          </div>
-        </div>
-        <button
-          className="modal-close is-large"
-          aria-label="close"
-          onClick={openModal}
-        />
-      </div> */}
     </div>
   );
 }

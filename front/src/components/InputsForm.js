@@ -14,7 +14,7 @@ export default function InputsForm() {
   const context = useContext(Context);
   const [url, setUrl] = useState('');
   const [post, setPost] = useState('');
-  const [postcode, setPostcode] = useState(false);
+  const [postcode, setPostcode] = useState(context.postcode.postcode);
   const [loading, setLoading] = useState(false);
   const [loadingPost, setPostLoading] = useState(false);
   const [addError, setAddError] = useState(false);
@@ -22,7 +22,7 @@ export default function InputsForm() {
   const list = document.getElementById('list');
   useEffect(() => {
     setPostcode(context.postcode.postcode);
-  }, [postcode]);
+  }, [context.postcode.postcodeode]);
   useEffect(() => {
     if (context.errors.to === 'add') {
       setAddError(!addError);
@@ -156,9 +156,24 @@ export default function InputsForm() {
                       disabled={loadingPost}
                       error={postError}
                       value={post}
-                      spellcheck="false"
+                      spellCheck="false"
                       color="secondary"
                     />
+                  </Grid>
+                  <Grid item>
+                    {context.postcode.postcode ? (
+                      <Chip
+                        label={`Current postcode : ${context.postcode.postcode}`}
+                        onDelete={onDeletePostcode}
+                        variant="outlined"
+                        color="secondary"
+                      />
+                    ) : (
+                      <Chip
+                        label="Enter postcode to get directions from you to the car"
+                        variant="outlined"
+                      ></Chip>
+                    )}
                   </Grid>
                   <Grid item>
                     {loadingPost && post && postError === false ? (
@@ -167,7 +182,7 @@ export default function InputsForm() {
                       <Button
                         size="medium"
                         type="submit"
-                        variant="outlined"
+                        variant="contained"
                         color="secondary"
                         disabled={postError}
                         startIcon={<SearchIcon />}
@@ -178,20 +193,6 @@ export default function InputsForm() {
                     )}
                   </Grid>
                 </Grid>
-              </Grid>
-              <Grid item>
-                {postcode ? (
-                  <Chip
-                    label={`Current postcode : ${postcode}`}
-                    onDelete={onDeletePostcode}
-                    variant="outlined"
-                  />
-                ) : (
-                  <Chip
-                    label="Enter postcode to get directions from you to the car"
-                    color="secondary"
-                  ></Chip>
-                )}
               </Grid>
             </Grid>
           </form>
