@@ -22,11 +22,12 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowLeft';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowRight';
 import ListItemText from '@material-ui/core/ListItemText';
 import { Chip, Divider, Fade } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import { useSpring, animated } from 'react-spring';
 const useStyles = makeStyles((theme) => ({
   root: {
     position: 'relative',
@@ -154,9 +155,8 @@ export default function Car(props) {
             />
           </Grid>
           <Grid item sm={12} style={{ position: 'relative' }}>
-            <Fade in={img}>
-              <CardMedia className={classes.media} image={img} />
-            </Fade>
+            <CardMedia className={classes.media} image={img} />
+
             <div
               style={{
                 position: 'absolute',
@@ -171,7 +171,10 @@ export default function Car(props) {
                 alignItems: 'center',
               }}
             >
-              <IconButton onClick={changeImgDec} style={{ color: 'white' }}>
+              <IconButton
+                onClick={changeImgDec}
+                style={{ color: 'white', background: '#000000eb' }}
+              >
                 <ArrowBackIosIcon></ArrowBackIosIcon>
               </IconButton>
 
@@ -181,7 +184,10 @@ export default function Car(props) {
                 // smallImgChange={changeImgInc}
               />
 
-              <IconButton onClick={changeImgInc} style={{ color: 'white' }}>
+              <IconButton
+                onClick={changeImgInc}
+                style={{ color: 'white', background: '#000000eb' }}
+              >
                 <ArrowForwardIosIcon></ArrowForwardIosIcon>
               </IconButton>
               <div

@@ -11,6 +11,8 @@ import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
+import { useSpring, animated } from 'react-spring';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     position: 'absolute',
@@ -37,8 +39,18 @@ const useStyles = makeStyles((theme) => ({
     // maxHeight: '80vh',
   },
 
-  buttonPrev: { position: 'absolute', top: '50%', left: '5%' },
-  buttonNext: { position: 'absolute', top: '50%', right: '5%' },
+  buttonPrev: {
+    position: 'absolute',
+    top: '50%',
+    left: '5%',
+    background: 'black',
+  },
+  buttonNext: {
+    position: 'absolute',
+    top: '50%',
+    right: '5%',
+    background: 'black',
+  },
 }));
 export default function ImgModal({
   images,
@@ -77,7 +89,7 @@ export default function ImgModal({
     // smallImgChange(e, current);
   };
   return (
-    <div>
+    <animated.div style={useSpring({ opacity: 1, from: { opacity: 0 } })}>
       <IconButton onClick={openModal}>
         <ZoomOutMapIcon></ZoomOutMapIcon>
       </IconButton>
@@ -159,6 +171,6 @@ export default function ImgModal({
           </div>
         </Fade>
       </Modal>
-    </div>
+    </animated.div>
   );
 }
