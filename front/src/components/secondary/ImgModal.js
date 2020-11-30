@@ -5,11 +5,12 @@ import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import ArrowBackIosIcon from '@material-ui/icons/ChevronLeft';
+import ArrowForwardIosIcon from '@material-ui/icons/ChevronRight';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
+import Tooltip from '@material-ui/core/Tooltip';
 import Fade from '@material-ui/core/Fade';
 import { useSpring, animated } from 'react-spring';
 
@@ -23,14 +24,12 @@ const useStyles = makeStyles((theme) => ({
   modal: {
     display: 'flex',
     alignItems: 'center',
-    border: 'none',
     justifyContent: 'center',
   },
   modalContent: {
     maxWidth: '90%',
     height: '90%',
     position: 'relative',
-    // border: 'none',
   },
   img: {
     height: '100%',
@@ -43,13 +42,17 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     top: '50%',
     left: '5%',
-    background: 'black',
+    height: '5rem',
+    width: '5rem',
+    background: '#ffffffd1',
   },
   buttonNext: {
     position: 'absolute',
     top: '50%',
+    height: '5rem',
+    width: '5rem',
     right: '5%',
-    background: 'black',
+    background: '#ffffffd1',
   },
 }));
 export default function ImgModal({
@@ -89,10 +92,12 @@ export default function ImgModal({
     // smallImgChange(e, current);
   };
   return (
-    <animated.div style={useSpring({ opacity: 1, from: { opacity: 0 } })}>
-      <IconButton onClick={openModal}>
-        <ZoomOutMapIcon></ZoomOutMapIcon>
-      </IconButton>
+    <div>
+      <Tooltip title="Enlarge photo" aria-label="enlarge">
+        <IconButton onClick={openModal}>
+          <ZoomOutMapIcon></ZoomOutMapIcon>
+        </IconButton>
+      </Tooltip>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -102,32 +107,36 @@ export default function ImgModal({
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
-          timeout: 500,
+          timeout: 1000,
         }}
       >
         <Fade in={modal}>
           <div className={classes.modalContent}>
             <Grid container style={{ height: '100%' }}>
               <Grid item style={{ height: '100%' }}>
-                <IconButton
-                  variant="contained"
-                  color="secondary"
-                  className={classes.buttonPrev}
-                  onClick={changeImgDec}
-                >
-                  <ArrowBackIosIcon></ArrowBackIosIcon>
-                </IconButton>
+                <Tooltip title="Previous" aria-label="prev">
+                  <IconButton
+                    variant="contained"
+                    color="secondary"
+                    className={classes.buttonPrev}
+                    onClick={changeImgDec}
+                  >
+                    <ArrowBackIosIcon size="large"></ArrowBackIosIcon>
+                  </IconButton>
+                </Tooltip>
                 <Fade in={images[current - 1] !== images[current]}>
                   <img className={classes.img} src={img} alt="Car" />
                 </Fade>
-                <IconButton
-                  variant="contained"
-                  color="secondary"
-                  className={classes.buttonNext}
-                  onClick={changeImgInc}
-                >
-                  <ArrowForwardIosIcon></ArrowForwardIosIcon>
-                </IconButton>
+                <Tooltip title="Next" aria-label="next">
+                  <IconButton
+                    variant="contained"
+                    color="secondary"
+                    className={classes.buttonNext}
+                    onClick={changeImgInc}
+                  >
+                    <ArrowForwardIosIcon></ArrowForwardIosIcon>
+                  </IconButton>
+                </Tooltip>
               </Grid>
               <Grid
                 item
@@ -140,7 +149,7 @@ export default function ImgModal({
                 }}
               >
                 <Grid item sm={12} style={{ textAlign: 'center' }}>
-                  <Typography variant="h6">
+                  <Typography variant="h5" color="secondary">
                     {current + 1} / {images.length}
                   </Typography>
                   {/* working hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee */}
@@ -149,8 +158,8 @@ export default function ImgModal({
                   {images.map((src, i) => (
                     <div
                       style={{
-                        height: '4rem',
-                        width: '4rem',
+                        height: '2rem',
+                        width: '2rem',
                         margin: '.2rem',
                         borderRadius: '5%',
                         display: 'inline-block',
@@ -171,6 +180,6 @@ export default function ImgModal({
           </div>
         </Fade>
       </Modal>
-    </animated.div>
+    </div>
   );
 }

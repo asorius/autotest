@@ -25,7 +25,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowLeft';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowRight';
 import ListItemText from '@material-ui/core/ListItemText';
-import { Chip, Divider, Fade } from '@material-ui/core';
+import { Chip, Divider, Fade, Tooltip } from '@material-ui/core';
+import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 const useStyles = makeStyles((theme) => ({
@@ -173,7 +174,11 @@ export default function Car(props) {
             >
               <IconButton
                 onClick={changeImgDec}
-                style={{ color: 'white', background: '#000000eb' }}
+                style={{
+                  color: 'white',
+                  background: '#000000eb',
+                  margin: '.5rem',
+                }}
               >
                 <ArrowBackIosIcon></ArrowBackIosIcon>
               </IconButton>
@@ -186,7 +191,11 @@ export default function Car(props) {
 
               <IconButton
                 onClick={changeImgInc}
-                style={{ color: 'white', background: '#000000eb' }}
+                style={{
+                  color: 'white',
+                  background: '#000000eb',
+                  margin: '.5rem',
+                }}
               >
                 <ArrowForwardIosIcon></ArrowForwardIosIcon>
               </IconButton>
@@ -204,7 +213,7 @@ export default function Car(props) {
                   style={{
                     background: '#26a69a',
                     height: '2rem',
-                    transform: 'translateY(5px)',
+                    transform: 'translateY(-2px)',
                     width: '6rem',
                     borderRadius: '2rem',
                     padding: '.1rem',
@@ -218,10 +227,10 @@ export default function Car(props) {
               </div>
             </div>
           </Grid>
-          <Grid item sm={12} style={{ height: '2rem' }}>
+          <Grid item sm={12} style={{ height: '2.5rem' }}>
             <Grid
               style={{
-                transform: 'translateY(-60px)',
+                transform: 'translateY(-4.5rem)',
                 zIndex: 2,
                 // background: '#26a69a',
                 background: 'white',
@@ -233,15 +242,28 @@ export default function Car(props) {
             >
               <Grid item sm={4}>
                 {dealerLink ? (
-                  <Typography variant="h5" color="secondary">
-                    <Link
-                      to={dealerLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
+                  <React.Fragment>
+                    <Typography variant="h5" color="secondary">
                       {seller.name}
-                    </Link>
-                  </Typography>
+                      <a
+                        href={dealerLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          display: 'inline-block',
+                        }}
+                      >
+                        <Tooltip
+                          title="Go to sellers website"
+                          aria-label="seller"
+                        >
+                          <IconButton color="primary">
+                            <OpenInNewIcon></OpenInNewIcon>
+                          </IconButton>
+                        </Tooltip>
+                      </a>
+                    </Typography>
+                  </React.Fragment>
                 ) : (
                   <Typography
                     variant="h5"
@@ -259,10 +281,8 @@ export default function Car(props) {
               <Grid item sm={8} style={{ textAlign: 'center' }}>
                 <Typography variant="h6">Contacts</Typography>
                 <Typography variant="body2">
-                  <Link to={`tel:${seller.phone1}`}>{seller.phone1}</Link>
-                  {seller.phone2 ? (
-                    <Link to={`tel:${seller.phone2}`}>, {seller.phone2}</Link>
-                  ) : null}
+                  {seller.phone1}
+                  {seller.phone2 ? `, ${seller.phone2}` : null}
                 </Typography>
               </Grid>
               <Grid item sm={12} style={{ textAlign: 'center' }}></Grid>
