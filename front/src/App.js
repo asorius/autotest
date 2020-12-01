@@ -4,6 +4,8 @@ import GlobalState from './context/GlobalState';
 import LandingPage from './components/LandingPage';
 import SharedPage from './components/SharedPage';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -39,6 +41,7 @@ theme.typography.h2 = {
 const App = (props) => {
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <GlobalState>
         <BrowserRouter>
           <Switch>

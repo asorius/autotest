@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Container from '@material-ui/core/Container';
+// import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
@@ -12,7 +12,7 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Tooltip from '@material-ui/core/Tooltip';
 import Fade from '@material-ui/core/Fade';
-import { useSpring, animated } from 'react-spring';
+// import { useSpring, animated } from 'react-spring';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -149,14 +149,23 @@ export default function ImgModal({
                 }}
               >
                 <Grid item sm={12} style={{ textAlign: 'center' }}>
-                  <Typography variant="h5" color="secondary">
+                  <Typography
+                    variant="h5"
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.74)',
+                      borderRadius: '.7rem',
+                      color: 'black',
+                      width: '5rem',
+                      marginLeft: '10%',
+                    }}
+                  >
                     {current + 1} / {images.length}
                   </Typography>
-                  {/* working hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee */}
                 </Grid>
                 <Grid item sm={12}>
                   {images.map((src, i) => (
                     <div
+                      key={i + 565}
                       style={{
                         height: '2rem',
                         width: '2rem',

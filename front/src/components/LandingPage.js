@@ -20,7 +20,7 @@ import Divider from '@material-ui/core/Divider';
 import Hidden from '@material-ui/core/Hidden';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Grow } from '@material-ui/core';
-import { useSpring, animated } from 'react-spring';
+// import { useSpring, animated } from 'react-spring';
 
 export default function LandingPage(props) {
   const context = useContext(Context);
@@ -158,9 +158,14 @@ export default function LandingPage(props) {
             ) : null}
             <Grow in={!loading}>
               <Grid container spacing={1}>
-                {context.list.map((item) => {
+                {context.list.map((item, i) => {
                   return (
-                    <Grid item sm={12} md={context.list.length > 1 ? 6 : 12}>
+                    <Grid
+                      key={i + 658}
+                      item
+                      sm={12}
+                      md={context.list.length > 1 ? 6 : 12}
+                    >
                       <Car
                         key={item._id}
                         item={item}

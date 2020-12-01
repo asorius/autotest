@@ -1,15 +1,91 @@
 import React, { useState } from 'react';
-import classnames from 'classnames';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Collapse from '@material-ui/core/Collapse';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import NotInterestedIcon from '@material-ui/icons/NotInterested';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import Paper from '@material-ui/core/Paper';
 export default function MotEvent(props) {
-  const [drop, setdrop] = useState(false);
-  const toggleDrop = e => {
+  const [open, setOpen] = useState(false);
+  const toggleDrop = (e) => {
     e.preventDefault();
-    setdrop(!drop);
+    setOpen(!open);
   };
   const motEvent = props.item;
   return (
     <React.Fragment>
-      {props.index !== 0 ? <hr className="dropdown-divider" /> : null}
+      <List
+        component="div"
+        aria-labelledby="nested-list-subheader"
+        style={{ position: 'relative' }}
+      >
+        <ListItem button onClick={toggleDrop} style={{ position: 'relative' }}>
+          <ListItemIcon>
+            {motEvent.status === 'pass' ? (
+              <CheckCircleOutlineIcon
+                style={{ color: 'green' }}
+              ></CheckCircleOutlineIcon>
+            ) : (
+              <NotInterestedIcon style={{ color: 'red' }}></NotInterestedIcon>
+            )}
+          </ListItemIcon>
+          <ListItemText
+            primary={`${motEvent.status === 'pass' ? 'Passed' : 'Failed'} / ${
+              motEvent.date
+            }`}
+            secondary={`Miles driven since : ${props.driven}`}
+          />
+          {open ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+        </ListItem>
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <Paper
+            style={{
+              position: 'absolute',
+              left: '100%',
+              width: '100%',
+              bottom: 0,
+            }}
+          >
+            <List component="div" disablePadding>
+              {motEvent.data.notices.length > 0 ? (
+                <ListItem>
+                  <List component="div" disablePadding>
+                    <ListItemText primary="Advisory notice reasons:"></ListItemText>
+                    <List>
+                      {motEvent.data.notices.map((reason, index) => (
+                        <ListItem key={index}>
+                          <ListItemText
+                            secondary={reason.split('(')[0]}
+                          ></ListItemText>
+                        </ListItem>
+                      ))}
+                    </List>
+                  </List>
+                </ListItem>
+              ) : null}
+              {motEvent.data.refusal.length > 0 ? (
+                <ListItem>
+                  <List component="div" disablePadding>
+                    <ListItemText primary="Reasons for refusal:"></ListItemText>
+                    <List>
+                      {motEvent.data.refusal.map((reason, index) => (
+                        <ListItem key={index}>
+                          <ListItemText secondary={reason}></ListItemText>
+                        </ListItem>
+                      ))}
+                    </List>
+                  </List>
+                </ListItem>
+              ) : null}
+            </List>
+          </Paper>
+        </Collapse>
+      </List>
+      {/* {props.index !== 0 ? <hr className="dropdown-divider" /> : null}
       <div className="dropdown-item  main-item is-paddingless">
         <div className="has-text-centered is-marginless mot-main-info">
           <div>
@@ -77,7 +153,7 @@ export default function MotEvent(props) {
             </div>
           </div>
         ) : null}
-      </div>
+      </div> */}
     </React.Fragment>
   );
 }

@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import classnames from 'classnames';
 import MotEvent from './secondary/MotEvent';
 import Context from '../context/context';
 import Map from './secondary/Map';
@@ -7,28 +6,25 @@ import ImgModal from './secondary/ImgModal';
 import ChartItem from './secondary/ChartItem';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Container from '@material-ui/core/Container';
-import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowLeft';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowRight';
 import ListItemText from '@material-ui/core/ListItemText';
-import { Chip, Divider, Fade, Tooltip } from '@material-ui/core';
+import { Chip, Divider, Popover, Tooltip } from '@material-ui/core';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import { Link } from 'react-router-dom';
-import { useSpring, animated } from 'react-spring';
+// import { Link } from 'react-router-dom';
+// import { useSpring, animated } from 'react-spring';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 const useStyles = makeStyles((theme) => ({
   root: {
     position: 'relative',
@@ -44,9 +40,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     zIndex: 5,
   },
-  info: {
-    // marginTop: '-5rem',
-  },
+
   media: {
     minHeight: '35rem',
   },
@@ -56,14 +50,6 @@ const useStyles = makeStyles((theme) => ({
     transition: theme.transitions.create('transform', {
       duration: theme.transitions.duration.shortest,
     }),
-  },
-  collapse: {
-    position: 'absolute',
-    bottom: '2%',
-    padding: '1rem',
-    borderRadius: '.5rem',
-    left: '15%',
-    background: 'rgba(245, 245, 245, 1)',
   },
   expandOpen: {
     transform: 'rotate(180deg)',
@@ -93,9 +79,19 @@ export default function Car(props) {
   const [current, setCurrentImg] = useState(0);
   const [img, setImg] = useState(images[current]);
   const [expanded, setExpanded] = useState(false);
-
-  const handleExpandClick = () => {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorElMiles, setAnchorElMiles] = React.useState(null);
+  const handleExpandClick = (e) => {
     setExpanded(!expanded);
+    setAnchorEl(e.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+    setExpanded(!expanded);
+  };
+  const handleCloseMiles = () => {
+    setAnchorElMiles(null);
+    showMiles(!miles);
   };
   const changeImgInc = (e, fromsmall) => {
     e.preventDefault();
@@ -120,17 +116,14 @@ export default function Car(props) {
       setCurrentImg(images.length - 1);
     }
   };
-  const toggleDrop = (e) => {
-    e.preventDefault();
-    setDrop(!drop);
-  };
+
   const removeCar = (e) => {
     e.preventDefault();
     context.removeCarFromList(props.item._id);
     list.scrollIntoView(true);
   };
 
-  const listEntries = Object.entries(rest).length > 0 ? false : true;
+  // const listEntries = Object.entries(rest).length > 0 ? false : true;
 
   let seller_coords;
   if (map === undefined || map.lat === null || map.lng === null) {
@@ -141,6 +134,8 @@ export default function Car(props) {
       lng: map.lng,
     };
   }
+  const id = expanded ? 'simple-popover' : undefined;
+  const idMiles = miles ? 'simple-popover' : undefined;
   return (
     <Card className={classes.root}>
       <Grid container direction="row">
@@ -297,7 +292,7 @@ export default function Car(props) {
           <CardContent>
             <List aria-label="main information">
               <Grid container>
-                {Object.entries(rest).map((el) => {
+                {Object.entries(rest).map((el, i) => {
                   //rest is our options sent back from the server, like ['acceleration','fast']
                   //loops through user-set options stored in context to get full definition,matches them with according values from data from the server and returns li
                   let name = context.options.filter(
@@ -307,7 +302,7 @@ export default function Car(props) {
                     (opt) => opt.value === el[0]
                   )[0].value;
                   return (
-                    <Grid item sm={6}>
+                    <Grid item sm={6} key={i + 999}>
                       <ListItemText
                         className={classname}
                         key={Math.random()}
@@ -361,74 +356,100 @@ export default function Car(props) {
         </Grid>
       </Grid>
 
-      <CardActions disableSpacing>
+      <CardActions
+        disableSpacing
+        style={{ display: 'flex', justifyContent: 'space-between' }}
+      >
         <Button
+          aria-describedby={id}
           color="primary"
           variant="contained"
           onClick={handleExpandClick}
-          aria-expanded={expanded}
           aria-label="show more"
         >
           MOT history
+          {expanded ? <ExpandMore /> : <ExpandLess />}
         </Button>
+        <Popover
+          id={id}
+          open={expanded}
+          anchorEl={anchorEl}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          transformOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          PaperProps={{ style: { overflow: 'visible' } }}
+        >
+          {events || events.length < 0
+            ? events.map((item, index) => {
+                if (index < 5) {
+                  const newestmiles = parseFloat(item.data.mileage);
+                  const milesbefore = events[index + 1]
+                    ? parseFloat(events[index + 1].data.mileage)
+                    : 0;
+                  let mileage =
+                    milesbefore === 0 ? 'First MOT' : newestmiles - milesbefore;
+
+                  return (
+                    <MotEvent
+                      item={item}
+                      driven={mileage}
+                      key={Math.random()}
+                      index={index}
+                    />
+                  );
+                }
+                return null;
+              })
+            : null}
+        </Popover>
+
         <Button
+          aria-describedby={idMiles}
           color="secondary"
           variant="contained"
-          onClick={() => {
+          onClick={(e) => {
             showMiles(!miles);
+            setAnchorElMiles(e.currentTarget);
           }}
-          aria-expanded={miles}
-          aria-label="show more"
+          aria-label="show miles"
         >
           Mileage history
+          {miles ? <ExpandMore /> : <ExpandLess />}
         </Button>
+        <Popover
+          id={idMiles}
+          open={miles}
+          anchorEl={anchorElMiles}
+          onClose={handleCloseMiles}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          transformOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          PaperProps={{ style: { overflow: 'visible' } }}
+        >
+          {miles ? (
+            <ChartItem mileages={mileageDataForDisplay}></ChartItem>
+          ) : (
+            'Not Available'
+          )}
+        </Popover>
+
         <Tooltip title="Remove car" aria-label="remove">
           <IconButton onClick={removeCar} style={{ color: 'red' }}>
             <DeleteForeverIcon size="large"></DeleteForeverIcon>
           </IconButton>
         </Tooltip>
       </CardActions>
-      <Collapse
-        in={expanded}
-        timeout="auto"
-        unmountOnExit
-        className={classes.collapse}
-      >
-        {events || events.length < 0
-          ? events.map((item, index) => {
-              if (index < 5) {
-                const newestmiles = parseFloat(item.data.mileage);
-                const milesbefore = events[index + 1]
-                  ? parseFloat(events[index + 1].data.mileage)
-                  : 0;
-                let mileage =
-                  milesbefore === 0 ? 'First MOT' : newestmiles - milesbefore;
-
-                return (
-                  <MotEvent
-                    item={item}
-                    driven={mileage}
-                    key={Math.random()}
-                    index={index}
-                  />
-                );
-              }
-              return null;
-            })
-          : null}
-      </Collapse>
-      <Collapse
-        in={miles}
-        timeout="auto"
-        unmountOnExit
-        className={classes.collapse}
-      >
-        {miles ? (
-          <ChartItem mileages={mileageDataForDisplay}></ChartItem>
-        ) : (
-          'Not Available'
-        )}
-      </Collapse>
     </Card>
 
     // <div className="column is-paddingless  is-half-tablet  is-one-third-widescreen is-one-third-fullhd">
