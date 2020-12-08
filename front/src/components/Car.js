@@ -30,19 +30,14 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
   },
   title: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    background: 'rgba(255, 255, 255, 0.75)',
     padding: '.2rem',
     color: '#5c6bc0',
     width: '100%',
     textAlign: 'center',
-    zIndex: 5,
   },
 
   media: {
-    minHeight: '35rem',
+    height: '100%',
   },
   expand: {
     transform: 'rotate(45deg)',
@@ -138,18 +133,10 @@ export default function Car(props) {
   const idMiles = miles ? 'simple-popover' : undefined;
   return (
     <Card className={classes.root}>
-      <Grid container direction="row">
-        <Grid item sm={12} container>
+      <Grid container>
+        <Grid item sm={4} container>
           {/* photos */}
-          <Grid item sm={12}>
-            <CardHeader
-              className={classes.title}
-              title={`${title} | ${price}`}
-              subheader={`MOT: ${
-                events.length > 0 ? events[0].data.expiredate : 'N/A'
-              }`}
-            />
-          </Grid>
+
           <Grid item sm={12} style={{ position: 'relative' }}>
             <CardMedia className={classes.media} image={img} />
 
@@ -167,126 +154,22 @@ export default function Car(props) {
                 alignItems: 'center',
               }}
             >
-              <IconButton
-                onClick={changeImgDec}
-                style={{
-                  color: 'white',
-                  background: '#000000eb',
-                  margin: '.5rem',
-                }}
-              >
-                <ArrowBackIosIcon></ArrowBackIosIcon>
-              </IconButton>
-
-              <ImgModal
-                images={images}
-                current={current}
-                // smallImgChange={changeImgInc}
-              />
-
-              <IconButton
-                onClick={changeImgInc}
-                style={{
-                  color: 'white',
-                  background: '#000000eb',
-                  margin: '.5rem',
-                }}
-              >
-                <ArrowForwardIosIcon></ArrowForwardIosIcon>
-              </IconButton>
-              <div
-                className="current"
-                style={{
-                  color: 'white',
-                  position: 'absolute',
-                  top: '85%',
-                  width: '100%',
-                  textAlign: 'center',
-                }}
-              >
-                <div
-                  style={{
-                    background: '#26a69a',
-                    height: '2rem',
-                    transform: 'translateY(-2px)',
-                    width: '6rem',
-                    borderRadius: '2rem',
-                    padding: '.1rem',
-                    display: 'grid',
-                    placeItems: 'center',
-                    margin: '0 auto',
-                  }}
-                >
-                  {current + 1} / {images.length}
-                </div>
-              </div>
+              <ImgModal images={images} current={current} />
             </div>
-          </Grid>
-          <Grid item sm={12} style={{ height: '2.5rem' }}>
-            <Grid
-              style={{
-                transform: 'translateY(-4.5rem)',
-                zIndex: 2,
-                // background: '#26a69a',
-                background: 'white',
-                borderTopRightRadius: '4rem',
-                padding: '1rem ',
-              }}
-              container
-              spacing={0}
-            >
-              <Grid item sm={4}>
-                {dealerLink ? (
-                  <React.Fragment>
-                    <Typography variant="h5" color="secondary">
-                      {seller.name}
-                      <a
-                        href={dealerLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{
-                          display: 'inline-block',
-                        }}
-                      >
-                        <Tooltip
-                          title="Go to sellers website"
-                          aria-label="seller"
-                        >
-                          <IconButton color="primary">
-                            <OpenInNewIcon></OpenInNewIcon>
-                          </IconButton>
-                        </Tooltip>
-                      </a>
-                    </Typography>
-                  </React.Fragment>
-                ) : (
-                  <Typography
-                    variant="h5"
-                    color="secondary"
-                    style={{
-                      height: '100%',
-                      display: 'grid',
-                      placeItems: 'center',
-                    }}
-                  >
-                    {seller.name}
-                  </Typography>
-                )}
-              </Grid>
-              <Grid item sm={8} style={{ textAlign: 'center' }}>
-                <Typography variant="h6">Contacts</Typography>
-                <Typography variant="body2">
-                  {seller.phone1}
-                  {seller.phone2 ? `, ${seller.phone2}` : null}
-                </Typography>
-              </Grid>
-              <Grid item sm={12} style={{ textAlign: 'center' }}></Grid>
-            </Grid>
           </Grid>
         </Grid>
 
-        <Grid item sm={12}>
+        <Grid item sm={8}>
           {/* main info  */}
+          <Grid item sm={12}>
+            <CardHeader
+              className={classes.title}
+              title={`${title} | ${price}`}
+              subheader={`MOT: ${
+                events.length > 0 ? events[0].data.expiredate : 'N/A'
+              }`}
+            />
+          </Grid>
           <Divider></Divider>
 
           <CardContent>
@@ -323,22 +206,84 @@ export default function Car(props) {
               </Grid>
             </List>
           </CardContent>
-        </Grid>
-        <Grid item sm={12} style={{ textAlign: 'center' }}>
-          <Chip
-            style={{ marginBottom: '1rem' }}
-            variant="outlined"
-            label={
-              addedDate
-                ? `Added on Autotrader : ${addedDate.substring(
-                    0,
-                    4
-                  )}-${addedDate.substring(4, 6)}-${addedDate.substring(6, 8)}`
-                : null
-            }
-          ></Chip>
           <Divider></Divider>
         </Grid>
+        <Grid item sm={12}>
+          <Grid
+            style={{
+              padding: '1rem ',
+            }}
+            container
+            spacing={1}
+            justify="space-evenly"
+          >
+            <Grid item>
+              {dealerLink ? (
+                <React.Fragment>
+                  <Typography variant="h5" color="secondary">
+                    {seller.name}
+                    <a
+                      href={dealerLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'inline-block',
+                      }}
+                    >
+                      <Tooltip
+                        title="Go to sellers website"
+                        aria-label="seller"
+                      >
+                        <IconButton color="primary">
+                          <OpenInNewIcon></OpenInNewIcon>
+                        </IconButton>
+                      </Tooltip>
+                    </a>
+                  </Typography>
+                </React.Fragment>
+              ) : (
+                <Typography
+                  variant="h5"
+                  color="secondary"
+                  style={{
+                    height: '100%',
+                    display: 'grid',
+                    placeItems: 'center',
+                  }}
+                >
+                  {seller.name}
+                </Typography>
+              )}
+            </Grid>
+            <Grid item style={{ textAlign: 'center' }}>
+              <Typography variant="h6">Contacts</Typography>
+              <Typography variant="body2">
+                {seller.phone1}
+                {seller.phone2 ? `, ${seller.phone2}` : null}
+              </Typography>
+            </Grid>
+            <Grid item sm={12} style={{ textAlign: 'center' }}>
+              <Chip
+                style={{ margin: '.5rem' }}
+                variant="outlined"
+                label={
+                  addedDate
+                    ? `Added on Autotrader : ${addedDate.substring(
+                        0,
+                        4
+                      )}-${addedDate.substring(4, 6)}-${addedDate.substring(
+                        6,
+                        8
+                      )}`
+                    : null
+                }
+              ></Chip>
+
+              <Divider></Divider>
+            </Grid>
+          </Grid>
+        </Grid>
+
         <Grid item sm={12}>
           {seller_coords ? (
             <Map
@@ -443,10 +388,17 @@ export default function Car(props) {
             'Not Available'
           )}
         </Popover>
-
+        <Button size="small" variant="outlined">
+          <a href={`${actualLink}`} target="_blank" rel="noopener noreferrer">
+            View on AutoTrader
+          </a>
+        </Button>
         <Tooltip title="Remove car" aria-label="remove">
           <IconButton onClick={removeCar} style={{ color: 'red' }}>
-            <DeleteForeverIcon size="large"></DeleteForeverIcon>
+            <DeleteForeverIcon
+              size="large"
+              style={{ fontSize: '2rem' }}
+            ></DeleteForeverIcon>
           </IconButton>
         </Tooltip>
       </CardActions>

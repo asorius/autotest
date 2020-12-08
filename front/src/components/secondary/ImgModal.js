@@ -27,14 +27,16 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
   },
   modalContent: {
-    maxWidth: '90%',
+    width: '90%',
     height: '90%',
     position: 'relative',
   },
   img: {
     height: '100%',
+    margin: '0 auto',
     width: '100%',
     objectFit: 'cover',
+    display: 'block',
     // maxHeight: '80vh',
   },
 
@@ -93,11 +95,18 @@ export default function ImgModal({
   };
   return (
     <div>
-      <Tooltip title="Enlarge photo" aria-label="enlarge">
-        <IconButton onClick={openModal}>
+      {/* <Tooltip title="Enlarge photo" aria-label="enlarge"> */}
+      <div
+        onClick={openModal}
+        style={{ height: '100%', width: '100%', zIndex: 55 }}
+      ></div>
+      {/* <IconButton
+          onClick={openModal}
+         
+        >
           <ZoomOutMapIcon></ZoomOutMapIcon>
-        </IconButton>
-      </Tooltip>
+        </IconButton> */}
+      {/* </Tooltip> */}
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -113,7 +122,7 @@ export default function ImgModal({
         <Fade in={modal}>
           <div className={classes.modalContent}>
             <Grid container style={{ height: '100%' }}>
-              <Grid item style={{ height: '100%' }}>
+              <Grid item style={{ height: '85%', width: '100%' }}>
                 <Tooltip title="Previous" aria-label="prev">
                   <IconButton
                     variant="contained"
@@ -124,9 +133,8 @@ export default function ImgModal({
                     <ArrowBackIosIcon size="large"></ArrowBackIosIcon>
                   </IconButton>
                 </Tooltip>
-                <Fade in={images[current - 1] !== images[current]}>
-                  <img className={classes.img} src={img} alt="Car" />
-                </Fade>
+
+                <img className={classes.img} src={img} alt="Car" />
                 <Tooltip title="Next" aria-label="next">
                   <IconButton
                     variant="contained"
@@ -146,17 +154,23 @@ export default function ImgModal({
                   bottom: 0,
                   left: 0,
                   width: '100%',
+                  maxHeight: '15%',
+                  minHeight: '5rem',
+                  background: 'rgba(255, 255, 255, 1)',
                 }}
               >
                 <Grid item sm={12} style={{ textAlign: 'center' }}>
                   <Typography
-                    variant="h5"
+                    variant="body1"
                     style={{
-                      background: 'rgba(255, 255, 255, 0.74)',
+                      background: '#26a69a',
                       borderRadius: '.7rem',
-                      color: 'black',
+                      color: 'white',
                       width: '5rem',
                       marginLeft: '10%',
+                      position: 'absolute',
+                      top: '-12%',
+                      left: '75%',
                     }}
                   >
                     {current + 1} / {images.length}
@@ -172,7 +186,7 @@ export default function ImgModal({
                         margin: '.2rem',
                         borderRadius: '5%',
                         display: 'inline-block',
-                        border: `${src === img ? '2px solid white' : 'none'}`,
+                        border: `${src === img ? '2px solid #26a69a' : 'none'}`,
                         background: `url(${src})`,
                         backgroundSize: 'cover',
                         cursor: 'pointer',
