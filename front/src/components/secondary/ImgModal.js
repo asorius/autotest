@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 // import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
@@ -8,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import ArrowBackIosIcon from '@material-ui/icons/ChevronLeft';
 import ArrowForwardIosIcon from '@material-ui/icons/ChevronRight';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
+import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -30,11 +30,12 @@ const useStyles = makeStyles((theme) => ({
     width: '90%',
     height: '90%',
     position: 'relative',
+    background: 'black',
   },
   img: {
-    height: '100%',
+    maxHeight: '100%',
     margin: '0 auto',
-    width: '100%',
+    // width: '100%',
     objectFit: 'cover',
     display: 'block',
     // maxHeight: '80vh',
@@ -94,19 +95,20 @@ export default function ImgModal({
     // smallImgChange(e, current);
   };
   return (
-    <div>
-      {/* <Tooltip title="Enlarge photo" aria-label="enlarge"> */}
-      <div
-        onClick={openModal}
-        style={{ height: '100%', width: '100%', zIndex: 55 }}
-      ></div>
-      {/* <IconButton
+    <div
+      style={{ height: '100%', width: '100%', zIndex: 55, cursor: 'pointer' }}
+    >
+      <Tooltip
+        title="Enlarge photo"
+        aria-label="enlarge"
+        style={{ height: '50%', width: '50%' }}
+      >
+        <Button
+          id="openingDiv"
           onClick={openModal}
-         
-        >
-          <ZoomOutMapIcon></ZoomOutMapIcon>
-        </IconButton> */}
-      {/* </Tooltip> */}
+          style={{ height: '100%', width: '100%' }}
+        ></Button>
+      </Tooltip>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -122,7 +124,7 @@ export default function ImgModal({
         <Fade in={modal}>
           <div className={classes.modalContent}>
             <Grid container style={{ height: '100%' }}>
-              <Grid item style={{ height: '85%', width: '100%' }}>
+              <Grid item style={{ height: '100%', width: '100%' }}>
                 <Tooltip title="Previous" aria-label="prev">
                   <IconButton
                     variant="contained"
@@ -153,10 +155,10 @@ export default function ImgModal({
                   position: 'absolute',
                   bottom: 0,
                   left: 0,
-                  width: '100%',
                   maxHeight: '15%',
                   minHeight: '5rem',
-                  background: 'rgba(255, 255, 255, 1)',
+                  textAlign: 'center',
+                  borderRadius: '.5rem',
                 }}
               >
                 <Grid item sm={12} style={{ textAlign: 'center' }}>

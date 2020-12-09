@@ -21,6 +21,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { Chip, Divider, Popover, Tooltip } from '@material-ui/core';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import ErrorIcon from '@material-ui/icons/Error';
 // import { Link } from 'react-router-dom';
 // import { useSpring, animated } from 'react-spring';
 import ExpandLess from '@material-ui/icons/ExpandLess';
@@ -211,64 +212,60 @@ export default function Car(props) {
         <Grid item sm={12}>
           <Grid
             style={{
-              padding: '1rem ',
+              padding: '.75rem ',
             }}
             container
             spacing={1}
             justify="space-evenly"
           >
-            <Grid item>
+            <Grid item sm={8}>
               {dealerLink ? (
                 <React.Fragment>
-                  <Typography variant="h5" color="secondary">
-                    {seller.name}
-                    <a
-                      href={dealerLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        display: 'inline-block',
-                      }}
-                    >
-                      <Tooltip
-                        title="Go to sellers website"
-                        aria-label="seller"
+                  <Typography
+                    variant="h5"
+                    color="secondary"
+                    style={{
+                      textAlign: 'center',
+                    }}
+                  >
+                    <Tooltip title="Sellers website" aria-label="seller">
+                      <a
+                        href={dealerLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
                       >
-                        <IconButton color="primary">
-                          <OpenInNewIcon></OpenInNewIcon>
-                        </IconButton>
-                      </Tooltip>
-                    </a>
+                        {seller.name}
+                      </a>
+                    </Tooltip>
                   </Typography>
                 </React.Fragment>
               ) : (
                 <Typography
                   variant="h5"
-                  color="secondary"
+                  color="body"
                   style={{
-                    height: '100%',
-                    display: 'grid',
-                    placeItems: 'center',
+                    textAlign: 'center',
                   }}
                 >
                   {seller.name}
                 </Typography>
               )}
-            </Grid>
-            <Grid item style={{ textAlign: 'center' }}>
-              <Typography variant="h6">Contacts</Typography>
-              <Typography variant="body2">
+              <Typography
+                variant="body1"
+                style={{ padding: '.5rem', textAlign: 'center' }}
+              >
                 {seller.phone1}
                 {seller.phone2 ? `, ${seller.phone2}` : null}
               </Typography>
             </Grid>
-            <Grid item sm={12} style={{ textAlign: 'center' }}>
+            <Grid item sm={4} style={{ textAlign: 'center' }}>
               <Chip
                 style={{ margin: '.5rem' }}
+                size="small"
                 variant="outlined"
                 label={
                   addedDate
-                    ? `Added on Autotrader : ${addedDate.substring(
+                    ? `Published : ${addedDate.substring(
                         0,
                         4
                       )}-${addedDate.substring(4, 6)}-${addedDate.substring(
@@ -278,10 +275,20 @@ export default function Car(props) {
                     : null
                 }
               ></Chip>
-
-              <Divider></Divider>
+              <Tooltip title="View original add" aria-label="view link">
+                <Button size="small" variant="outlined" color="secondary">
+                  <a
+                    href={`${actualLink}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Autotrader
+                  </a>
+                </Button>
+              </Tooltip>
             </Grid>
           </Grid>
+          <Divider></Divider>
         </Grid>
 
         <Grid item sm={12}>
@@ -292,11 +299,12 @@ export default function Car(props) {
               isMarkerShown={true}
             />
           ) : map === undefined ? null : (
-            <div className="center">
-              <p>
-                <i>Map unavailable due to seller.</i>
-              </p>
-            </div>
+            <Chip
+              variant="outlined"
+              size="small"
+              icon={<ErrorIcon style={{ color: 'darkred' }} />}
+              label="Map unavailable due to seller"
+            />
           )}
         </Grid>
       </Grid>
@@ -388,11 +396,7 @@ export default function Car(props) {
             'Not Available'
           )}
         </Popover>
-        <Button size="small" variant="outlined">
-          <a href={`${actualLink}`} target="_blank" rel="noopener noreferrer">
-            View on AutoTrader
-          </a>
-        </Button>
+
         <Tooltip title="Remove car" aria-label="remove">
           <IconButton onClick={removeCar} style={{ color: 'red' }}>
             <DeleteForeverIcon
