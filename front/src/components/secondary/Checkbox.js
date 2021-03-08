@@ -4,7 +4,7 @@ export default function Checkbox({
   name,
   value,
   isSelected,
-  onCheckboxChange
+  onCheckboxChange,
 }) {
   return (
     <label htmlFor={value} className="checkbox center">

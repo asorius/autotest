@@ -5,12 +5,12 @@ const getPost = async postcode => {
     const link = `https://api.tomtom.com/search/2/geocode/${postcode}.json?key=${postAPI}`;
     const { data } = await axios.get(link);
     if (data.summary.totalResults === 0) {
-      return { error: 'post code not found1' };
+      throw new Error
     } else {
       return data;
     }
   } catch (e) {
-    console.log({ error: 'post code not found2' });
+    console.log({ error: 'post code not found',from:'postgetterapi' });
     return { error: 'post code not found' };
   }
 };

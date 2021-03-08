@@ -1,4 +1,14 @@
-.main-container {
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  scroll-behavior: smooth;
+}
+a {
+  /* text-decoration: none; */
+  color: inherit;
+}
+/* .main-container {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -59,10 +69,10 @@
   white-space: wrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
+} */
 
 /*-------------------------------------- dropdown styling */
-li {
+/* li {
   list-style: none;
   transition: all 0.2s;
   margin-bottom: 0.5rem;
@@ -79,11 +89,11 @@ li:hover {
   border-radius: 5px;
   cursor: pointer;
   background-color: #6b6b6b3d;
-}
+} */
 
 /*---------------------------------- dropdown on clicking on more MOT info */
 
-.expand-dropdown-button {
+/* .expand-dropdown-button {
   cursor: pointer;
   background-color: rgba(165, 165, 165, 0.562);
   border-radius: 15px;
@@ -134,7 +144,7 @@ li:hover {
   transform: rotate(90deg);
 }
 /* ------------------------------------settings modal styling */
-.mdl {
+/* .mdl {
   height: 90vh;
   width: 95vw;
   background-color: white;
@@ -151,9 +161,9 @@ li:hover {
 .mdl-labels label {
   height: 4rem;
   padding: 0.5rem;
-}
+} */
 /* -----------------------------------checkboxes */
-.checkbox {
+/* .checkbox {
   width: 9rem;
   margin-bottom: 0.5rem;
 }
@@ -200,23 +210,23 @@ label input[type='checkbox']:checked + div:hover {
 }
 .subtitle2 h3 {
   font-size: 0.3rem;
-}
+}  */
 /*----------------------------------- multiline hover class */
 .hover {
   background-color: #6b6b6b3d;
   border-radius: 5px;
 }
 /* ------------------------------------images */
-.image img {
+/* .image img {
   height: 20rem;
   object-fit: cover;
 }
 img {
   width: 100%;
   height: 100%;
-}
+} */
 /*-------------------------------- image arrows */
-.card-image {
+/* .card-image {
   position: relative;
 }
 .buttons {
@@ -268,7 +278,7 @@ button.next {
   background: rgba(139, 139, 139, 0.438);
 }
 /* ------------------------------------------------------large image modal  */
-.img-mdl {
+/* .img-mdl {
   height: auto;
   width: auto;
   max-height: 95vh;
@@ -291,10 +301,10 @@ button.next {
   overflow: scroll;
   border-radius: 5px;
   border: 1px solid #8b8b8b91;
-}
+} */
 
 /* ----------------------------------------------------card foot */
-.card-footer {
+/* .card-footer {
   display: flex;
   justify-content: space-around;
 }
@@ -316,7 +326,7 @@ footer {
 }
 .delete-btn:hover {
   background-color: hsl(348, 100%, 84%);
-}
+} */
 /* -------------------------------------------- google maps box */
 .travel {
   font-size: 1rem;
@@ -325,14 +335,15 @@ footer {
   border: 1px solid rgba(236, 17, 17, 0.534);
   padding: 0.5rem;
 }
+/* 
 .km {
   min-width: 5rem;
 }
 .message-body p {
   padding: 0.5rem;
-}
+} */
 /* -----------------------------------for screens bigger than 768px (tablet)*/
-@media only screen and (min-width: 768px) {
+/* @media only screen and (min-width: 768px) {
   .inputs-container {
     width: 50%;
   }
@@ -350,9 +361,9 @@ footer {
   .menu-container {
     width: 15rem;
   }
-}
+}  */
 /* --------------------------------for screens bigger then 1024px (laptop)*/
-@media only screen and (min-width: 1024px) {
+/* @media only screen and (min-width: 1024px) {
   button.next,
   button.prev {
     width: 15%;
@@ -402,9 +413,9 @@ footer {
   .active .icon {
     transform: rotate(90deg);
   }
-}
+} */
 /* -------------------------------for screens bigger then 1216px widescreen */
-@media only screen and (min-width: 1370px) {
+/* @media only screen and (min-width: 1370px) {
   .column {
     max-width: 33%;
     margin: 1rem auto;
@@ -445,4 +456,4 @@ footer {
     max-height: 95vh;
     max-width: 95vh;
   }
-}
+} */

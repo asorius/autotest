@@ -1,20 +1,32 @@
 import React, { useContext, useState, useEffect } from 'react';
 import Context from '../context/context';
-import Car from './Car';
-import Settings from './Settings';
-import classnames from 'classnames';
+import InputsForm from './InputsForm';
 import { setTimeout } from 'timers';
+import Toolbar from '@material-ui/core/Toolbar';
+import ScrollToTop from './secondary/ScrollToTop';
+import Container from '@material-ui/core/Container';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import Fab from '@material-ui/core/Fab';
+import Typography from '@material-ui/core/Typography';
+import 'fontsource-roboto';
+import bg from '../utils/bm.jpg';
+import Grid from '@material-ui/core/Grid';
+// import AppBar from '@material-ui/core/AppBar';
+// import HideOnScroll from './secondary/HideOnScroll';
+// import Link from '@material-ui/core/Link';
+import Settings from './Settings';
+import Divider from '@material-ui/core/Divider';
+import Hidden from '@material-ui/core/Hidden';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { Grow } from '@material-ui/core';
+import CarCardsList from './secondary/CarCardsList';
+
+// import { useSpring, animated } from 'react-spring';
 
 export default function LandingPage(props) {
-  const [url, setUrl] = useState('');
-  const [post, setPost] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [loadingPost, setPostLoading] = useState(false);
   const context = useContext(Context);
-
-  const onChange = (e) => {
-    setUrl(e.target.value.toLowerCase());
-  };
+  const [loading, setLoading] = useState(false);
+  const listRef = React.createRef();
 
   useEffect(() => {
     //put list to context on initial render
@@ -24,9 +36,6 @@ export default function LandingPage(props) {
         list: context.list,
       })
     );
-  }, [context.list]);
-
-  useEffect(() => {
     localStorage.setItem(
       'atpsettings',
       JSON.stringify({
@@ -34,177 +43,127 @@ export default function LandingPage(props) {
         settings: context.settings,
       })
     );
-    setLoading(true);
-    setTimeout(() => setLoading(false), 1000);
-  }, [context.settings, context.postcode]);
-
-  const onPost = (e) => {
-    setPost(e.target.value.toUpperCase().trim().replace(/\s+/g, ''));
-  };
-
-  const addCarFunc = async (e) => {
-    setLoading(!loading);
-    e.preventDefault();
-    try {
-      await context.addCarToList({ url, settings: context.settings });
-
-      setLoading(false);
-      setUrl('');
-    } catch (e) {
-      return { errored: e };
-    }
-  };
-  const addPost = async (e) => {
-    setPostLoading(!loadingPost);
-    e.preventDefault();
-    if (post.length < 4) {
-      context.setError({ msg: 'Invalid postcode', to: 'post' });
+    if (context.list.length > 0) {
+      setLoading(true);
+      listRef.current.scrollIntoView(true);
       setTimeout(() => {
-        setPost('');
-        setPostLoading(false);
-      }, 500);
-      return;
+        setLoading(false);
+      }, 1500);
     }
-    try {
-      await context.addPostToList(post);
-      const urls = context.list.map((el) => el.actualLink);
-      context.list.forEach((element) => {
-        context.removeCarFromList(element._id);
-      });
-      context.updateListWithNewSettings({
-        urls,
-        newSettings: context.settings,
-      });
-      setTimeout(() => {
-        setPost('');
-        setPostLoading(false);
-      }, 500);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-  const onDeletePostcode = (e) => {
-    e.preventDefault();
-
-    context.removePostFromList(context.postcode.postcode);
-    const urls = context.list.map((el) => el.actualLink);
-    context.list.forEach((element) => {
-      context.removeCarFromList(element._id);
-    });
-    context.updateListWithNewSettings({ urls, newSettings: context.settings });
-  };
-  const shareList = (e) => {
-    e.preventDefault();
-    const urls = context.list.reduce(
-      (accumulator, current) => [...accumulator, current.actualLink],
-      []
-    );
-    const data = { key: context.sharekey, list: urls };
-    context.saveCarList(data);
-  };
+  }, []);
 
   return (
-    <div className="main-container">
-      <header className="hero is-medium is-light is-bold">
-        <div className="hero-body">
-          <div className="container">
-            <h1 className="title">AutoPare</h1>
-            <h2 className="subtitle">Expanded AutoTrader car lists</h2>
-          </div>
-        </div>
-      </header>
-      <main>
-        <section className="section inputs-container container">
-          <form className="control postcode " onSubmit={addPost}>
-            <div className="center">
-              <input
-                className="input is-rounded"
-                type="text"
-                onChange={onPost}
-                value={post}
-                placeholder="Your postcode"
-              />
-              <button
-                className={classnames('button ', {
-                  'is-loading': loadingPost,
-                  'is-danger': context.errors.to === 'post',
-                })}
-                type="submit"
+    <div style={{ background: '#ebebeb', width: '100%', height: '100%' }}>
+      <div style={{ background: 'white', width: '100%', height: '100%' }}>
+        <Container>
+          <Toolbar id="back-to-top-anchor" style={{ position: 'absolute' }} />
+          <Grid container style={{ height: '100vh', position: 'relative' }}>
+            <div
+              style={{
+                position: 'absolute',
+                top: '35%',
+                right: '35%',
+                height: '5rem',
+                width: '8rem',
+                zIndex: '-20',
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%235c6bc0' fill-opacity='0.25'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+              }}
+            ></div>
+            <Grid item md={6}>
+              <Hidden smDown>
+                <header
+                  style={{
+                    backgroundImage: `url(${bg})`,
+                    backgroundPosition: 'center',
+                    backgroundSize: 'cover',
+                    height: '100vh',
+                    clipPath:
+                      'polygon(0% 0%, 88% 0, 100% 50%, 88% 100%, 0% 100%)',
+                  }}
+                ></header>
+              </Hidden>
+            </Grid>
+            <Grid item sm={12} md={6}>
+              <Container
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-evenly',
+                  height: '50%',
+                  textAlign: 'center',
+                }}
               >
-                <span className="icon is-large">
-                  <i className="fas fa-search fa-lg" />
-                </span>
-              </button>
-            </div>
-            <div className="post-info">
-              {context.postcode ? (
-                <React.Fragment>
-                  <div className="tag is-light ">
-                    Current postcode : {context.postcode.postcode}
-                  </div>
-                  <button
-                    className="delete is-medium"
-                    onClick={onDeletePostcode}
-                  />
-                </React.Fragment>
-              ) : (
-                <React.Fragment>
-                  <div
-                    className={classnames('tag is-light is-fullwidth', {
-                      'is-danger': context.errors.to === 'post',
-                    })}
-                  >
-                    {context.errors.to === 'post'
-                      ? context.errors.msg
-                      : 'Enter postcode to get directions from you to the car!'}
-                  </div>
-                </React.Fragment>
-              )}
-            </div>
-          </form>
-          <form className="control urlinput" onSubmit={addCarFunc}>
-            <input
-              className="input"
-              type="text"
-              value={url}
-              onChange={onChange}
-              placeholder="Paste links from AutoTrader to add to the list"
-            />
-            <button
-              className={classnames('button is-info is-fullwidth', {
-                'is-loading': loading,
-                'is-danger': context.errors.to === 'add',
-              })}
-              type="submit"
-            >
-              {context.errors.to === 'add' ? `${context.errors.msg} !` : 'Add'}
-            </button>
-          </form>
-          <Settings />
-        </section>
-        <section className="columns is-multiline is-paddingless">
-          {context.list.map((item) => {
-            return <Car key={item._id} item={item} reload={context.postcode} />;
-          })}
-        </section>
-      </main>
-      <footer className="footer">
-        <div className="contect has-text-centered">
-          {context.sharekey !== null ? null : (
-            <button className="button" onClick={shareList}>
-              Generate sharable link
-            </button>
-          )}
-          {context.sharekey !== null ? (
-            <input
-              className="input sharelink"
-              type="text"
-              readOnly
-              value={`${window.location.href}${context.sharekey}`}
-            />
-          ) : null}
-        </div>
-      </footer>
+                <Typography
+                  variant="h1"
+                  component="h1"
+                  gutterBottom
+                  color="textPrimary"
+                >
+                  AutoPare
+                </Typography>
+                <Typography
+                  variant="h2"
+                  component="h2"
+                  gutterBottom
+                  color="textSecondary"
+                >
+                  Learn more about Your future investment!
+                </Typography>
+                <Divider></Divider>
+              </Container>
+              <InputsForm></InputsForm>
+            </Grid>
+          </Grid>
+        </Container>
+      </div>
+      <Container>
+        <main>
+          <section
+            style={{
+              position: 'relative',
+              padding: context.list.length > 0 ? '2rem' : 0,
+            }}
+            id="list"
+            ref={listRef}
+          >
+            {loading ? (
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '0',
+                  right: '0',
+                  height: '100%',
+                  width: '100%',
+                  minHeight: '10rem',
+                  zIndex: '2',
+                  background: '#ffffffde',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  paddingTop: '5rem',
+                }}
+              >
+                <CircularProgress size={150} thickness={5} />
+                <Typography variant="h4" style={{ margin: '2rem' }}>
+                  Updating list...
+                </Typography>
+              </div>
+            ) : null}
+            <Grow in={!loading}>
+              <Grid container spacing={2}>
+                <CarCardsList></CarCardsList>
+              </Grid>
+            </Grow>
+          </section>
+        </main>
+        <ScrollToTop {...props}>
+          <Fab color="secondary" size="small" aria-label="scroll back to top">
+            <KeyboardArrowUpIcon />
+          </Fab>
+        </ScrollToTop>
+
+        <Settings />
+      </Container>
     </div>
   );
 }
