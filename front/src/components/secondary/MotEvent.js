@@ -5,7 +5,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import NotInterestedIcon from '@material-ui/icons/NotInterested';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import Paper from '@material-ui/core/Paper';
@@ -39,23 +38,29 @@ export default function MotEvent(props) {
             secondary={`Miles driven since : ${props.driven}`}
           />
           {/* Check if there are actually any information in mot event and wether to show expand action icons */}
-          {motEvent.data.notices.length === 0 ? null : open ? (
-            <KeyboardArrowLeft />
-          ) : (
-            <KeyboardArrowRight />
+          {motEvent.data.notices.length === 0 ? null : (
+            <KeyboardArrowRight
+              style={{
+                transition: 'all .5s',
+                transform: `${open ? 'rotate(180deg)' : 'rotate(0)'}`,
+              }}
+            />
           )}
         </ListItem>
         {/* Collapse is the side pop up with more details of mot check */}
-        <Collapse in={open} timeout="auto" unmountOnExit>
-          <Paper
-            style={{
-              position: 'absolute',
-              left: '100%',
-              width: '100%',
-              bottom: 0,
-            }}
-          >
-            <List disablePadding>
+        <Paper
+          style={{
+            position: 'absolute',
+            left: '100%',
+            width: '100%',
+            bottom: 0,
+          }}
+        >
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <List
+              disablePadding
+              style={{ maxHeight: '40vh', overflowY: 'scroll' }}
+            >
               {motEvent.data.notices.length > 0 ? (
                 <ListItem>
                   <List disablePadding>
@@ -87,8 +92,8 @@ export default function MotEvent(props) {
                 </ListItem>
               ) : null}
             </List>
-          </Paper>
-        </Collapse>
+          </Collapse>
+        </Paper>
       </List>
     </React.Fragment>
   );
