@@ -30,6 +30,7 @@ export default function LandingPage(props) {
 
   useEffect(() => {
     //put list to context on initial render
+    console.log(context.list);
     localStorage.setItem(
       'atplist',
       JSON.stringify({

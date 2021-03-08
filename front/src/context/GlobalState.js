@@ -98,9 +98,10 @@ export default function GlobalState(props) {
       const json = await graphResponse.json();
       if (json.data.getAutodata) {
         const addedCar = json.data.getAutodata;
+        console.log({ FROMGLOBAL: addedCar });
         dispatch({
           type: ADD_CAR,
-          payload: { addedCar, url: data.actualLink },
+          payload: { addedCar, url: addedCar.actualLink },
         });
       } else {
         setError({ msg: 'Invalid link', to: 'add' });

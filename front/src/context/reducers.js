@@ -12,7 +12,7 @@ const addCar = (data, state) => {
   const car = { ...data.addedCar, url: data.url };
   const newList = [...state.list];
   const carIndex = newList.findIndex((item) => item._id === car._id);
-
+  console.log({ car, carIndex });
   if (carIndex < 0) {
     newList.push({ ...car });
   }

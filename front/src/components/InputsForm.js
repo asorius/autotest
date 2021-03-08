@@ -51,6 +51,7 @@ const InputsForm = () => {
       });
       setLoading(false);
       setUrl('');
+      console.log(res);
       if (res) {
         // list.current.scrollIntoView(false);
       }
