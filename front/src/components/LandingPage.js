@@ -11,9 +11,6 @@ import Typography from '@material-ui/core/Typography';
 import 'fontsource-roboto';
 import bg from '../utils/bm.jpg';
 import Grid from '@material-ui/core/Grid';
-// import AppBar from '@material-ui/core/AppBar';
-// import HideOnScroll from './secondary/HideOnScroll';
-// import Link from '@material-ui/core/Link';
 import Settings from './Settings';
 import Divider from '@material-ui/core/Divider';
 import Hidden from '@material-ui/core/Hidden';
@@ -30,7 +27,6 @@ export default function LandingPage(props) {
 
   useEffect(() => {
     //put list to context on initial render
-    console.log(context.list);
     localStorage.setItem(
       'atplist',
       JSON.stringify({

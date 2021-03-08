@@ -28,7 +28,6 @@ module.exports = {
       const { vrm } = data.vehicle;
       const actualLink = data.pageData.canonical;
       const addedDate = data.pageData.ods.advertId.substring(0, 8);
-      console.log({ actualLink });
       const dealerLink = data.seller.dealerWebsite || null;
       const motdata = await getMot(vrm);
       let mileageDataForDisplay;

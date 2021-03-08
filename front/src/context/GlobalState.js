@@ -225,6 +225,14 @@ export default function GlobalState(props) {
     dispatch({ type: REMOVE_POST, payload: postcode });
   };
   const updateSettings = (settings) => {
+    console.log({ settings });
+    // localStorage.setItem(
+    //   'atpsettings',
+    //   JSON.stringify({
+    //     postcode: context.postcode,
+    //     settings: context.settings,
+    //   })
+    // );
     dispatch({ type: SETTINGS_UPDATE, payload: settings });
   };
   const updateListWithNewSettings = ({ urls, newSettings }) => {
