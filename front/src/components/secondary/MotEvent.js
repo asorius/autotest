@@ -11,19 +11,19 @@ import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import Paper from '@material-ui/core/Paper';
 export default function MotEvent(props) {
   const [open, setOpen] = useState(false);
+  const motEvent = props.item;
   const toggleDrop = (e) => {
     e.preventDefault();
     setOpen(!open);
   };
-  const motEvent = props.item;
   return (
     <React.Fragment>
       <List
-        component="div"
         aria-labelledby="nested-list-subheader"
         style={{ position: 'relative' }}
       >
         <ListItem button onClick={toggleDrop} style={{ position: 'relative' }}>
+          {/* Failed or Passed icon  */}
           <ListItemIcon>
             {motEvent.status === 'pass' ? (
               <CheckCircleOutlineIcon
@@ -33,14 +33,19 @@ export default function MotEvent(props) {
               <NotInterestedIcon style={{ color: 'red' }}></NotInterestedIcon>
             )}
           </ListItemIcon>
+          {/* Failed or passed text with event date plus miles driven since last mot event*/}
           <ListItemText
-            primary={`${motEvent.status === 'pass' ? 'Passed' : 'Failed'} / ${
-              motEvent.date
-            }`}
+            primary={`${motEvent.date}`}
             secondary={`Miles driven since : ${props.driven}`}
           />
-          {open ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+          {/* Check if there are actually any information in mot event and wether to show expand action icons */}
+          {motEvent.data.notices.length === 0 ? null : open ? (
+            <KeyboardArrowLeft />
+          ) : (
+            <KeyboardArrowRight />
+          )}
         </ListItem>
+        {/* Collapse is the side pop up with more details of mot check */}
         <Collapse in={open} timeout="auto" unmountOnExit>
           <Paper
             style={{
@@ -50,10 +55,10 @@ export default function MotEvent(props) {
               bottom: 0,
             }}
           >
-            <List component="div" disablePadding>
+            <List disablePadding>
               {motEvent.data.notices.length > 0 ? (
                 <ListItem>
-                  <List component="div" disablePadding>
+                  <List disablePadding>
                     <ListItemText primary="Advisory notice reasons:"></ListItemText>
                     <List>
                       {motEvent.data.notices.map((reason, index) => (
@@ -85,75 +90,6 @@ export default function MotEvent(props) {
           </Paper>
         </Collapse>
       </List>
-      {/* {props.index !== 0 ? <hr className="dropdown-divider" /> : null}
-      <div className="dropdown-item  main-item is-paddingless">
-        <div className="has-text-centered is-marginless mot-main-info">
-          <div>
-            {motEvent.status === 'pass' ? (
-              <span className="mot-status pass has-text-success">Passed</span>
-            ) : (
-              <span className="mot-status fail has-text-danger">Failed</span>
-            )}
-          </div>
-          <div>{motEvent.date}</div>
-          <div className="is-italic">Miles driven since : {props.driven}</div>
-        </div>
-        {motEvent.data.notices.length > 0 ||
-        motEvent.data.refusal.length > 0 ? (
-          <div
-            className={classnames('expand-dropdown-button mot-expand-btn', {
-              active: drop
-            })}
-            onClick={toggleDrop}
-          >
-            <div className="dropdown">
-              <div className="dropdown-trigger">
-                <div aria-haspopup="true" aria-controls="dropdown-menu2">
-                  <span className="icon is-small sub-btn">
-                    <i className="fas fa-angle-right" aria-hidden="true" />
-                  </span>
-                </div>
-              </div>
-              <div
-                className={classnames('dropdown-menu drp ', {
-                  'is-hidden': !drop
-                })}
-                id="dropdown-menu2"
-                role="menu"
-              >
-                <div className="dropdown-content">
-                  <div className="dropdown-item">
-                    {motEvent.data.notices.length > 0 ? (
-                      <div className="advisories expand-dropdown-container">
-                        <h4 className="has-text-info is-italic is-size-6">
-                          Advisory notice reasons:
-                        </h4>
-                        <ol>
-                          {motEvent.data.notices.map((reason, index) => (
-                            <li key={index}>{reason.split('(')[0]}</li>
-                          ))}
-                        </ol>
-                      </div>
-                    ) : null}
-                    {motEvent.data.refusal.length > 0 ? (
-                      <div className="refusal expand-dropdown-container">
-                        <h4 className="has-text-danger is-italic is-size-6">
-                          Reasons for refusal:
-                        </h4>
-                        <ol>
-                          {motEvent.data.refusal.map((reason, index) => (
-                            <li key={index}>{reason}</li>
-                          ))}
-                        </ol>
-                      </div>
-                    ) : null}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        ) : null}
-      </div> */}
     </React.Fragment>
   );
 }

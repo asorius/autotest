@@ -10,7 +10,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
 import Chip from '@material-ui/core/Chip';
-export default function InputsForm() {
+const InputsForm = () => {
   const context = useContext(Context);
   const [url, setUrl] = useState('');
   const [post, setPost] = useState('');
@@ -19,7 +19,6 @@ export default function InputsForm() {
   const [loadingPost, setPostLoading] = useState(false);
   const [addError, setAddError] = useState(false);
   const [postError, setPostError] = useState(false);
-  const list = document.getElementById('list');
   useEffect(() => {
     setPostcode(context.postcode.postcode);
   }, [context.postcode.postcodeode]);
@@ -46,7 +45,6 @@ export default function InputsForm() {
     setLoading(!loading);
     e.preventDefault();
     try {
-      // await context.addCarToList({ url, settings: context.settings });
       const res = await context.addCarToList({
         url,
         settings: context.settings,
@@ -54,7 +52,7 @@ export default function InputsForm() {
       setLoading(false);
       setUrl('');
       if (res) {
-        list.scrollIntoView(true);
+        // list.current.scrollIntoView(false);
       }
     } catch (e) {
       return { errored: e };
@@ -88,7 +86,6 @@ export default function InputsForm() {
 
         setPostcode(res.pc);
         setPostLoading(false);
-        list.scrollIntoView({ block: 'end' });
       } else {
         context.setError({ msg: 'Invalid postcode', to: 'post' });
         setTimeout(() => {
@@ -243,4 +240,5 @@ export default function InputsForm() {
       </Grid>
     </Container>
   );
-}
+};
+export default InputsForm;

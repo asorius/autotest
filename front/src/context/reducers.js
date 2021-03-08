@@ -11,7 +11,7 @@ export const RESET = 'RESET';
 const addCar = (data, state) => {
   const car = { ...data.addedCar, url: data.url };
   const newList = [...state.list];
-  const carIndex = newList.findIndex(item => item._id === car._id);
+  const carIndex = newList.findIndex((item) => item._id === car._id);
 
   if (carIndex < 0) {
     newList.push({ ...car });
@@ -21,17 +21,23 @@ const addCar = (data, state) => {
 
 const removeCar = (carId, state) => {
   let newList = [...state.list];
-  const carIndex = newList.findIndex(item => item._id === carId);
+  const carIndex = newList.findIndex((item) => item._id === carId);
 
   if (carIndex >= 0) {
-    newList = newList.filter(car => car._id !== carId);
+    newList = newList.filter((car) => car._id !== carId);
+    localStorage.setItem(
+      'atplist',
+      JSON.stringify({
+        list: newList,
+      })
+    );
   }
   return { ...state, list: newList };
 };
 const popError = (data, state) => {
   return { ...state, errors: data };
 };
-const clearError = state => {
+const clearError = (state) => {
   return { ...state, errors: {} };
 };
 const addPost = (data, state) => {
@@ -51,7 +57,7 @@ const updateSettings = (newSettings, state) => {
 const addKey = (data, state) => {
   return { ...state, sharekey: data.sharekey };
 };
-const reset = state => {
+const reset = (state) => {
   return { ...state, list: [] };
 };
 export const listReducer = (state, action) => {

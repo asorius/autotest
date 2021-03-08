@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
 import Context from '../context/context';
-import Car from './Car';
 import InputsForm from './InputsForm';
 import { setTimeout } from 'timers';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -20,11 +19,14 @@ import Divider from '@material-ui/core/Divider';
 import Hidden from '@material-ui/core/Hidden';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Grow } from '@material-ui/core';
+import CarCardsList from './secondary/CarCardsList';
+
 // import { useSpring, animated } from 'react-spring';
 
 export default function LandingPage(props) {
   const context = useContext(Context);
   const [loading, setLoading] = useState(false);
+  const listRef = React.createRef();
 
   useEffect(() => {
     //put list to context on initial render
@@ -43,21 +45,12 @@ export default function LandingPage(props) {
     );
     if (context.list.length > 0) {
       setLoading(true);
-      setTimeout(() => setLoading(false), 1500);
+      listRef.current.scrollIntoView(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1500);
     }
-  }, [context.list, context.postcode, context.settings]);
-
-  // useEffect(() => {
-  //   localStorage.setItem(
-  //     'atpsettings',
-  //     JSON.stringify({
-  //       postcode: context.postcode,
-  //       settings: context.settings,
-  //     })
-  //   );
-  //   setLoading(true);
-  //   setTimeout(() => setLoading(false), 1500);
-  // }, [context.settings, context.postcode]);
+  }, []);
 
   return (
     <div style={{ background: '#ebebeb', width: '100%', height: '100%' }}>
@@ -131,7 +124,7 @@ export default function LandingPage(props) {
               padding: context.list.length > 0 ? '2rem' : 0,
             }}
             id="list"
-            //////////////////////////////// SORT OUT AUTOSCROLLING
+            ref={listRef}
           >
             {loading ? (
               <div
@@ -158,22 +151,7 @@ export default function LandingPage(props) {
             ) : null}
             <Grow in={!loading}>
               <Grid container spacing={2}>
-                {context.list.map((item, i) => {
-                  return (
-                    <Grid
-                      key={i + 658}
-                      item
-                      sm={12}
-                      md={context.list.length > 1 ? 6 : 12}
-                    >
-                      <Car
-                        key={item._id}
-                        item={item}
-                        reload={context.postcode}
-                      />
-                    </Grid>
-                  );
-                })}
+                <CarCardsList></CarCardsList>
               </Grid>
             </Grow>
           </section>

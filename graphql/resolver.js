@@ -3,21 +3,25 @@ const getGraphData = require('../graphData');
 const getMot = require('../motGetter');
 const List = require('../mongodb/list');
 module.exports = {
-  getPostCoords: async args => {
+  getPostCoords: async (args) => {
     try {
       const res = await getPost(args.postcode);
-      if (res.error) { throw new Error } else {
-        console.log({ res:res.results[0].position,from:'getpostcord resolver'})
+      if (res.error) {
+        throw new Error();
+      } else {
+        console.log({
+          res: res.results[0].position,
+          from: 'getpostcord resolver',
+        });
         const pc = res.summary.query.toUpperCase();
         const { lat, lon: lng } = res.results[0].position;
         return { postcode: pc, lat, lng };
       }
     } catch (e) {
-      // console.log({ error: e,from:'resolver catch' });
-      return { error: e ,from:'resolver catch' };
+      return { error: e, from: 'resolver catch' };
     }
   },
-  getAutodata: async args => {
+  getAutodata: async (args) => {
     const url = args.url;
     try {
       const data = await getGraphData(url);
@@ -30,44 +34,44 @@ module.exports = {
       let reducedevents;
       if (motdata) {
         reducedevents = motdata.events
-          .filter(el => el.status !== 'pending')
-          .map(el => {
+          .filter((el) => el.status !== 'pending')
+          .map((el) => {
             return {
               date: el.eventDate,
               status: el.status.substring(11),
               data: {
-                notices: [...el.data['advisory_notice_reasons']],
-                expiredate: el.data['expiry_date'],
+                notices: [...el.data.advisory_notice_reasons],
+                expiredate: el.data.expiry_date,
                 mileage: el.data.mileageData.value,
-                refusal: [...el.data['reason_for_refusal_to_issue_certificate']]
-              }
+                refusal: [...el.data.reason_for_refusal_to_issue_certificate],
+              },
             };
           });
         mileageDataForDisplay = motdata.events
-          .map(ev => {
+          .map((ev) => {
             let data;
             if (ev.data && ev.data.expiry_date !== '') {
               data = {
                 miles: ev.data.mileageData.mileage.toString(),
-                year: (ev.data.expiry_date.split(' ')[2] - 1).toString()
+                year: (ev.data.expiry_date.split(' ')[2] - 1).toString(),
               };
             }
             return data;
           })
-          .filter(el => el !== undefined);
+          .filter((el) => el !== undefined);
       } else {
         reducedevents = [];
       }
       const spec = (parentName, neededItemName) => {
         const parent = data.techSpecs.techSpecs.filter(
-          el => el.specName === parentName
+          (el) => el.specName === parentName
         );
         let value;
         if (neededItemName === 'all') {
           value = parent[0].specs.join();
         } else {
           let valueobj = parent[0].specs.filter(
-            el => el.name === neededItemName
+            (el) => el.name === neededItemName
           )[0];
           value = valueobj ? valueobj.value : null;
         }
@@ -138,12 +142,12 @@ module.exports = {
             : null,
           lng: data.seller.locationMapLink
             ? data.seller.locationMapLink.split('&q=')[1].split('%2C')[1]
-            : null
+            : null,
         }),
         (seller = {
           name: data.seller.name || 'Private Seller',
           phone1: data.seller.primaryContactNumber,
-          phone2: data.seller.secondaryContactNumber || null
+          phone2: data.seller.secondaryContactNumber || null,
         }),
         (events = reducedevents.slice(0, 6));
       return {
@@ -177,21 +181,21 @@ module.exports = {
         actualLink,
         addedDate,
         dealerLink,
-        mileageDataForDisplay
+        mileageDataForDisplay,
       };
     } catch (e) {
       console.log({ errorInfoResolver: e.response.data.text });
       return { error: 'unable to retrieve data' };
     }
   },
-  saveList: async args => {
+  saveList: async (args) => {
     const carUrlsArray = args.list;
     const searchKey = args.key !== null ? args.key : false;
     if (searchKey) {
       //if serchkey is not null ,that means user is on shared page, share the list button is now update shared list, and when user clicks it, get list by id and update it
 
       await List.findByIdAndUpdate(searchKey, {
-        list: carUrlsArray
+        list: carUrlsArray,
       });
       return searchKey;
     } else {
@@ -207,7 +211,7 @@ module.exports = {
       }
     }
   },
-  getList: async args => {
+  getList: async (args) => {
     const searchKey = args.key;
     try {
       const res = await List.findById(searchKey);
@@ -216,7 +220,7 @@ module.exports = {
       console.log(e);
     }
   },
-  deleteList: async args => {
+  deleteList: async (args) => {
     const searchKey = args.key;
     console.log({ searchKey });
     try {
@@ -226,5 +230,5 @@ module.exports = {
     } catch (e) {
       console.log(e);
     }
-  }
+  },
 };

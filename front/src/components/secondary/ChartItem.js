@@ -22,7 +22,6 @@ function ChartItem({ mileages }) {
       data: mileages.map((el) => el.miles).reverse(),
     },
   ];
-  console.log({ series });
   const average =
     (mileages[0].miles - mileages[mileages.length - 1].miles) / mileages.length;
 
