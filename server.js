@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 
 //-----
-const graphqlHTTP = require('express-graphql');
+const { graphqlHTTP } = require('express-graphql');
 const graphQLschema = require('./graphql/schema');
 const graphQLresolver = require('./graphql/resolver');
 //----
