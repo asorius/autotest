@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const getData = require('./dataGetter');
-const getMot = require('./motGetter');
+// const getData = require('./dataGetter');
+// const getMot = require('./motGetter');
 const getPost = require('./postGetter');
 const cors = require('cors');
 const { mongoURI } = require('./keys/dist');

@@ -28,6 +28,7 @@ module.exports = {
       const { vrm } = data.vehicle;
       const actualLink = data.pageData.canonical;
       const addedDate = data.pageData.ods.advertId.substring(0, 8);
+      console.log({ actualLink });
       const dealerLink = data.seller.dealerWebsite || null;
       const motdata = await getMot(vrm);
       let mileageDataForDisplay;
@@ -189,10 +190,8 @@ module.exports = {
     }
   },
   saveList: async (args) => {
-    console.log({ args });
     const carUrlsArray = args.list;
     const searchKey = args.key !== null ? args.key : false;
-    console.log(carUrlsArray);
     if (searchKey) {
       //if serchkey is not null ,that means user is on shared page, share the list button is now update shared list, and when user clicks it, get list by id and update it
 

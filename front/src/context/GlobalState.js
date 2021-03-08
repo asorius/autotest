@@ -98,10 +98,10 @@ export default function GlobalState(props) {
       const json = await graphResponse.json();
       if (json.data.getAutodata) {
         const addedCar = json.data.getAutodata;
-        console.log({ FROMGLOBAL: addedCar });
+
         dispatch({
           type: ADD_CAR,
-          payload: { addedCar, url: addedCar.actualLink },
+          payload: { addedCar, url: data.actualLink || data.url },
         });
       } else {
         setError({ msg: 'Invalid link', to: 'add' });
@@ -114,7 +114,9 @@ export default function GlobalState(props) {
     }
   };
   const saveCarList = async (data) => {
+    console.log('saving car list');
     try {
+      console.log({ savingcarlist: data });
       const reqbody = {
         query: `
       query {
