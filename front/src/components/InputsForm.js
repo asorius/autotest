@@ -10,7 +10,6 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
 import Chip from '@material-ui/core/Chip';
-import { ConnectionBase } from 'mongoose';
 const InputsForm = () => {
   const context = useContext(Context);
   const [url, setUrl] = useState('');
@@ -26,16 +25,16 @@ const InputsForm = () => {
   //   //context.postcode is {postcodeData:{postcode,lat?,lng?}}
   //   setPostcode(context.postcode.postcodeData.postcode);
   // }, [context.postcode.postcodeData.postcode]);
-  useEffect(() => {
-    if (context.errors.to === 'add') {
-      setAddError(!addError);
-    } else if (context.errors.to === 'post') {
-      setPostError(!postError);
-    } else {
-      setAddError(false);
-      setPostError(false);
-    }
-  }, [context.errors.to, addError, postError]);
+  // useEffect(() => {
+  //   if (context.errors.to === 'add') {
+  //     setAddError(!addError);
+  //   } else if (context.errors.to === 'post') {
+  //     setPostError(!postError);
+  //   } else {
+  //     setAddError(false);
+  //     setPostError(false);
+  //   }
+  // }, [context.errors.to, addError, postError]);
 
   const onChange = (e) => {
     setUrl(e.target.value.toLowerCase());
@@ -53,24 +52,22 @@ const InputsForm = () => {
         url,
         settings: context.settings,
       });
-      if (res) {
-        setLoading(false);
-        setUrl('');
-        // list.current.scrollIntoView(false);
-      }
+      setAddError(!res);
+      setLoading(false);
+      // ERRORS CAUSES ALL CAR CAR ELEMENTS TO REMOUNT FOR SOME REASON
+      setUrl('');
     } catch (e) {
       return { errored: e };
     }
+    setAddError(false);
   };
   const addPost = async (e) => {
     setPostLoading(!loadingPost);
-    console.log('addpost action started');
-    console.log(post);
     e.preventDefault();
     if (post.length < 4) {
       context.setError({ msg: 'Postcode too short', to: 'post' });
+      setPost('');
       setTimeout(() => {
-        setPost('');
         setPostLoading(false);
       }, 500);
       return;
