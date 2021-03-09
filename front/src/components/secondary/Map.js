@@ -5,7 +5,7 @@ const {
   withGoogleMap,
   GoogleMap,
   DirectionsRenderer,
-  Marker
+  Marker,
 } = require('react-google-maps');
 const { InfoBox } = require('react-google-maps/lib/components/addons/InfoBox');
 const Map = compose(
@@ -13,13 +13,13 @@ const Map = compose(
     googleMapURL: `https://maps.googleapis.com/maps/api/js?key=AIzaSyDL2iDSF4s4uk1qPVCCF3ESBTZ4KnlBzdo&v=3.exp&libraries=geometry,drawing,places`,
     loadingElement: <div style={{ height: `100%` }} />,
     containerElement: <div style={{ height: `400px` }} />,
-    mapElement: <div style={{ height: `100%` }} />
+    mapElement: <div style={{ height: `100%` }} />,
   }),
   withScriptjs,
   withGoogleMap,
   lifecycle({
     componentDidMount() {
-      if (this.props.usercoords === null) {
+      if (this.props.usercoords.length === 0) {
         return;
       }
       const DirectionsService = new window.google.maps.DirectionsService();
@@ -33,21 +33,21 @@ const Map = compose(
             parseFloat(this.props.sellercoords.lat),
             parseFloat(this.props.sellercoords.lng)
           ),
-          travelMode: window.google.maps.TravelMode.DRIVING
+          travelMode: window.google.maps.TravelMode.DRIVING,
         },
         (result, status) => {
           if (status === window.google.maps.DirectionsStatus.OK) {
             this.setState({
-              directions: result
+              directions: result,
             });
           } else {
             console.error(`error fetching directions ${result}`);
           }
         }
       );
-    }
+    },
   })
-)(props => {
+)((props) => {
   return (
     <GoogleMap
       defaultZoom={12}
@@ -67,7 +67,7 @@ const Map = compose(
             )
           }
           options={{
-            closeBoxURL: ``
+            closeBoxURL: ``,
           }}
         >
           <div className="travel">
@@ -81,14 +81,14 @@ const Map = compose(
         </InfoBox>
       ) : null}
 
-      {props.usercoords !== null ? (
+      {props.usercoords.length !== 0 ? (
         <DirectionsRenderer directions={props.directions} />
       ) : (
         <React.Fragment>
           <Marker
             position={{
               lat: parseFloat(props.sellercoords.lat),
-              lng: parseFloat(props.sellercoords.lng)
+              lng: parseFloat(props.sellercoords.lng),
             }}
           />
         </React.Fragment>

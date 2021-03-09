@@ -14,14 +14,15 @@ const InputsForm = () => {
   const context = useContext(Context);
   const [url, setUrl] = useState('');
   const [post, setPost] = useState('');
-  const [postcode, setPostcode] = useState(context.postcode.postcode);
+  const [postcode, setPostcode] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingPost, setPostLoading] = useState(false);
   const [addError, setAddError] = useState(false);
   const [postError, setPostError] = useState(false);
   useEffect(() => {
-    setPostcode(context.postcode.postcode);
-  }, [context.postcode.postcodeode]);
+    //context.postcode is {postcodeData:{postcode,lat?,lng?}}
+    setPostcode(context.postcode.postcodeData.postcode);
+  }, [context.postcode.postcodeData.postcode]);
   useEffect(() => {
     if (context.errors.to === 'add') {
       setAddError(!addError);
@@ -31,7 +32,7 @@ const InputsForm = () => {
       setAddError(false);
       setPostError(false);
     }
-  }, [context.errors.to]);
+  }, [context.errors.to, addError, postError]);
 
   const onChange = (e) => {
     setUrl(e.target.value.toLowerCase());
@@ -51,7 +52,6 @@ const InputsForm = () => {
       });
       setLoading(false);
       setUrl('');
-      console.log(res);
       if (res) {
         // list.current.scrollIntoView(false);
       }
@@ -100,8 +100,8 @@ const InputsForm = () => {
   };
   const onDeletePostcode = (e) => {
     e.preventDefault();
+    context.removePostFromList(postcode);
     setPostcode(false);
-    context.removePostFromList(context.postcode.postcode);
     const urls = context.list.map((el) => el.actualLink);
     context.list.forEach((element) => {
       context.removeCarFromList(element._id);
@@ -144,7 +144,7 @@ const InputsForm = () => {
                     <TextField
                       onChange={onPostChange}
                       label={
-                        context.postcode.postcode
+                        postcode
                           ? 'New location'
                           : context.errors.to === 'post'
                           ? `${context.errors.msg} !`
@@ -159,9 +159,9 @@ const InputsForm = () => {
                     />
                   </Grid>
                   <Grid item>
-                    {context.postcode.postcode ? (
+                    {postcode ? (
                       <Chip
-                        label={`Current postcode : ${context.postcode.postcode}`}
+                        label={`Current postcode : ${postcode}`}
                         onDelete={onDeletePostcode}
                         variant="outlined"
                         color="secondary"
@@ -206,7 +206,6 @@ const InputsForm = () => {
           >
             <TextField
               id="urlInput"
-              label="Paste links from Autotrader"
               label={
                 context.errors.to === 'add'
                   ? `${context.errors.msg} !`

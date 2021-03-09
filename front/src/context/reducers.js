@@ -47,17 +47,35 @@ const clearError = (state) => {
 };
 const addPost = (data, state) => {
   //data looks like {postcode:'23423',lat:2342,lng:asdfsdf}
-  return { ...state, postcode: { ...data } };
+  console.log({ data });
+  localStorage.setItem(
+    'atppostcode',
+    JSON.stringify({
+      postcodeData: { ...data },
+    })
+  );
+  return { ...state, postcodeData: { ...data } };
 };
 const removePost = (postcode, state) => {
-  if (state.postcode.postcode !== postcode) {
+  console.log(state.postcode.postcodeData.postcode);
+  console.log(postcode);
+  if (state.postcode.postcodeData.postcode !== postcode) {
     return { ...state };
   } else {
-    return { ...state, postcode: false };
+    console.log('setting ls to empty');
+    localStorage.setItem(
+      'atppostcode',
+      JSON.stringify({
+        postcodeData: [],
+      })
+    );
+    return { ...state, postcodeData: [] };
   }
 };
 const updateSettings = (newSettings, state) => {
-  return { ...state, settings: newSettings };
+  console.log({ newSettings });
+  localStorage.setItem('atpsettings', JSON.stringify(newSettings));
+  return { ...state, ...newSettings };
 };
 const addKey = (data, state) => {
   return { ...state, sharekey: data.sharekey };

@@ -33,13 +33,10 @@ export default function LandingPage(props) {
         list: context.list,
       })
     );
-    localStorage.setItem(
-      'atpsettings',
-      JSON.stringify({
-        postcode: context.postcode,
-        settings: context.settings,
-      })
-    );
+    //context.settings is an array of strings
+    localStorage.setItem('atpsettings', JSON.stringify(context.settings));
+    //context.postcode is {postcodeData:{postcode,lat?,lng?}}
+    localStorage.setItem('atppostcode', JSON.stringify(context.postcode));
     if (context.list.length > 0) {
       setLoading(true);
       listRef.current.scrollIntoView(true);

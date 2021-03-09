@@ -16,14 +16,12 @@ export default function GlobalState(props) {
   const list = JSON.parse(localStorage.getItem('atplist'));
   let lsdata = list || { list: [] };
 
-  let atpsettings = JSON.parse(localStorage.getItem('atpsettings')) || {
-    settings: [],
-    postcode: false,
-  };
+  let atpsettings = JSON.parse(localStorage.getItem('atpsettings')) || [];
+  let atppostcode = JSON.parse(localStorage.getItem('atppostcode')) || [];
   const [listState, dispatch] = useReducer(listReducer, {
     list: lsdata.list || [],
-    postcode: atpsettings.postcode,
-    settings: atpsettings.settings,
+    postcode: atppostcode,
+    settings: atpsettings,
     sharekey: null,
     errors: {},
     options: [
@@ -212,7 +210,6 @@ export default function GlobalState(props) {
       });
       const json = await graphResponse.json();
       const { postcode: pc, lat, lng } = json.data.getPostCoords;
-      console.log({ lat });
       if (lat !== null || lat !== undefined) {
         dispatch({ type: ADD_POST, payload: { postcode: pc, lat, lng } });
       }
@@ -222,17 +219,10 @@ export default function GlobalState(props) {
     }
   };
   const removePostFromList = (postcode) => {
+    console.log({ postcodefromglobal: postcode });
     dispatch({ type: REMOVE_POST, payload: postcode });
   };
   const updateSettings = (settings) => {
-    console.log({ settings });
-    // localStorage.setItem(
-    //   'atpsettings',
-    //   JSON.stringify({
-    //     postcode: context.postcode,
-    //     settings: context.settings,
-    //   })
-    // );
     dispatch({ type: SETTINGS_UPDATE, payload: settings });
   };
   const updateListWithNewSettings = ({ urls, newSettings }) => {
