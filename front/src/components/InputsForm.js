@@ -10,19 +10,22 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
 import Chip from '@material-ui/core/Chip';
+import { ConnectionBase } from 'mongoose';
 const InputsForm = () => {
   const context = useContext(Context);
   const [url, setUrl] = useState('');
   const [post, setPost] = useState('');
-  const [postcode, setPostcode] = useState(false);
+  const [postcode, setPostcode] = useState(
+    context.postcode.postcodeData.postcode
+  );
   const [loading, setLoading] = useState(false);
   const [loadingPost, setPostLoading] = useState(false);
   const [addError, setAddError] = useState(false);
   const [postError, setPostError] = useState(false);
-  useEffect(() => {
-    //context.postcode is {postcodeData:{postcode,lat?,lng?}}
-    setPostcode(context.postcode.postcodeData.postcode);
-  }, [context.postcode.postcodeData.postcode]);
+  // useEffect(() => {
+  //   //context.postcode is {postcodeData:{postcode,lat?,lng?}}
+  //   setPostcode(context.postcode.postcodeData.postcode);
+  // }, [context.postcode.postcodeData.postcode]);
   useEffect(() => {
     if (context.errors.to === 'add') {
       setAddError(!addError);
@@ -50,9 +53,9 @@ const InputsForm = () => {
         url,
         settings: context.settings,
       });
-      setLoading(false);
-      setUrl('');
       if (res) {
+        setLoading(false);
+        setUrl('');
         // list.current.scrollIntoView(false);
       }
     } catch (e) {
@@ -61,41 +64,44 @@ const InputsForm = () => {
   };
   const addPost = async (e) => {
     setPostLoading(!loadingPost);
-
+    console.log('addpost action started');
+    console.log(post);
     e.preventDefault();
     if (post.length < 4) {
-      context.setError({ msg: 'Invalid postcode', to: 'post' });
+      context.setError({ msg: 'Postcode too short', to: 'post' });
       setTimeout(() => {
         setPost('');
         setPostLoading(false);
       }, 500);
       return;
-    }
-    try {
-      const res = await context.addPostToList(post);
-      console.log({ res });
-      if (res.pc !== null) {
-        const urls = context.list.map((el) => el.actualLink);
-        context.list.forEach((element) => {
-          context.removeCarFromList(element._id);
-        });
-        context.updateListWithNewSettings({
-          urls,
-          newSettings: context.settings,
-        });
-        setPost('');
-
-        setPostcode(res.pc);
-        setPostLoading(false);
-      } else {
-        context.setError({ msg: 'Invalid postcode', to: 'post' });
-        setTimeout(() => {
+    } else {
+      console.log('this should be printed out');
+      try {
+        const res = await context.addPostToList(post);
+        console.log({ res });
+        if (res.pc !== null) {
+          const urls = context.list.map((el) => el.actualLink);
+          context.list.forEach((element) => {
+            context.removeCarFromList(element._id);
+          });
+          context.updateListWithNewSettings({
+            urls,
+            newSettings: context.settings,
+          });
           setPost('');
+
+          setPostcode(res.pc);
           setPostLoading(false);
-        }, 500);
+        } else {
+          context.setError({ msg: 'Invalid postcode', to: 'post' });
+          setTimeout(() => {
+            setPost('');
+            setPostLoading(false);
+          }, 500);
+        }
+      } catch (e) {
+        console.log(e);
       }
-    } catch (e) {
-      console.log(e);
     }
   };
   const onDeletePostcode = (e) => {
@@ -122,7 +128,7 @@ const InputsForm = () => {
           <form
             className="control postcode "
             noValidate
-            autoComplete="off"
+            autoComplete="on"
             onSubmit={addPost}
           >
             <Grid

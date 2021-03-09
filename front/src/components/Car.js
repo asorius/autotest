@@ -66,8 +66,8 @@ export default function Car(props) {
   const classes = useStyles();
   const context = useContext(Context);
   const [miles, showMiles] = useState(false);
-  const [current, setCurrentImg] = useState(0);
-  const [img, setImg] = useState(images[current]);
+  // const [current, setCurrentImg] = useState(0);
+  // const [img, setImg] = useState(images[current]);
   const [expanded, setExpanded] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [visible, setVisibility] = useState(true);
@@ -114,7 +114,7 @@ export default function Car(props) {
             {/* photos */}
 
             <Grid item sm={12} style={{ position: 'relative' }}>
-              <CardMedia className={classes.media} image={img} />
+              <CardMedia className={classes.media} image={images[0]} />
 
               <div
                 style={{
@@ -130,7 +130,7 @@ export default function Car(props) {
                   alignItems: 'center',
                 }}
               >
-                <ImgModal images={images} current={current} />
+                <ImgModal images={images} current={0} />
               </div>
             </Grid>
           </Grid>

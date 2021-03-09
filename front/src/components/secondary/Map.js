@@ -1,4 +1,4 @@
-import React from 'react';
+import { React } from 'react';
 const { compose, withProps, lifecycle } = require('recompose');
 const {
   withScriptjs,
@@ -12,7 +12,7 @@ const Map = compose(
   withProps({
     googleMapURL: `https://maps.googleapis.com/maps/api/js?key=AIzaSyDL2iDSF4s4uk1qPVCCF3ESBTZ4KnlBzdo&v=3.exp&libraries=geometry,drawing,places`,
     loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `400px` }} />,
+    containerElement: <div style={{ height: `350px` }} />,
     mapElement: <div style={{ height: `100%` }} />,
   }),
   withScriptjs,

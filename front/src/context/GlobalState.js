@@ -210,7 +210,7 @@ export default function GlobalState(props) {
       });
       const json = await graphResponse.json();
       const { postcode: pc, lat, lng } = json.data.getPostCoords;
-      if (lat !== null || lat !== undefined) {
+      if (lat || false) {
         dispatch({ type: ADD_POST, payload: { postcode: pc, lat, lng } });
       }
       return { res: pc };

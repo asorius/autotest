@@ -1,11 +1,28 @@
+// import React from 'react';
 import React from 'react';
+
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import GlobalState from './context/GlobalState';
-import LandingPage from './components/LandingPage';
+// import LandingPage from './components/LandingPage';
 import SharedPage from './components/SharedPage';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-
+const LaziedLading = React.lazy(() => import('./components/LandingPage'));
+const LaziedSuspenced = () => {
+  return (
+    <>
+      <React.Suspense
+        fallback={
+          <div>
+            <h1>loading...</h1>
+          </div>
+        }
+      >
+        <LaziedLading></LaziedLading>
+      </React.Suspense>
+    </>
+  );
+};
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -45,7 +62,7 @@ const App = (props) => {
       <GlobalState>
         <BrowserRouter>
           <Switch>
-            <Route path="/" component={LandingPage} exact />
+            <Route path="/" component={LaziedSuspenced} exact />
             <Route path="/:key" component={SharedPage} exact />
           </Switch>
         </BrowserRouter>

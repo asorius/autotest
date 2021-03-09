@@ -26,25 +26,25 @@ export default function LandingPage(props) {
   const listRef = React.createRef();
 
   useEffect(() => {
-    //put list to context on initial render
-    localStorage.setItem(
-      'atplist',
-      JSON.stringify({
-        list: context.list,
-      })
-    );
-    //context.settings is an array of strings
-    localStorage.setItem('atpsettings', JSON.stringify(context.settings));
-    //context.postcode is {postcodeData:{postcode,lat?,lng?}}
-    localStorage.setItem('atppostcode', JSON.stringify(context.postcode));
+    // //put list to context on initial render
+    // localStorage.setItem(
+    //   'atplist',
+    //   JSON.stringify({
+    //     list: context.list,
+    //   })
+    // );
+    // //context.settings is an array of strings
+    // localStorage.setItem('atpsettings', JSON.stringify(context.settings));
+    // //context.postcode is {postcodeData:{postcode,lat?,lng?}}
+    // localStorage.setItem('atppostcode', JSON.stringify(context.postcode));
+    setLoading(true);
     if (context.list.length > 0) {
-      setLoading(true);
       listRef.current.scrollIntoView(true);
-      setTimeout(() => {
-        setLoading(false);
-      }, 1500);
     }
-  }, []);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+  }, [context.list]);
 
   return (
     <div style={{ background: '#ebebeb', width: '100%', height: '100%' }}>
