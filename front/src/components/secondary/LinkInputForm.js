@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import Context from '../../context/context';
 import TextField from '@material-ui/core/TextField';
 import Icon from '@material-ui/icons/AddCircleOutline';

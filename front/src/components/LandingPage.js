@@ -26,17 +26,6 @@ export default function LandingPage(props) {
   const listRef = React.createRef();
 
   useEffect(() => {
-    // //put list to context on initial render
-    // localStorage.setItem(
-    //   'atplist',
-    //   JSON.stringify({
-    //     list: context.list,
-    //   })
-    // );
-    // //context.settings is an array of strings
-    // localStorage.setItem('atpsettings', JSON.stringify(context.settings));
-    // //context.postcode is {postcodeData:{postcode,lat?,lng?}}
-    // localStorage.setItem('atppostcode', JSON.stringify(context.postcode));
     setLoading(true);
     if (context.list.length > 0) {
       listRef.current.scrollIntoView(true);

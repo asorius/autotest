@@ -6,7 +6,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ArrowBackIosIcon from '@material-ui/icons/ChevronLeft';
 import ArrowForwardIosIcon from '@material-ui/icons/ChevronRight';
-import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';

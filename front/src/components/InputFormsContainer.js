@@ -1,7 +1,6 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
-
 import LinkInputForm from './secondary/LinkInputForm';
 import PostInputForm from './secondary/PostInputForm';
 const InputFormsContainer = () => {
