@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import Context from '../context/context';
-import InputsForm from './InputsForm';
+import InputFormsContainer from './InputFormsContainer';
 import { setTimeout } from 'timers';
 import Toolbar from '@material-ui/core/Toolbar';
 import ScrollToTop from './secondary/ScrollToTop';
@@ -105,7 +105,7 @@ export default function LandingPage(props) {
                 </Typography>
                 <Divider></Divider>
               </Container>
-              <InputsForm></InputsForm>
+              <InputFormsContainer></InputFormsContainer>
             </Grid>
           </Grid>
         </Container>

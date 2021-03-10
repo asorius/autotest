@@ -11,10 +11,8 @@ export default function PostInput() {
   const postFromContext = context.postcode.postcodeData.postcode;
   const [postInputValue, setPostValue] = useState('');
   const [postcode, setPostcode] = useState(postFromContext);
-  //   const [loadingPost, setPostLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  //   const [postError, setPostError] = useState(false);
   useEffect(() => {
     //context.postcode is {postcodeData:{postcode,lat?,lng?}}
     if (postFromContext) {
@@ -35,16 +33,6 @@ export default function PostInput() {
       }, 2000);
     }
   }, [loading, error]);
-  // useEffect(() => {
-  //   if (context.errors.to === 'add') {
-  //     setAddError(!addError);
-  //   } else if (context.errors.to === 'post') {
-  //     setPostError(!postError);
-  //   } else {
-  //     setAddError(false);
-  //     setPostError(false);
-  //   }
-  // }, [context.errors.to, addError, postError]);
 
   const onPostChange = (e) => {
     setPostValue(e.target.value.toUpperCase().trim().replace(/\s+/g, ''));
@@ -59,7 +47,6 @@ export default function PostInput() {
     } else {
       try {
         const res = await context.addPostToList(postInputValue);
-        console.log(res);
         if (res.res !== null) {
           const urls = context.list.map((el) => el.actualLink);
           context.list.forEach((element) => {
@@ -69,8 +56,6 @@ export default function PostInput() {
             urls,
             newSettings: context.settings,
           });
-          console.log('should set postcode');
-          console.log({ to: res });
           setPostcode(res.res);
           setPostValue('');
           setLoading(!loading);
@@ -132,10 +117,10 @@ export default function PostInput() {
                 }
                 variant="outlined"
                 disabled={loading}
-                error={error}
                 value={postInputValue}
                 spellCheck="false"
                 color="secondary"
+                error={error}
               />
             </Grid>
             <Grid item>
