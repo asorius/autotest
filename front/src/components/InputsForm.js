@@ -3,28 +3,18 @@ import Context from '../context/context';
 import { setTimeout } from 'timers';
 import TextField from '@material-ui/core/TextField';
 import Icon from '@material-ui/icons/AddCircleOutline';
-import SearchIcon from '@material-ui/icons/Search';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
-import Chip from '@material-ui/core/Chip';
+
+import PostInput from './secondary/PostInput';
 const InputsForm = () => {
   const context = useContext(Context);
   const [url, setUrl] = useState('');
-  const [post, setPost] = useState('');
-  const [postcode, setPostcode] = useState(
-    context.postcode.postcodeData.postcode
-  );
   const [loading, setLoading] = useState(false);
-  const [loadingPost, setPostLoading] = useState(false);
   const [addError, setAddError] = useState(false);
-  const [postError, setPostError] = useState(false);
-  // useEffect(() => {
-  //   //context.postcode is {postcodeData:{postcode,lat?,lng?}}
-  //   setPostcode(context.postcode.postcodeData.postcode);
-  // }, [context.postcode.postcodeData.postcode]);
+
   // useEffect(() => {
   //   if (context.errors.to === 'add') {
   //     setAddError(!addError);
@@ -38,10 +28,6 @@ const InputsForm = () => {
 
   const onChange = (e) => {
     setUrl(e.target.value.toLowerCase());
-  };
-
-  const onPostChange = (e) => {
-    setPost(e.target.value.toUpperCase().trim().replace(/\s+/g, ''));
   };
 
   const addCarFunc = async (e) => {
@@ -61,56 +47,7 @@ const InputsForm = () => {
     }
     setAddError(false);
   };
-  const addPost = async (e) => {
-    setPostLoading(!loadingPost);
-    e.preventDefault();
-    if (post.length < 4) {
-      context.setError({ msg: 'Postcode too short', to: 'post' });
-      setPost('');
-      setTimeout(() => {
-        setPostLoading(false);
-      }, 500);
-      return;
-    } else {
-      console.log('this should be printed out');
-      try {
-        const res = await context.addPostToList(post);
-        console.log({ res });
-        if (res.pc !== null) {
-          const urls = context.list.map((el) => el.actualLink);
-          context.list.forEach((element) => {
-            context.removeCarFromList(element._id);
-          });
-          context.updateListWithNewSettings({
-            urls,
-            newSettings: context.settings,
-          });
-          setPost('');
 
-          setPostcode(res.pc);
-          setPostLoading(false);
-        } else {
-          context.setError({ msg: 'Invalid postcode', to: 'post' });
-          setTimeout(() => {
-            setPost('');
-            setPostLoading(false);
-          }, 500);
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  };
-  const onDeletePostcode = (e) => {
-    e.preventDefault();
-    context.removePostFromList(postcode);
-    setPostcode(false);
-    const urls = context.list.map((el) => el.actualLink);
-    context.list.forEach((element) => {
-      context.removeCarFromList(element._id);
-    });
-    context.updateListWithNewSettings({ urls, newSettings: context.settings });
-  };
   return (
     <Container style={{ marginTop: '1rem' }}>
       <Grid
@@ -122,81 +59,7 @@ const InputsForm = () => {
       >
         <Grid item xs={12}>
           {/* Postcode stuff item */}
-          <form
-            className="control postcode "
-            noValidate
-            autoComplete="on"
-            onSubmit={addPost}
-          >
-            <Grid
-              container
-              direction="column"
-              justify="space-evenly"
-              alignItems="center"
-              spacing={1}
-            >
-              <Grid item xs={12}>
-                <Grid
-                  container
-                  direction="column"
-                  justify="center"
-                  alignItems="center"
-                  spacing={1}
-                >
-                  <Grid item>
-                    <TextField
-                      onChange={onPostChange}
-                      label={
-                        postcode
-                          ? 'New location'
-                          : context.errors.to === 'post'
-                          ? `${context.errors.msg} !`
-                          : 'Your postcode'
-                      }
-                      variant="outlined"
-                      disabled={loadingPost}
-                      error={postError}
-                      value={post}
-                      spellCheck="false"
-                      color="secondary"
-                    />
-                  </Grid>
-                  <Grid item>
-                    {postcode ? (
-                      <Chip
-                        label={`Current postcode : ${postcode}`}
-                        onDelete={onDeletePostcode}
-                        variant="outlined"
-                        color="secondary"
-                      />
-                    ) : (
-                      <Chip
-                        label="Enter postcode to get directions from you to the car"
-                        variant="outlined"
-                      ></Chip>
-                    )}
-                  </Grid>
-                  <Grid item>
-                    {loadingPost && post && postError === false ? (
-                      <CircularProgress />
-                    ) : (
-                      <Button
-                        size="medium"
-                        type="submit"
-                        variant="contained"
-                        color="secondary"
-                        disabled={postError}
-                        startIcon={<SearchIcon />}
-                      >
-                        {' '}
-                        Find
-                      </Button>
-                    )}
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
-          </form>
+          <PostInput></PostInput>
         </Grid>
 
         <Grid item xs={12} style={{ height: '10rem' }}>
