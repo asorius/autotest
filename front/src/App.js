@@ -6,19 +6,31 @@ import GlobalState from './context/GlobalState';
 // import LandingPage from './components/LandingPage';
 import SharedPage from './components/SharedPage';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import CssBaseline from '@material-ui/core/CssBaseline';
-const LaziedLading = React.lazy(() => import('./components/LandingPage'));
+const LaziedLanding = React.lazy(() => import('./components/LandingPage'));
+
 const LaziedSuspenced = () => {
   return (
     <>
       <React.Suspense
         fallback={
-          <div>
-            <h1>loading...</h1>
+          <div
+            style={{
+              position: 'absolute',
+              top: '0',
+              right: '0',
+              height: '100%',
+              width: '100%',
+              display: 'grid',
+              placeItems: 'center',
+            }}
+          >
+            <CircularProgress size={100} thickness={5} />
           </div>
         }
       >
-        <LaziedLading></LaziedLading>
+        <LaziedLanding></LaziedLanding>
       </React.Suspense>
     </>
   );
@@ -55,6 +67,7 @@ theme.typography.h2 = {
     fontSize: '2.3rem',
   },
 };
+
 const App = (props) => {
   return (
     <ThemeProvider theme={theme}>

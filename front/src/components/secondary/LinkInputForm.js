@@ -23,7 +23,7 @@ const InputsForm = () => {
         setError(true);
         setInputValue('');
       } else {
-        const res = await context.addCarToList({
+        await context.addCarToList({
           url: inputValue,
           settings: context.settings,
         });
