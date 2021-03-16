@@ -19,7 +19,8 @@ const Map = compose(
   withGoogleMap,
   lifecycle({
     componentDidMount() {
-      if (this.props.usercoords.length === 0) {
+      console.log({ frommap: this.props.usercoords });
+      if (!this.props.usercoords) {
         return;
       }
       const DirectionsService = new window.google.maps.DirectionsService();
@@ -48,6 +49,7 @@ const Map = compose(
     },
   })
 )((props) => {
+  console.log({ propsInMap: props });
   return (
     <GoogleMap
       defaultZoom={12}
@@ -81,7 +83,7 @@ const Map = compose(
         </InfoBox>
       ) : null}
 
-      {props.usercoords.length !== 0 ? (
+      {props.usercoords ? (
         <DirectionsRenderer directions={props.directions} />
       ) : (
         <React.Fragment>

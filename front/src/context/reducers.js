@@ -47,7 +47,6 @@ const clearError = (state) => {
 };
 const addPost = (data, state) => {
   //data looks like {postcode:'23423',lat:2342,lng:asdfsdf}
-  console.log({ data });
   localStorage.setItem(
     'atppostcode',
     JSON.stringify({
@@ -57,8 +56,6 @@ const addPost = (data, state) => {
   return { ...state, postcodeData: { ...data } };
 };
 const removePost = (postcode, state) => {
-  console.log(state.postcode.postcodeData.postcode);
-  console.log(postcode);
   if (state.postcode.postcodeData.postcode !== postcode) {
     return { ...state };
   } else {

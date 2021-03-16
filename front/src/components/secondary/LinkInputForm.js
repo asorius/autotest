@@ -19,7 +19,7 @@ const InputsForm = () => {
     e.preventDefault();
     try {
       if (inputValue.length < 10) {
-        context.setError({ msg: 'Please provide valid links', to: 'add' });
+        context.setError({ msg: 'Please provide valid link', to: 'add' });
         setError(true);
         setInputValue('');
       } else {

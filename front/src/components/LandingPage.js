@@ -14,27 +14,27 @@ import Grid from '@material-ui/core/Grid';
 import Settings from './Settings';
 import Divider from '@material-ui/core/Divider';
 import Hidden from '@material-ui/core/Hidden';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { Grow } from '@material-ui/core';
+import Loader from './secondary/Loader';
 import CarCardsList from './secondary/CarCardsList';
 
 // import { useSpring, animated } from 'react-spring';
 
 export default function LandingPage(props) {
   const context = useContext(Context);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [grow, setGrow] = useState(false);
   const listRef = React.createRef();
 
   useEffect(() => {
-    setLoading(true);
     if (context.list.length > 0) {
       listRef.current.scrollIntoView(true);
     }
     setTimeout(() => {
-      setLoading(false);
-    }, 1500);
-  }, [context.list]);
-
+      setLoading(!loading);
+      setGrow(!grow);
+    }, 1000);
+  }, []);
   return (
     <div style={{ background: '#ebebeb', width: '100%', height: '100%' }}>
       <div style={{ background: 'white', width: '100%', height: '100%' }}>
@@ -110,33 +110,14 @@ export default function LandingPage(props) {
             ref={listRef}
           >
             {loading ? (
-              <div
-                style={{
-                  position: 'absolute',
-                  top: '0',
-                  right: '0',
-                  height: '100%',
-                  width: '100%',
-                  minHeight: '10rem',
-                  zIndex: '2',
-                  background: '#ffffffde',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  paddingTop: '5rem',
-                }}
-              >
-                <CircularProgress size={150} thickness={5} />
-                <Typography variant="h4" style={{ margin: '2rem' }}>
-                  Updating list...
-                </Typography>
-              </div>
-            ) : null}
-            <Grow in={!loading}>
-              <Grid container spacing={2}>
-                <CarCardsList></CarCardsList>
-              </Grid>
-            </Grow>
+              <Loader></Loader>
+            ) : (
+              <Grow in={grow}>
+                <Grid container spacing={2}>
+                  <CarCardsList></CarCardsList>
+                </Grid>
+              </Grow>
+            )}
           </section>
         </main>
         <ScrollToTop {...props}>

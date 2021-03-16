@@ -8,15 +8,16 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Chip from '@material-ui/core/Chip';
 export default function PostInput() {
   const context = useContext(Context);
-  const postFromContext = context.postcode.postcodeData.postcode;
+  const postFromContext = context.postcode.postcodeData;
+  // const postFromContext = context.postcode.postcodeData.postcode;
   const [postInputValue, setPostValue] = useState('');
-  const [postcode, setPostcode] = useState(postFromContext);
+  const [postcode, setPostcode] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   useEffect(() => {
     //context.postcode is {postcodeData:{postcode,lat?,lng?}}
     if (postFromContext) {
-      setPostcode(postFromContext);
+      setPostcode(postFromContext.postcode);
     }
   }, [postFromContext]);
 

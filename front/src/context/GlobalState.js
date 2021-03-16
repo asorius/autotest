@@ -17,7 +17,7 @@ export default function GlobalState(props) {
   let lsdata = list || { list: [] };
 
   let atpsettings = JSON.parse(localStorage.getItem('atpsettings')) || [];
-  let atppostcode = JSON.parse(localStorage.getItem('atppostcode')) || [];
+  let atppostcode = JSON.parse(localStorage.getItem('atppostcode')) || false;
   const [listState, dispatch] = useReducer(listReducer, {
     list: lsdata.list || [],
     postcode: atppostcode,
@@ -210,7 +210,7 @@ export default function GlobalState(props) {
       });
       const json = await graphResponse.json();
       const { postcode: pc, lat, lng } = json.data.getPostCoords;
-      if (lat || false) {
+      if (lat) {
         dispatch({ type: ADD_POST, payload: { postcode: pc, lat, lng } });
       }
       return { res: pc };
@@ -246,15 +246,15 @@ export default function GlobalState(props) {
       value={{
         list: listState.list,
         errors: listState.errors,
+        postcode: listState.postcode,
+        settings: listState.settings,
+        options: listState.options,
         addCarToList,
         removeCarFromList,
-        postcode: listState.postcode,
         addPostToList,
         removePostFromList,
-        settings: listState.settings,
         updateSettings,
         updateListWithNewSettings,
-        options: listState.options,
         setError,
         saveCarList,
         getCarList,

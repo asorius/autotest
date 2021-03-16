@@ -105,7 +105,7 @@ export default function Car(props) {
   }
   const id = expanded ? 'simple-popover' : undefined;
   const idMiles = miles ? 'simple-popover' : undefined;
-  console.log(context.postcode);
+  console.log({ postcodelength: context.postcode.postcodeData });
   return (
     <Fade in={visible}>
       <Card className={classes.root}>
@@ -273,7 +273,7 @@ export default function Car(props) {
             {seller_coords ? (
               <Map
                 usercoords={
-                  context.postcode.length !== 0
+                  context.postcode.postcodeData
                     ? context.postcode.postcodeData
                     : null
                 }
