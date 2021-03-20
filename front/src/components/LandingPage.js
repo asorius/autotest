@@ -25,14 +25,13 @@ export default function LandingPage(props) {
   const [loading, setLoading] = useState(true);
   const [grow, setGrow] = useState(false);
   const listRef = React.createRef();
-
   useEffect(() => {
     if (context.list.length > 0) {
       listRef.current.scrollIntoView(true);
     }
     setTimeout(() => {
-      setLoading(!loading);
       setGrow(!grow);
+      setLoading(!loading);
     }, 1000);
   }, []);
   return (
