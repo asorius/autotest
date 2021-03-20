@@ -22,18 +22,18 @@ import CarCardsList from './secondary/CarCardsList';
 
 export default function LandingPage(props) {
   const context = useContext(Context);
-  const [loading, setLoading] = useState(true);
-  const [grow, setGrow] = useState(false);
-  const listRef = React.createRef();
+  const [loading, setLoading] = useState(false);
+  const listRef = React.useRef(null);
   useEffect(() => {
-    if (context.list.length > 0) {
-      listRef.current.scrollIntoView(true);
-    }
+    setLoading(true);
     setTimeout(() => {
-      setGrow(!grow);
-      setLoading(!loading);
-    }, 1000);
-  }, []);
+      if (context.list.length > 0) {
+        listRef.current.scrollIntoView(true);
+      }
+      console.log(loading);
+      setLoading(false);
+    }, 200);
+  }, [context.list.length, context.settings.length]);
   return (
     <div style={{ background: '#ebebeb', width: '100%', height: '100%' }}>
       <div style={{ background: 'white', width: '100%', height: '100%' }}>
@@ -101,22 +101,20 @@ export default function LandingPage(props) {
       <Container>
         <main>
           <section
+            ref={listRef}
             style={{
               position: 'relative',
               padding: context.list.length > 0 ? '2rem' : 0,
             }}
             id="list"
-            ref={listRef}
           >
-            {loading ? (
-              <Loader></Loader>
-            ) : (
-              <Grow in={grow}>
-                <Grid container spacing={2}>
-                  <CarCardsList></CarCardsList>
-                </Grid>
-              </Grow>
-            )}
+            {loading ? <Loader></Loader> : null}
+
+            <Grow in={!loading}>
+              <Grid container spacing={2}>
+                <CarCardsList></CarCardsList>
+              </Grid>
+            </Grow>
           </section>
         </main>
         <ScrollToTop {...props}>
