@@ -18,20 +18,13 @@ export default function Settings() {
       isSelected: context.settings.indexOf(option.value) < 0 ? false : true,
     }))
   );
+  const [userSelectedOptions, setOptions] = useState([]);
   const onCheckFn = (e) => {
     const { value } = e.target;
 
     setCheckbox(
       checkboxes.map((el) => {
         if (el.value === value) {
-          // if (context.settings.indexOf(e.target.name) < 0) {
-          //   //means its a new setting, so add it and set its state to checked
-          //   context.updateSettings([...context.settings, e.target.name]);
-          // } else {
-          //   //means it was already there so its filtered out and unchecked
-          //   const neww = context.settings.filter((el) => el !== e.target.name);
-          //   context.updateSettings([...neww]);
-          // }
           el.isSelected = !el.isSelected;
         }
         return el;
@@ -49,11 +42,13 @@ export default function Settings() {
 
     e.preventDefault();
     context.updateSettings(newSettings);
-    const urls = context.list.map((el) => el.actualLink);
-    context.list.forEach((element) => {
-      context.removeCarFromList(element._id);
-    });
-    context.updateListWithNewSettings({ urls, newSettings });
+    setOptions(newSettings);
+    console.log(userSelectedOptions);
+    // const urls = context.list.map((el) => el.actualLink);
+    // context.list.forEach((element) => {
+    //   context.removeCarFromList(element._id);
+    // });
+    // context.updateListWithNewSettings({ urls, newSettings });
     setTimeout(() => {
       setModal(!modal);
     }, 200);

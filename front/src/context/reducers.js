@@ -53,21 +53,18 @@ const addPost = (data, state) => {
       postcodeData: { ...data },
     })
   );
+  console.log({ datafromaddpost: data });
   return { ...state, postcodeData: { ...data } };
 };
 const removePost = (postcode, state) => {
-  if (state.postcode.postcodeData.postcode !== postcode) {
-    return { ...state };
-  } else {
-    console.log('setting ls to empty');
-    localStorage.setItem(
-      'atppostcode',
-      JSON.stringify({
-        postcodeData: [],
-      })
-    );
-    return { ...state, postcodeData: [] };
-  }
+  console.log('setting ls to empty');
+  localStorage.setItem(
+    'atppostcode',
+    JSON.stringify({
+      postcodeData: false,
+    })
+  );
+  return { ...state, postcodeData: false };
 };
 const updateSettings = (newSettings, state) => {
   console.log({ newSettings });

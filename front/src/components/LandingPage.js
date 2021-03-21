@@ -24,15 +24,19 @@ export default function LandingPage(props) {
   const context = useContext(Context);
   const [loading, setLoading] = useState(false);
   const listRef = React.useRef(null);
+
+  useEffect(() => {
+    if (loading) {
+      setTimeout(() => {
+        setLoading(!loading);
+      }, 2000);
+    }
+  }, [loading]);
   useEffect(() => {
     setLoading(true);
-    setTimeout(() => {
-      if (context.list.length > 0) {
-        listRef.current.scrollIntoView(true);
-      }
-      console.log(loading);
-      setLoading(false);
-    }, 200);
+    if (context.list.length > 0) {
+      listRef.current.scrollIntoView(true);
+    }
   }, [context.list.length, context.settings.length]);
   return (
     <div style={{ background: '#ebebeb', width: '100%', height: '100%' }}>

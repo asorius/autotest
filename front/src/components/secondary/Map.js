@@ -20,7 +20,7 @@ const Map = compose(
   lifecycle({
     componentDidMount() {
       console.log({ frommap: this.props.usercoords });
-      if (!this.props.usercoords) {
+      if (!this.props.usercoords || this.props.usercoords.length === 0) {
         return;
       }
       const DirectionsService = new window.google.maps.DirectionsService();
@@ -49,7 +49,6 @@ const Map = compose(
     },
   })
 )((props) => {
-  console.log({ propsInMap: props });
   return (
     <GoogleMap
       defaultZoom={12}
@@ -60,7 +59,9 @@ const Map = compose(
         )
       }
     >
-      {props.directions ? (
+      {/* Custom box container displaying travel distance and time if usercoords are provided */}
+      {console.log({ shouldshowbox: props.usercoords })}
+      {props.usercoords && props.usercoords.length > 0 ? (
         <InfoBox
           defaultPosition={
             new window.google.maps.LatLng(
@@ -82,7 +83,7 @@ const Map = compose(
           </div>
         </InfoBox>
       ) : null}
-
+      {/* if user coordinations are provided render map with directions, else render map with single marker */}
       {props.usercoords ? (
         <DirectionsRenderer directions={props.directions} />
       ) : (

@@ -18,6 +18,7 @@ export default function GlobalState(props) {
 
   let atpsettings = JSON.parse(localStorage.getItem('atpsettings')) || [];
   let atppostcode = JSON.parse(localStorage.getItem('atppostcode')) || false;
+  console.log({ atppostcode });
   const [listState, dispatch] = useReducer(listReducer, {
     list: lsdata.list || [],
     postcode: atppostcode,
@@ -49,6 +50,29 @@ export default function GlobalState(props) {
     ],
   });
   const addCarToList = async (data) => {
+    let options = [
+      { name: 'Make year', value: 'year' },
+      { name: 'Engine size', value: 'engine' },
+      { name: 'Mileage', value: 'mileage' },
+      { name: 'Transmission type', value: 'transmission' },
+      { name: 'Tax', value: 'tax' },
+      { name: 'Part exchange', value: 'exchange' },
+      { name: 'Engine power', value: 'enginepower' },
+      { name: '0 - 60 mph', value: 'acceleration' },
+      { name: 'Top speed', value: 'topspeed' },
+      { name: 'Cylinders', value: 'cylinders' },
+      { name: 'Engine torque', value: 'torque' },
+      { name: 'Driver Convenience', value: 'electrics' },
+      { name: 'Safety', value: 'safety' },
+      { name: 'Fuel type', value: 'fuel' },
+      { name: 'Fuel consumption (urban)', value: 'urban' },
+      { name: 'Fuel consumption (extra urban)', value: 'extra' },
+      { name: 'Fuel consumption (combined)', value: 'combined' },
+      { name: 'Fuel tank capacity', value: 'tank' },
+      { name: 'Weight', value: 'weight' },
+      { name: 'CO2 emissions', value: 'co2' },
+      { name: 'Map & directions', value: 'map{lat lng}' },
+    ];
     try {
       const reqbody = {
         query: `
@@ -80,11 +104,13 @@ export default function GlobalState(props) {
             phone1
             phone2
           }
-        ${data.settings.join(' ')}
+        ${[...options.map((el) => el.value)].join(' ')}
         }
       }
     `,
       };
+      // ${data.settings.join(' ')}
+
       const graphResponse = await fetch('/graphql', {
         method: 'POST',
         body: JSON.stringify(reqbody),
@@ -94,9 +120,10 @@ export default function GlobalState(props) {
         },
       });
       const json = await graphResponse.json();
+
       if (json.data.getAutodata) {
         const addedCar = json.data.getAutodata;
-
+        //now addedCar supposed to fetched with all possible options
         dispatch({
           type: ADD_CAR,
           payload: { addedCar, url: data.actualLink || data.url },
@@ -200,6 +227,7 @@ export default function GlobalState(props) {
         }
       `,
       };
+
       const graphResponse = await fetch('/graphql', {
         method: 'POST',
         body: JSON.stringify(reqbody),
@@ -221,11 +249,13 @@ export default function GlobalState(props) {
   const removePostFromList = (postcode) => {
     console.log({ postcodefromglobal: postcode });
     dispatch({ type: REMOVE_POST, payload: postcode });
+    return false;
   };
   const updateSettings = (settings) => {
     dispatch({ type: SETTINGS_UPDATE, payload: settings });
   };
   const updateListWithNewSettings = ({ urls, newSettings }) => {
+    console.log({ newSettings });
     urls.forEach((url, index) => {
       addCarToList({ url, settings: newSettings });
     });
@@ -244,11 +274,7 @@ export default function GlobalState(props) {
   return (
     <Context.Provider
       value={{
-        list: listState.list,
-        errors: listState.errors,
-        postcode: listState.postcode,
-        settings: listState.settings,
-        options: listState.options,
+        ...listState,
         addCarToList,
         removeCarFromList,
         addPostToList,
@@ -260,7 +286,6 @@ export default function GlobalState(props) {
         getCarList,
         deleteList,
         resetList,
-        sharekey: listState.sharekey,
       }}
     >
       {props.children}

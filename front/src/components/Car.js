@@ -72,6 +72,8 @@ export default function Car(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [visible, setVisibility] = useState(true);
   const [anchorElMiles, setAnchorElMiles] = React.useState(null);
+  const [seller_coords, setSellerCoords] = useState(false);
+  const [userSelectedOptions, setOptions] = useState(context.settings);
 
   const handleExpandClick = (e) => {
     setExpanded(!expanded);
@@ -93,19 +95,18 @@ export default function Car(props) {
       context.removeCarFromList(props.item._id);
     }, 200);
   };
+  React.useEffect(() => {
+    console.log({ useSelectedOptions: userSelectedOptions });
+    if (map) {
+      setSellerCoords({
+        lat: map.lat,
+        lng: map.lng,
+      });
+    }
+  }, [map, context.postcode.postcodeData, userSelectedOptions]);
 
-  let seller_coords;
-  if (map === undefined || map.lat === null || map.lng === null) {
-    seller_coords = null;
-  } else {
-    seller_coords = {
-      lat: map.lat,
-      lng: map.lng,
-    };
-  }
   const id = expanded ? 'simple-popover' : undefined;
   const idMiles = miles ? 'simple-popover' : undefined;
-  console.log({ postcodelength: context.postcode.postcodeData });
   return (
     <Fade in={visible}>
       <Card className={classes.root}>
@@ -151,6 +152,26 @@ export default function Car(props) {
             <CardContent>
               <List aria-label="main information">
                 <Grid container>
+                  {userSelectedOptions.map((el, i) => {
+                    let desiredOptionName = el;
+                    let desiredOptionNameValue = rest[el] ?? 'Unavailable';
+
+                    return (
+                      <Grid item sm={6} key={i + 999}>
+                        <ListItemText
+                          className={desiredOptionName}
+                          key={Math.random()}
+                          style={{ padding: 0, textAlign: 'center' }}
+                        >
+                          <ListItemText
+                            primary={desiredOptionNameValue}
+                            secondary={desiredOptionName}
+                          />
+                        </ListItemText>
+                      </Grid>
+                    );
+                  })}
+                  {/* 
                   {Object.entries(rest).map((el, i) => {
                     //rest is our options sent back from the server, like ['acceleration','fast']
                     //loops through user-set options stored in context to get full definition,matches them with according values from data from the server and returns li
@@ -178,7 +199,7 @@ export default function Car(props) {
                         </ListItemText>
                       </Grid>
                     );
-                  })}
+                  })} */}
                 </Grid>
               </List>
             </CardContent>
@@ -270,7 +291,7 @@ export default function Car(props) {
           </Grid>
 
           <Grid item sm={12}>
-            {seller_coords ? (
+            {seller_coords.lat ? (
               <Map
                 usercoords={
                   context.postcode.postcodeData

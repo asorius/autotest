@@ -14,6 +14,7 @@ export default function PostInput() {
   const [postcode, setPostcode] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  // const [error, setError] = useState(context.errors.length);
   useEffect(() => {
     //context.postcode is {postcodeData:{postcode,lat?,lng?}}
     if (postFromContext) {
@@ -49,14 +50,14 @@ export default function PostInput() {
       try {
         const res = await context.addPostToList(postInputValue);
         if (res.res !== null) {
-          const urls = context.list.map((el) => el.actualLink);
-          context.list.forEach((element) => {
-            context.removeCarFromList(element._id);
-          });
-          context.updateListWithNewSettings({
-            urls,
-            newSettings: context.settings,
-          });
+          // const urls = context.list.map((el) => el.actualLink);
+          // context.list.forEach((element) => {
+          //   context.removeCarFromList(element._id);
+          // });
+          // context.updateListWithNewSettings({
+          //   urls,
+          //   newSettings: context.settings,
+          // });
           setPostcode(res.res);
           setPostValue('');
           setLoading(!loading);
