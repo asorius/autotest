@@ -63,18 +63,24 @@ export default function Car(props) {
     mileageDataForDisplay,
     ...rest
   } = props.item;
+  const { options: userSelectedOptions } = props;
   const classes = useStyles();
   const context = useContext(Context);
   const [miles, showMiles] = useState(false);
-  // const [current, setCurrentImg] = useState(0);
-  // const [img, setImg] = useState(images[current]);
   const [expanded, setExpanded] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [visible, setVisibility] = useState(true);
   const [anchorElMiles, setAnchorElMiles] = React.useState(null);
   const [seller_coords, setSellerCoords] = useState(false);
-  const [userSelectedOptions, setOptions] = useState(context.settings);
 
+  React.useEffect(() => {
+    if (map) {
+      setSellerCoords({
+        lat: map.lat,
+        lng: map.lng,
+      });
+    }
+  }, [map, context.postcode.postcodeData]);
   const handleExpandClick = (e) => {
     setExpanded(!expanded);
     setAnchorEl(e.currentTarget);
@@ -95,18 +101,11 @@ export default function Car(props) {
       context.removeCarFromList(props.item._id);
     }, 200);
   };
-  React.useEffect(() => {
-    console.log({ useSelectedOptions: userSelectedOptions });
-    if (map) {
-      setSellerCoords({
-        lat: map.lat,
-        lng: map.lng,
-      });
-    }
-  }, [map, context.postcode.postcodeData, userSelectedOptions]);
 
   const id = expanded ? 'simple-popover' : undefined;
   const idMiles = miles ? 'simple-popover' : undefined;
+  console.log({ userSelectedOptions });
+  console.log({ item: props.item });
   return (
     <Fade in={visible}>
       <Card className={classes.root}>
@@ -154,6 +153,9 @@ export default function Car(props) {
                 <Grid container>
                   {userSelectedOptions.map((el, i) => {
                     let desiredOptionName = el;
+                    if (desiredOptionName.includes('map')) {
+                      return null;
+                    }
                     let desiredOptionNameValue = rest[el] ?? 'Unavailable';
 
                     return (
