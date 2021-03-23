@@ -29,7 +29,7 @@ export default function LandingPage(props) {
     if (loading) {
       setTimeout(() => {
         setLoading(!loading);
-      }, 2000);
+      }, 500);
     }
   }, [loading]);
   useEffect(() => {

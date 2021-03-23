@@ -104,6 +104,7 @@ export default function Car(props) {
   };
   const id = expanded ? 'simple-popover' : undefined;
   const idMiles = miles ? 'simple-popover' : undefined;
+  console.log({ usersPostcodeDataFromContext });
   return (
     <Fade in={visible}>
       <Card className={classes.root}>
