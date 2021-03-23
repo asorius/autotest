@@ -46,11 +46,11 @@ export default function GlobalState(props) {
       { name: 'Fuel tank capacity', value: 'tank' },
       { name: 'Weight', value: 'weight' },
       { name: 'CO2 emissions', value: 'co2' },
-      { name: 'Map & directions', value: 'map{lat lng}' },
+      { name: 'Map & directions', value: 'map' },
     ],
   });
   const addCarToList = async (data) => {
-    let options = [
+    let optionsListForServer = [
       { name: 'Make year', value: 'year' },
       { name: 'Engine size', value: 'engine' },
       { name: 'Mileage', value: 'mileage' },
@@ -104,7 +104,7 @@ export default function GlobalState(props) {
             phone1
             phone2
           }
-        ${[...options.map((el) => el.value)].join(' ')}
+        ${[...optionsListForServer.map((el) => el.value)].join(' ')}
         }
       }
     `,

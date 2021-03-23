@@ -75,7 +75,7 @@ export default function Car(props) {
   const [seller_coords, setSellerCoords] = useState(false);
 
   React.useEffect(() => {
-    if (map && map.lat) {
+    if (map) {
       setSellerCoords({
         lat: map.lat,
         lng: map.lng,
@@ -102,7 +102,6 @@ export default function Car(props) {
       context.removeCarFromList(props.item._id);
     }, 200);
   };
-
   const id = expanded ? 'simple-popover' : undefined;
   const idMiles = miles ? 'simple-popover' : undefined;
   return (
@@ -172,35 +171,6 @@ export default function Car(props) {
                       </Grid>
                     );
                   })}
-                  {/* 
-                  {Object.entries(rest).map((el, i) => {
-                    //rest is our options sent back from the server, like ['acceleration','fast']
-                    //loops through user-set options stored in context to get full definition,matches them with according values from data from the server and returns li
-                    let name = context.options.filter(
-                      (opt) => opt.value === el[0]
-                    )[0].name;
-                    let classname = context.options.filter(
-                      (opt) => opt.value === el[0]
-                    )[0].value;
-                    return (
-                      <Grid item sm={6} key={i + 999}>
-                        <ListItemText
-                          className={classname}
-                          key={Math.random()}
-                          style={{ padding: 0, textAlign: 'center' }}
-                        >
-                          <ListItemText
-                            primary={
-                              el[1] === false || el[1] === null || false
-                                ? 'Unavailable'
-                                : el[1]
-                            }
-                            secondary={name}
-                          />
-                        </ListItemText>
-                      </Grid>
-                    );
-                  })} */}
                 </Grid>
               </List>
             </CardContent>
@@ -292,24 +262,26 @@ export default function Car(props) {
           </Grid>
 
           <Grid item sm={12}>
-            {seller_coords.lat ? (
-              <Map
-                usercoords={
-                  usersPostcodeDataFromContext
-                    ? usersPostcodeDataFromContext
-                    : null
-                }
-                sellercoords={seller_coords}
-                isMarkerShown={true}
-              />
-            ) : map === undefined ? null : (
-              <Chip
-                variant="outlined"
-                size="small"
-                icon={<ErrorIcon style={{ color: 'darkred' }} />}
-                label="Map unavailable due to seller"
-              />
-            )}
+            {userSelectedOptions.includes('map') ? (
+              seller_coords.lat ? (
+                <Map
+                  usercoords={
+                    usersPostcodeDataFromContext
+                      ? usersPostcodeDataFromContext
+                      : null
+                  }
+                  sellercoords={seller_coords}
+                  isMarkerShown={true}
+                />
+              ) : map === undefined ? null : (
+                <Chip
+                  variant="outlined"
+                  size="small"
+                  icon={<ErrorIcon style={{ color: 'darkred' }} />}
+                  label="Map unavailable due to seller"
+                />
+              )
+            ) : null}
           </Grid>
         </Grid>
 

@@ -42,12 +42,6 @@ export default function Settings() {
 
     e.preventDefault();
     context.updateSettings(newSettings);
-    // setOptions(newSettings);
-    // const urls = context.list.map((el) => el.actualLink);
-    // context.list.forEach((element) => {
-    //   context.removeCarFromList(element._id);
-    // });
-    // context.updateListWithNewSettings({ urls, newSettings });
     setTimeout(() => {
       setModal(!modal);
     }, 200);
