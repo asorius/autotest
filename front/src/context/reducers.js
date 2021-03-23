@@ -48,18 +48,30 @@ const clearError = (state) => {
 const addPost = (data, state) => {
   //data looks like {postcode:'23423',lat:2342,lng:asdfsdf}
   localStorage.setItem('atppostcode', JSON.stringify(data));
-  return { ...state, postcodeInformation: data };
+  if (state.settings.includes('map')) {
+    return {
+      ...state,
+      postcodeInformation: data,
+    };
+  } else {
+    localStorage.setItem(
+      'atpsettings',
+      JSON.stringify([...state.settings, 'map'])
+    );
+    return {
+      ...state,
+      postcodeInformation: data,
+      settings: [...state.settings, 'map'],
+    };
+  }
 };
 const removePost = (item, state) => {
   console.log('setting ls to empty');
   localStorage.setItem('atppostcode', false);
-  const settingsWithRemovedMapOption = state.settings.filter(
-    (el) => !el.includes('map')
-  );
+
   return {
     ...state,
     postcodeInformation: false,
-    settings: settingsWithRemovedMapOption,
   };
 };
 const updateSettings = (newSettings, state) => {

@@ -12,13 +12,22 @@ import TextField from '@material-ui/core/TextField';
 export default function Settings() {
   const context = useContext(Context);
   const [modal, setModal] = useState(false);
+  // const [settings, setSettings] = useState(context.settings);
   const [checkboxes, setCheckbox] = useState(
     context.options.map((option) => ({
       ...option,
-      isSelected: context.settings.indexOf(option.value) < 0 ? false : true,
+      isSelected: context.settings.includes(option.value),
     }))
   );
-  // const [userSelectedOptions, setOptions] = useState([]);
+  React.useEffect(() => {
+    setCheckbox(
+      context.options.map((option) => ({
+        ...option,
+        isSelected: context.settings.includes(option.value),
+      }))
+    );
+  }, [context.settings]);
+
   const onCheckFn = (e) => {
     const { value } = e.target;
 
