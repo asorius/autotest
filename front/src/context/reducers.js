@@ -67,9 +67,9 @@ const removePost = (postcode, state) => {
   return { ...state, postcodeData: false };
 };
 const updateSettings = (newSettings, state) => {
-  console.log({ newSettings });
+  console.log('updating settings');
   localStorage.setItem('atpsettings', JSON.stringify(newSettings));
-  return { ...state, ...newSettings };
+  return { ...state, settings: newSettings };
 };
 const addKey = (data, state) => {
   return { ...state, sharekey: data.sharekey };

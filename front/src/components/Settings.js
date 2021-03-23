@@ -18,7 +18,7 @@ export default function Settings() {
       isSelected: context.settings.indexOf(option.value) < 0 ? false : true,
     }))
   );
-  const [userSelectedOptions, setOptions] = useState([]);
+  // const [userSelectedOptions, setOptions] = useState([]);
   const onCheckFn = (e) => {
     const { value } = e.target;
 
@@ -42,8 +42,7 @@ export default function Settings() {
 
     e.preventDefault();
     context.updateSettings(newSettings);
-    setOptions(newSettings);
-    console.log(userSelectedOptions);
+    // setOptions(newSettings);
     // const urls = context.list.map((el) => el.actualLink);
     // context.list.forEach((element) => {
     //   context.removeCarFromList(element._id);

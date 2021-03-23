@@ -19,33 +19,33 @@ const Map = compose(
   withGoogleMap,
   lifecycle({
     componentDidMount() {
-      console.log({ frommap: this.props.usercoords });
-      if (!this.props.usercoords || this.props.usercoords.length === 0) {
+      if (this.props.usercoords && this.props.usercoords.lat) {
+        const DirectionsService = new window.google.maps.DirectionsService();
+        DirectionsService.route(
+          {
+            origin: new window.google.maps.LatLng(
+              this.props.usercoords.lat,
+              this.props.usercoords.lng
+            ),
+            destination: new window.google.maps.LatLng(
+              parseFloat(this.props.sellercoords.lat),
+              parseFloat(this.props.sellercoords.lng)
+            ),
+            travelMode: window.google.maps.TravelMode.DRIVING,
+          },
+          (result, status) => {
+            if (status === window.google.maps.DirectionsStatus.OK) {
+              this.setState({
+                directions: result,
+              });
+            } else {
+              console.error(`error fetching directions ${result}`);
+            }
+          }
+        );
+      } else {
         return;
       }
-      const DirectionsService = new window.google.maps.DirectionsService();
-      DirectionsService.route(
-        {
-          origin: new window.google.maps.LatLng(
-            this.props.usercoords.lat,
-            this.props.usercoords.lng
-          ),
-          destination: new window.google.maps.LatLng(
-            parseFloat(this.props.sellercoords.lat),
-            parseFloat(this.props.sellercoords.lng)
-          ),
-          travelMode: window.google.maps.TravelMode.DRIVING,
-        },
-        (result, status) => {
-          if (status === window.google.maps.DirectionsStatus.OK) {
-            this.setState({
-              directions: result,
-            });
-          } else {
-            console.error(`error fetching directions ${result}`);
-          }
-        }
-      );
     },
   })
 )((props) => {
@@ -60,32 +60,33 @@ const Map = compose(
       }
     >
       {/* Custom box container displaying travel distance and time if usercoords are provided */}
-      {console.log({ shouldshowbox: props.usercoords })}
-      {props.usercoords && props.usercoords.length > 0 ? (
-        <InfoBox
-          defaultPosition={
-            new window.google.maps.LatLng(
-              props.sellercoords.lat,
-              props.sellercoords.lng
-            )
-          }
-          options={{
-            closeBoxURL: ``,
-          }}
-        >
-          <div className="travel">
-            <div className="km">
-              {props.directions.routes[0].legs[0].distance.text}
+      {props.usercoords && props.directions ? (
+        <>
+          <InfoBox
+            defaultPosition={
+              new window.google.maps.LatLng(
+                props.sellercoords.lat,
+                props.sellercoords.lng
+              )
+            }
+            options={{
+              closeBoxURL: ``,
+            }}
+          >
+            <div className="travel">
+              <div className="km">
+                {props.directions.routes[0].legs[0].distance.text}
+              </div>
+              <div className="time">
+                {props.directions.routes[0].legs[0].duration.text}
+              </div>
+              <div className="address">
+                {props.directions.routes[0].legs[0].end_address}
+              </div>
             </div>
-            <div className="time">
-              {props.directions.routes[0].legs[0].duration.text}
-            </div>
-          </div>
-        </InfoBox>
-      ) : null}
-      {/* if user coordinations are provided render map with directions, else render map with single marker */}
-      {props.usercoords ? (
-        <DirectionsRenderer directions={props.directions} />
+          </InfoBox>
+          <DirectionsRenderer directions={props.directions} />
+        </>
       ) : (
         <React.Fragment>
           <Marker

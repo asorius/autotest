@@ -252,6 +252,7 @@ export default function GlobalState(props) {
     return false;
   };
   const updateSettings = (settings) => {
+    console.log({ settings });
     dispatch({ type: SETTINGS_UPDATE, payload: settings });
   };
   const updateListWithNewSettings = ({ urls, newSettings }) => {

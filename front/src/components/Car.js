@@ -74,7 +74,8 @@ export default function Car(props) {
   const [seller_coords, setSellerCoords] = useState(false);
 
   React.useEffect(() => {
-    if (map) {
+    console.log(map);
+    if (map && map.lat) {
       setSellerCoords({
         lat: map.lat,
         lng: map.lng,
@@ -104,8 +105,6 @@ export default function Car(props) {
 
   const id = expanded ? 'simple-popover' : undefined;
   const idMiles = miles ? 'simple-popover' : undefined;
-  console.log({ userSelectedOptions });
-  console.log({ item: props.item });
   return (
     <Fade in={visible}>
       <Card className={classes.root}>
