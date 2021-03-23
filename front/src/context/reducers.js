@@ -47,24 +47,20 @@ const clearError = (state) => {
 };
 const addPost = (data, state) => {
   //data looks like {postcode:'23423',lat:2342,lng:asdfsdf}
-  localStorage.setItem(
-    'atppostcode',
-    JSON.stringify({
-      postcodeData: { ...data },
-    })
-  );
-  console.log({ datafromaddpost: data });
-  return { ...state, postcodeData: { ...data } };
+  localStorage.setItem('atppostcode', JSON.stringify(data));
+  return { ...state, postcodeInformation: data };
 };
-const removePost = (postcode, state) => {
+const removePost = (item, state) => {
   console.log('setting ls to empty');
-  localStorage.setItem(
-    'atppostcode',
-    JSON.stringify({
-      postcodeData: false,
-    })
+  localStorage.setItem('atppostcode', false);
+  const settingsWithRemovedMapOption = state.settings.filter(
+    (el) => !el.includes('map')
   );
-  return { ...state, postcodeData: false };
+  return {
+    ...state,
+    postcodeInformation: false,
+    settings: settingsWithRemovedMapOption,
+  };
 };
 const updateSettings = (newSettings, state) => {
   console.log('updating settings');

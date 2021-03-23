@@ -8,19 +8,12 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Chip from '@material-ui/core/Chip';
 export default function PostInput() {
   const context = useContext(Context);
-  const postFromContext = context.postcode.postcodeData;
-  // const postFromContext = context.postcode.postcodeData.postcode;
   const [postInputValue, setPostValue] = useState('');
-  const [postcode, setPostcode] = useState('');
+  const [postcode, setPostcode] = useState(
+    context.postcodeInformation.postcode || ''
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  // const [error, setError] = useState(context.errors.length);
-  useEffect(() => {
-    //context.postcode is {postcodeData:{postcode,lat?,lng?}}
-    if (postFromContext) {
-      setPostcode(postFromContext.postcode);
-    }
-  }, [postFromContext]);
 
   useEffect(() => {
     if (loading) {
@@ -49,16 +42,8 @@ export default function PostInput() {
     } else {
       try {
         const res = await context.addPostToList(postInputValue);
-        if (res.res !== null) {
-          // const urls = context.list.map((el) => el.actualLink);
-          // context.list.forEach((element) => {
-          //   context.removeCarFromList(element._id);
-          // });
-          // context.updateListWithNewSettings({
-          //   urls,
-          //   newSettings: context.settings,
-          // });
-          setPostcode(res.res);
+        if (res.postcodeString !== null) {
+          setPostcode(res.postcodeString);
           setPostValue('');
           setLoading(!loading);
         } else {
@@ -73,16 +58,8 @@ export default function PostInput() {
 
   const onDeletePostcode = (e) => {
     e.preventDefault();
-    context.removePostFromList(postcode);
+    context.removePostFromList();
     setPostcode(false);
-    const urls = context.list.map((el) => el.actualLink);
-    context.list.forEach((element) => {
-      context.removeCarFromList(element._id);
-    });
-    context.updateListWithNewSettings({
-      urls,
-      newSettings: context.settings,
-    });
   };
 
   return (

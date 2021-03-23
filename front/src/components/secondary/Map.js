@@ -49,6 +49,7 @@ const Map = compose(
     },
   })
 )((props) => {
+  console.log({ mapData: props });
   return (
     <GoogleMap
       defaultZoom={12}

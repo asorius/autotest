@@ -9,7 +9,12 @@ export default function CarCardsList() {
   return context.list.map((item, i) => {
     return (
       <Grid key={i + 658} item sm={12} md={context.list.length > 1 ? 6 : 10}>
-        <Car key={item._id} item={item} options={context.settings} />
+        <Car
+          key={item._id}
+          item={item}
+          options={context.settings}
+          usersPostcodeDataFromContext={context.postcodeInformation}
+        />
       </Grid>
     );
   });

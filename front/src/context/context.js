@@ -2,7 +2,7 @@ import React from 'react';
 
 export default React.createContext({
   list: [],
-  postcode: [],
+  postcodeInformation: [],
   settings: [],
   sharekey: [],
   errors: [],
@@ -17,5 +17,5 @@ export default React.createContext({
   setError: () => {},
   getCarList: () => {},
   saveCarList: () => {},
-  resetList: () => {}
+  resetList: () => {},
 });

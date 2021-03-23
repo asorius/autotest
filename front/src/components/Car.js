@@ -64,6 +64,7 @@ export default function Car(props) {
     ...rest
   } = props.item;
   const { options: userSelectedOptions } = props;
+  const { usersPostcodeDataFromContext } = props;
   const classes = useStyles();
   const context = useContext(Context);
   const [miles, showMiles] = useState(false);
@@ -74,14 +75,13 @@ export default function Car(props) {
   const [seller_coords, setSellerCoords] = useState(false);
 
   React.useEffect(() => {
-    console.log(map);
     if (map && map.lat) {
       setSellerCoords({
         lat: map.lat,
         lng: map.lng,
       });
     }
-  }, [map, context.postcode.postcodeData]);
+  }, [map, usersPostcodeDataFromContext]);
   const handleExpandClick = (e) => {
     setExpanded(!expanded);
     setAnchorEl(e.currentTarget);
@@ -295,8 +295,8 @@ export default function Car(props) {
             {seller_coords.lat ? (
               <Map
                 usercoords={
-                  context.postcode.postcodeData
-                    ? context.postcode.postcodeData
+                  usersPostcodeDataFromContext
+                    ? usersPostcodeDataFromContext
                     : null
                 }
                 sellercoords={seller_coords}

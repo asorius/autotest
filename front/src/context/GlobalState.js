@@ -21,7 +21,7 @@ export default function GlobalState(props) {
   console.log({ atppostcode });
   const [listState, dispatch] = useReducer(listReducer, {
     list: lsdata.list || [],
-    postcode: atppostcode,
+    postcodeInformation: atppostcode,
     settings: atpsettings,
     sharekey: null,
     errors: {},
@@ -241,7 +241,7 @@ export default function GlobalState(props) {
       if (lat) {
         dispatch({ type: ADD_POST, payload: { postcode: pc, lat, lng } });
       }
-      return { res: pc };
+      return { postcodeString: pc };
     } catch (e) {
       return { error: e };
     }
