@@ -73,6 +73,7 @@ export default function Car(props) {
   const [visible, setVisibility] = useState(true);
   const [anchorElMiles, setAnchorElMiles] = React.useState(null);
   const [seller_coords, setSellerCoords] = useState(false);
+  const [user_coords, setUserCoords] = useState(usersPostcodeDataFromContext);
 
   React.useEffect(() => {
     if (map) {
@@ -80,6 +81,7 @@ export default function Car(props) {
         lat: map.lat,
         lng: map.lng,
       });
+      setUserCoords(usersPostcodeDataFromContext);
     }
   }, [map, usersPostcodeDataFromContext]);
   const handleExpandClick = (e) => {
@@ -104,7 +106,6 @@ export default function Car(props) {
   };
   const id = expanded ? 'simple-popover' : undefined;
   const idMiles = miles ? 'simple-popover' : undefined;
-  console.log({ usersPostcodeDataFromContext });
   return (
     <Fade in={visible}>
       <Card className={classes.root}>
@@ -266,11 +267,7 @@ export default function Car(props) {
             {userSelectedOptions.includes('map') ? (
               seller_coords.lat ? (
                 <Map
-                  usercoords={
-                    usersPostcodeDataFromContext
-                      ? usersPostcodeDataFromContext
-                      : null
-                  }
+                  usercoords={user_coords ? user_coords : null}
                   sellercoords={seller_coords}
                   isMarkerShown={true}
                 />

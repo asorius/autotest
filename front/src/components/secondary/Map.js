@@ -47,9 +47,35 @@ const Map = compose(
         return;
       }
     },
+    componentDidUpdate(prevprops, prevstate) {
+      if (this.props.usercoords && prevprops.usercoords === null) {
+        const DirectionsService = new window.google.maps.DirectionsService();
+        DirectionsService.route(
+          {
+            origin: new window.google.maps.LatLng(
+              this.props.usercoords.lat,
+              this.props.usercoords.lng
+            ),
+            destination: new window.google.maps.LatLng(
+              parseFloat(this.props.sellercoords.lat),
+              parseFloat(this.props.sellercoords.lng)
+            ),
+            travelMode: window.google.maps.TravelMode.DRIVING,
+          },
+          (result, status) => {
+            if (status === window.google.maps.DirectionsStatus.OK) {
+              this.setState({
+                directions: result,
+              });
+            } else {
+              console.error(`error fetching directions ${result}`);
+            }
+          }
+        );
+      }
+    },
   })
 )((props) => {
-  console.log({ mapData: props });
   return (
     <GoogleMap
       defaultZoom={12}
