@@ -94,9 +94,7 @@ export default function ImgModal({
     // smallImgChange(e, current);
   };
   return (
-    <div
-      style={{ height: '100%', width: '100%', zIndex: 55, cursor: 'pointer' }}
-    >
+    <div style={{ height: '100%', width: '100%', cursor: 'pointer' }}>
       <Tooltip
         title="Enlarge photo"
         aria-label="enlarge"

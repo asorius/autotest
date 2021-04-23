@@ -4,7 +4,7 @@ const getMotData = async (vrm) => {
   try {
     const url = `https://my.hpi.co.uk/vehicles/motHistoryByVRM/${vrm.toUpperCase()}`;
     const res = await axios.get(url);
-
+    console.log(url);
     return res.data;
   } catch (e) {
     console.log({ errorInfoMot: e });

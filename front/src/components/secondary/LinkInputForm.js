@@ -2,17 +2,22 @@ import React, { useContext, useState } from 'react';
 import Context from '../../context/context';
 import TextField from '@material-ui/core/TextField';
 import Icon from '@material-ui/icons/AddCircleOutline';
+import Snackbar from '@material-ui/core/Snackbar';
 import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Chip from '@material-ui/core/Chip';
+import DoneAllIcon from '@material-ui/icons/DoneAll';
 const InputsForm = () => {
   const context = useContext(Context);
   const [inputValue, setInputValue] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const onChange = (e) => {
     setInputValue(e.target.value.toLowerCase());
   };
+  const handleClose = () => setOpen(false);
 
   const addCarFunc = async (e) => {
     setLoading(!loading);
@@ -28,6 +33,7 @@ const InputsForm = () => {
           settings: context.settings,
         });
         setInputValue('');
+        setOpen(!open);
       }
     } catch (e) {
       return { errored: e };
@@ -76,6 +82,17 @@ const InputsForm = () => {
           Add
         </Button>
       )}
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        open={open}
+        autoHideDuration={2000}
+        onClose={handleClose}
+      >
+        <Chip icon={<DoneAllIcon />} label="Great Success!" color="secondary" />
+      </Snackbar>
     </form>
   );
 };
