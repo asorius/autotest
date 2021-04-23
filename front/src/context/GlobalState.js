@@ -18,7 +18,6 @@ export default function GlobalState(props) {
 
   let atpsettings = JSON.parse(localStorage.getItem('atpsettings')) || [];
   let atppostcode = JSON.parse(localStorage.getItem('atppostcode')) || false;
-  console.log({ atppostcode });
   const [listState, dispatch] = useReducer(listReducer, {
     list: lsdata.list || [],
     postcodeInformation: atppostcode,
@@ -139,9 +138,7 @@ export default function GlobalState(props) {
     }
   };
   const saveCarList = async (data) => {
-    console.log('saving car list');
     try {
-      console.log({ savingcarlist: data });
       const reqbody = {
         query: `
       query {
@@ -247,16 +244,13 @@ export default function GlobalState(props) {
     }
   };
   const removePostFromList = (postcode) => {
-    console.log({ postcodefromglobal: postcode });
     dispatch({ type: REMOVE_POST, payload: postcode });
     return false;
   };
   const updateSettings = (settings) => {
-    console.log({ settings });
     dispatch({ type: SETTINGS_UPDATE, payload: settings });
   };
   const updateListWithNewSettings = ({ urls, newSettings }) => {
-    console.log({ newSettings });
     urls.forEach((url, index) => {
       addCarToList({ url, settings: newSettings });
     });

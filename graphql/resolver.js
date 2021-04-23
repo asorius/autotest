@@ -9,10 +9,6 @@ module.exports = {
       if (res.error) {
         throw new Error();
       } else {
-        console.log({
-          res: res.results[0].position,
-          from: 'getpostcord resolver',
-        });
         const pc = res.summary.query.toUpperCase();
         const { lat, lon: lng } = res.results[0].position;
         return { postcode: pc, lat, lng };
@@ -184,7 +180,6 @@ module.exports = {
         mileageDataForDisplay,
       };
     } catch (e) {
-      console.log({ errorInfoResolver: e.response.data.text });
       return { error: 'unable to retrieve data' };
     }
   },
@@ -212,11 +207,9 @@ module.exports = {
     }
   },
   getList: async (args) => {
-    console.log('getting list...');
     const searchKey = args.key;
     try {
       const res = await List.findById(searchKey);
-      console.log(res.list);
       return res.list;
     } catch (e) {
       console.log(e);
@@ -224,10 +217,8 @@ module.exports = {
   },
   deleteList: async (args) => {
     const searchKey = args.key;
-    console.log({ searchKey });
     try {
       const res = await List.findByIdAndDelete(searchKey);
-      console.log({ res });
       return 'success';
     } catch (e) {
       console.log(e);

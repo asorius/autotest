@@ -4,7 +4,6 @@ import { useContext } from 'react';
 import Context from '../../context/context';
 import Car from '../Car';
 export default function CarCardsList() {
-  console.log('cardlist container mounted');
   const context = useContext(Context);
   return context.list.map((item, i) => {
     return (

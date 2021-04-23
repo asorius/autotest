@@ -66,7 +66,6 @@ const addPost = (data, state) => {
   }
 };
 const removePost = (item, state) => {
-  console.log('setting ls to empty');
   localStorage.setItem('atppostcode', false);
 
   return {
@@ -75,7 +74,6 @@ const removePost = (item, state) => {
   };
 };
 const updateSettings = (newSettings, state) => {
-  console.log('updating settings');
   localStorage.setItem('atpsettings', JSON.stringify(newSettings));
   return { ...state, settings: newSettings };
 };
