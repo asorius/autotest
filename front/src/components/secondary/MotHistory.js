@@ -15,6 +15,8 @@ export default function MotHistory({ events }) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = React.useState(0);
   const handleClick = (e) => {
+    console.log(e.currentTarget);
+
     setAnchorEl(anchorEl ? null : e.currentTarget);
     setOpen(!open);
     setExpanded(!expanded);
@@ -88,26 +90,36 @@ export default function MotHistory({ events }) {
                                 style={{
                                   width: '100%',
                                   display: 'flex',
-                                  justifyContent: 'space-around',
+                                  justifyContent: 'space-between',
                                 }}
                               >
+                                {item.date
+                                  .split(' ')
+                                  .map((el, ind) =>
+                                    el.length > 4 ? el.slice(0, 3) : el
+                                  )
+                                  .join(' ')}
                                 <CheckCircleOutlineIcon
                                   style={{ color: 'green' }}
                                 ></CheckCircleOutlineIcon>
-                                {item.date}
                               </div>
                             ) : (
                               <div
                                 style={{
                                   width: '100%',
                                   display: 'flex',
-                                  justifyContent: 'space-around',
+                                  justifyContent: 'space-between',
                                 }}
                               >
+                                {item.date
+                                  .split(' ')
+                                  .map((el, ind) =>
+                                    el.length > 4 ? el.slice(0, 3) : el
+                                  )
+                                  .join(' ')}
                                 <NotInterestedIcon
                                   style={{ color: 'red' }}
                                 ></NotInterestedIcon>
-                                {item.date}
                               </div>
                             )
                           }

@@ -15,6 +15,11 @@ function ChartItem({ mileages }) {
         gradientToColors: [`#ADD${Math.round(Math.random() * 1000)}`],
       },
     },
+    chart: {
+      toolbar: {
+        show: 'false',
+      },
+    },
   };
   const series = [
     {
@@ -27,7 +32,12 @@ function ChartItem({ mileages }) {
 
   return (
     <div>
-      <Chart options={options} series={series} type="line" />
+      <Chart
+        options={options}
+        series={series}
+        type="line"
+        chart={{ toolbar: { show: 'false' } }}
+      />
       <h4>Average yearly mileage : {Math.round(average)}</h4>
     </div>
   );
