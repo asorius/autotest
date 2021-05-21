@@ -15,6 +15,7 @@ export default function HistoryChart({ miles, mileageDataForDisplay }) {
     setExpanded(!expanded);
   };
   const id = open ? 'miles-history' : undefined;
+  console.log({ mileageDataForDisplay });
   return (
     <>
       <Button
@@ -51,7 +52,7 @@ export default function HistoryChart({ miles, mileageDataForDisplay }) {
       >
         <ClickAwayListener onClickAway={handleClick}>
           <Paper>
-            {mileageDataForDisplay || mileageDataForDisplay.length > 0 ? (
+            {mileageDataForDisplay && mileageDataForDisplay.length > 0 ? (
               <ChartItem mileages={mileageDataForDisplay}></ChartItem>
             ) : (
               'Not Available'

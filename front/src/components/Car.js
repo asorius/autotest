@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import Context from '../context/context';
 import Map from './secondary/Map';
 import ImgModal from './secondary/ImgModal';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -19,6 +18,7 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import ErrorIcon from '@material-ui/icons/Error';
 import MotHistory from './secondary/MotHistory';
 import HistoryChart from './secondary/HistoryChart';
+import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 // import { Link } from 'react-router-dom';
 // import { useSpring, animated } from 'react-spring';
 const useStyles = makeStyles((theme) => ({
@@ -121,10 +121,19 @@ export default function Car(props) {
             <Grid item sm={12}>
               <CardHeader
                 className={classes.title}
-                title={`${title} | ${price}`}
-                subheader={`MOT: ${
-                  events.length > 0 ? events[0].data.expiredate : 'N/A'
-                }`}
+                title={
+                  <>
+                    <Typography variant="h6">{title}</Typography>
+                    <Typography variant="h6" color="secondary">
+                      {price}
+                    </Typography>
+                  </>
+                }
+                subheader={
+                  <Typography variant="subtitle2" color="textSecondary">
+                    MOT: {events.length > 0 ? events[0].data.expiredate : 'N/A'}
+                  </Typography>
+                }
               />
             </Grid>
             <Divider></Divider>
@@ -211,7 +220,11 @@ export default function Car(props) {
                     : null}
                 </Typography>
               </Grid>
-              <Grid item sm={4} style={{ textAlign: 'center' }}>
+              <Grid
+                item
+                sm={4}
+                style={{ display: 'grid', placeItems: 'center' }}
+              >
                 <Chip
                   style={{ margin: '.5rem' }}
                   size="small"
@@ -228,17 +241,6 @@ export default function Car(props) {
                       : null
                   }
                 ></Chip>
-                <Tooltip title="View original add" aria-label="view link">
-                  <Button size="small" variant="outlined" color="secondary">
-                    <a
-                      href={`${actualLink}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Autotrader
-                    </a>
-                  </Button>
-                </Tooltip>
               </Grid>
             </Grid>
             <Divider></Divider>
@@ -266,13 +268,22 @@ export default function Car(props) {
 
         <CardActions
           disableSpacing
-          style={{ display: 'flex', justifyContent: 'space-between' }}
+          style={{ display: 'flex', justifyContent: 'space-around' }}
         >
           <MotHistory events={events}></MotHistory>
           <HistoryChart
             miles={miles}
             mileageDataForDisplay={mileageDataForDisplay}
           ></HistoryChart>
+          <Tooltip title="Open on Autotrader" aria-label="remove">
+            <IconButton
+              href={`${actualLink}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <OpenInNewIcon color="primary"></OpenInNewIcon>
+            </IconButton>
+          </Tooltip>
           <Tooltip title="Remove car" aria-label="remove">
             <IconButton onClick={removeCar} style={{ color: 'red' }}>
               <DeleteForeverIcon
