@@ -36,6 +36,8 @@ export default function MotHistory({ events }) {
         onClick={handleClick}
         aria-label="show more"
         ref={refButton}
+        size="small"
+        style={{ textTransform: 'none' }}
       >
         MOT history
         <ExpandLess

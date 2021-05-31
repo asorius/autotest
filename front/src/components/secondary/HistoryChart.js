@@ -27,6 +27,8 @@ export default function HistoryChart({ miles, mileageDataForDisplay }) {
         onClick={handleClick}
         aria-label="show more"
         ref={refButton}
+        size="small"
+        style={{ textTransform: 'none' }}
       >
         Mileage
         <ExpandLess

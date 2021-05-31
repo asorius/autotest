@@ -108,7 +108,7 @@ export default function LandingPage(props) {
             ref={listRef}
             style={{
               position: 'relative',
-              padding: context.list.length > 0 ? '2rem' : 0,
+              paddingTop: context.list.length > 0 ? '3rem' : 0,
             }}
             id="list"
           >

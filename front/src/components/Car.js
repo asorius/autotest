@@ -91,34 +91,38 @@ export default function Car(props) {
     <Fade in={visible}>
       <Card className={classes.root}>
         <Grid container>
-          <Grid item sm={4} container>
+          <Grid
+            item
+            sm={4}
+            className="photosContainer"
+            style={{ position: 'relative', minHeight: '10rem', width: '100%' }}
+          >
             {/* photos */}
 
-            <Grid item sm={12} style={{ position: 'relative' }}>
-              <CardMedia className={classes.media} image={images[0]} />
+            {/* <Grid item sm={12} style={{ position: 'relative' }}> */}
+            <CardMedia className={classes.media} image={images[0]} />
 
-              <div
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  height: '100%',
-                  // zIndex: 4,
-                  color: 'white',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}
-              >
-                <ImgModal images={images} current={0} />
-              </div>
-            </Grid>
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                color: 'white',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <ImgModal images={images} current={0} />
+            </div>
+            {/* </Grid> */}
           </Grid>
 
           <Grid item sm={8}>
             {/* main info  */}
-            <Grid item sm={12}>
+            <Grid item sm={12} style={{ background: ' #f7f7f7' }}>
               <CardHeader
                 className={classes.title}
                 title={
@@ -140,7 +144,7 @@ export default function Car(props) {
 
             <CardContent>
               <List aria-label="main information">
-                <Grid container>
+                <Grid container spacing={0} justify="space-around">
                   {userSelectedOptions.map((el, i) => {
                     let desiredOptionName = el;
                     if (desiredOptionName.includes('map')) {
@@ -149,7 +153,7 @@ export default function Car(props) {
                     let desiredOptionNameValue = rest[el] ?? 'Unavailable';
 
                     return (
-                      <Grid item sm={6} key={i + 999}>
+                      <Grid item xs={3} sm={6} key={i + 999}>
                         <ListItemText
                           className={desiredOptionName}
                           key={Math.random()}
@@ -168,7 +172,7 @@ export default function Car(props) {
             </CardContent>
             <Divider></Divider>
           </Grid>
-          <Grid item sm={12}>
+          <Grid item sm={12} style={{ background: ' #f7f7f7' }}>
             <Grid
               style={{
                 padding: '.75rem ',
@@ -222,7 +226,7 @@ export default function Car(props) {
               </Grid>
               <Grid
                 item
-                sm={4}
+                smUp={4}
                 style={{ display: 'grid', placeItems: 'center' }}
               >
                 <Chip
