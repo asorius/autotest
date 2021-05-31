@@ -1,5 +1,6 @@
 import React from 'react';
 import Chart from 'react-apexcharts';
+import Typography from '@material-ui/core/Typography';
 function ChartItem({ mileages }) {
   const options = {
     xaxis: {
@@ -38,7 +39,9 @@ function ChartItem({ mileages }) {
         type="line"
         chart={{ toolbar: { show: 'false' } }}
       />
-      <h4>Average yearly mileage : {Math.round(average)}</h4>
+      <Typography variant="subtitle2" align="center">
+        Average yearly mileage : {Math.round(average)}
+      </Typography>
     </div>
   );
 }
