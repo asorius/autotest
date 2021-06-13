@@ -277,8 +277,8 @@ export default function Car(props) {
             <Divider></Divider>
           </Grid>
 
-          <Grid item sm={12}>
-            {userSelectedOptions.includes('map') ? (
+          <Grid item sm={12} style={{ textAlign: 'center' }}>
+            {userSelectedOptions?.includes('map') ? (
               seller_coords.lat ? (
                 <Map
                   usercoords={user_coords ? user_coords : null}
@@ -292,6 +292,7 @@ export default function Car(props) {
                   size="small"
                   icon={<ErrorIcon style={{ color: 'darkred' }} />}
                   label="Map unavailable due to seller"
+                  style={{ margin: '1rem auto', padding: '1rem' }}
                 />
               )
             ) : null}
