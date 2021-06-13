@@ -278,24 +278,25 @@ export default function Car(props) {
           </Grid>
 
           <Grid item sm={12} style={{ textAlign: 'center' }}>
-            {userSelectedOptions.length > 0 ??
-            userSelectedOptions.includes('map') ? (
-              seller_coords.lat ? (
-                <Map
-                  usercoords={user_coords ? user_coords : null}
-                  sellercoords={seller_coords}
-                  isMarkerShown={true}
-                  sellerName={seller.name}
-                />
-              ) : map === undefined ? null : (
-                <Chip
-                  variant="outlined"
-                  size="small"
-                  icon={<ErrorIcon style={{ color: 'darkred' }} />}
-                  label="Map unavailable due to seller"
-                  style={{ margin: '1rem auto', padding: '1rem' }}
-                />
-              )
+            {userSelectedOptions.length > 0 ? (
+              userSelectedOptions.includes('map') ? (
+                seller_coords.lat ? (
+                  <Map
+                    usercoords={user_coords ? user_coords : null}
+                    sellercoords={seller_coords}
+                    isMarkerShown={true}
+                    sellerName={seller.name}
+                  />
+                ) : map === undefined ? null : (
+                  <Chip
+                    variant="outlined"
+                    size="small"
+                    icon={<ErrorIcon style={{ color: 'darkred' }} />}
+                    label="Map unavailable due to seller"
+                    style={{ margin: '1rem auto', padding: '1rem' }}
+                  />
+                )
+              ) : null
             ) : null}
           </Grid>
         </Grid>
