@@ -19,6 +19,7 @@ import ErrorIcon from '@material-ui/icons/Error';
 import MotHistory from './secondary/MotHistory';
 import HistoryChart from './secondary/HistoryChart';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -97,8 +98,12 @@ export default function Car(props) {
             style={{ position: 'relative', minHeight: '10rem', width: '100%' }}
           >
             {/* photos */}
-
-            <CardMedia className={classes.media} image={images[0]} />
+            {/* LEFT HERE TO ADD LOADER WHILE IMAGE IS BEING LOADED */}
+            <CardMedia
+              className={classes.media}
+              image={images[0]}
+              alias="Car photo"
+            />
 
             <div
               style={{
@@ -121,7 +126,6 @@ export default function Car(props) {
                   transform: 'translateX(20px)',
                   bottom: 4,
                   right: 0,
-                  zIndex: 20,
                   fontSize: '1.2rem',
                 }}
               ></Chip>
@@ -147,28 +151,46 @@ export default function Car(props) {
             <CardContent>
               <List aria-label="main information">
                 <Grid container spacing={0} justify="space-around">
-                  {userSelectedOptions.map((el, i) => {
-                    let desiredOptionName = el;
-                    if (desiredOptionName.includes('map')) {
-                      return null;
-                    }
-                    let desiredOptionNameValue = rest[el] ?? 'Unavailable';
+                  {userSelectedOptions.length > 0 ? (
+                    userSelectedOptions.map((el, i) => {
+                      let desiredOptionName = el;
+                      if (desiredOptionName.includes('map')) {
+                        return null;
+                      }
+                      let desiredOptionNameValue = rest[el] ?? 'Unavailable';
 
-                    return (
-                      <Grid item xs={3} sm={6} key={i + 999}>
-                        <ListItemText
-                          className={desiredOptionName}
-                          key={Math.random()}
-                          style={{ padding: 0, textAlign: 'center' }}
-                        >
+                      return (
+                        <Grid item xs={3} sm={6} key={i + 999}>
                           <ListItemText
-                            primary={desiredOptionNameValue}
-                            secondary={desiredOptionName}
-                          />
-                        </ListItemText>
-                      </Grid>
-                    );
-                  })}
+                            className={desiredOptionName}
+                            key={Math.random()}
+                            style={{ padding: 0, textAlign: 'center' }}
+                          >
+                            <ListItemText
+                              primary={desiredOptionNameValue}
+                              secondary={desiredOptionName}
+                            />
+                          </ListItemText>
+                        </Grid>
+                      );
+                    })
+                  ) : (
+                    <Typography
+                      align="center"
+                      color="textSecondary"
+                      variant="caption"
+                      style={{
+                        padding: '2rem',
+                        display: 'grid',
+                        alignContent: 'center',
+                      }}
+                    >
+                      Click
+                      <SettingsIcon style={{ margin: '0 auto' }} />
+                      icon at the bottom to choose what you want to see about
+                      the car.
+                    </Typography>
+                  )}
                 </Grid>
               </List>
             </CardContent>

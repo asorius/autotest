@@ -24,14 +24,20 @@ export default function Settings() {
   const [checkboxes, setCheckbox] = useState(
     context.options.map((option) => ({
       ...option,
-      isSelected: context.settings.includes(option.value),
+      isSelected:
+        context.settings.length > 0
+          ? context.settings.includes(option.value)
+          : false,
     }))
   );
   React.useEffect(() => {
     setCheckbox(
       context.options.map((option) => ({
         ...option,
-        isSelected: context.settings.includes(option.value),
+        isSelected:
+          context.settings.length > 0
+            ? context.settings.includes(option.value)
+            : false,
       }))
     );
   }, [context.settings]);

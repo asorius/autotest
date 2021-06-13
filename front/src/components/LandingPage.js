@@ -18,6 +18,7 @@ import { Grow } from '@material-ui/core';
 import Loader from './secondary/Loader';
 import CarCardsList from './secondary/CarCardsList';
 function LandingPage(props) {
+  console.log(React.version);
   const context = useContext(Context);
   const [loading, setLoading] = useState(false);
   const listRef = React.useRef(null);
@@ -144,7 +145,7 @@ function LandingPage(props) {
             style={{
               position: 'relative',
               paddingTop: context.list.length > 0 ? '3rem' : 0,
-              paddingBottom: '3rem',
+              paddingBottom: context.list.length > 0 ? '3rem' : 0,
             }}
             id="list"
           >
