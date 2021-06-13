@@ -27,7 +27,6 @@ export default function MotHistory({ events }) {
     to: { opacity: open ? 1 : 0 },
     from: { opacity: 0 },
   });
-  console.log(events);
   return (
     <>
       <Button

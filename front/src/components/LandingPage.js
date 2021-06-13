@@ -18,7 +18,6 @@ import { Grow } from '@material-ui/core';
 import Loader from './secondary/Loader';
 import CarCardsList from './secondary/CarCardsList';
 function LandingPage(props) {
-  console.log(React.version);
   const context = useContext(Context);
   const [loading, setLoading] = useState(false);
   const listRef = React.useRef(null);

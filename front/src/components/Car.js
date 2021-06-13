@@ -278,7 +278,8 @@ export default function Car(props) {
           </Grid>
 
           <Grid item sm={12} style={{ textAlign: 'center' }}>
-            {userSelectedOptions?.includes('map') ? (
+            {userSelectedOptions.length > 0 ??
+            userSelectedOptions.includes('map') ? (
               seller_coords.lat ? (
                 <Map
                   usercoords={user_coords ? user_coords : null}
