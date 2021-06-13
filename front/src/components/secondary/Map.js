@@ -1,130 +1,116 @@
 import React from 'react';
-const { compose, withProps, lifecycle } = require('recompose');
-const {
-  withScriptjs,
-  withGoogleMap,
+import {
   GoogleMap,
-  DirectionsRenderer,
+  LoadScript,
   Marker,
-} = require('react-google-maps');
-const { InfoBox } = require('react-google-maps/lib/components/addons/InfoBox');
-const Map = compose(
-  withProps({
-    googleMapURL: `https://maps.googleapis.com/maps/api/js?key=AIzaSyDL2iDSF4s4uk1qPVCCF3ESBTZ4KnlBzdo&v=3.exp&libraries=geometry,drawing,places`,
-    loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `350px` }} />,
-    mapElement: <div style={{ height: `100%` }} />,
-  }),
-  withScriptjs,
-  withGoogleMap,
-  lifecycle({
-    componentDidMount() {
-      if (this.props.usercoords && this.props.usercoords.lat) {
-        const DirectionsService = new window.google.maps.DirectionsService();
-        DirectionsService.route(
-          {
-            origin: new window.google.maps.LatLng(
-              this.props.usercoords.lat,
-              this.props.usercoords.lng
-            ),
-            destination: new window.google.maps.LatLng(
-              parseFloat(this.props.sellercoords.lat),
-              parseFloat(this.props.sellercoords.lng)
-            ),
-            travelMode: window.google.maps.TravelMode.DRIVING,
-          },
-          (result, status) => {
-            if (status === window.google.maps.DirectionsStatus.OK) {
-              this.setState({
-                directions: result,
-              });
-            } else {
-              console.error(`error fetching directions ${result}`);
-            }
-          }
-        );
+  InfoBox,
+  DirectionsService,
+  DirectionsRenderer,
+} from '@react-google-maps/api';
+
+const containerStyle = {
+  height: '30vh',
+  width: '100%',
+};
+
+function MyComponent(props) {
+  const [directions, setDirections] = React.useState(false);
+  const [user, setUser] = React.useState(false);
+  const seller = {
+    lat: parseFloat(props.sellercoords.lat),
+    lng: parseFloat(props.sellercoords.lng),
+  };
+  React.useEffect(() => {
+    if (props.usercoords) {
+      setUser({
+        lat: parseFloat(props.usercoords.lat),
+        lng: parseFloat(props.usercoords.lng),
+      });
+    } else {
+      setUser(false);
+      setDirections(false);
+    }
+  }, [props.usercoords]);
+  const directionsCallback = (response) => {
+    if (response !== null && directions === false) {
+      if (response.status === 'OK') {
+        setDirections(response);
       } else {
-        return;
+        console.log('response: ', response);
       }
-    },
-    componentDidUpdate(prevprops, prevstate) {
-      if (this.props.usercoords && prevprops.usercoords === null) {
-        const DirectionsService = new window.google.maps.DirectionsService();
-        DirectionsService.route(
-          {
-            origin: new window.google.maps.LatLng(
-              this.props.usercoords.lat,
-              this.props.usercoords.lng
-            ),
-            destination: new window.google.maps.LatLng(
-              parseFloat(this.props.sellercoords.lat),
-              parseFloat(this.props.sellercoords.lng)
-            ),
-            travelMode: window.google.maps.TravelMode.DRIVING,
-          },
-          (result, status) => {
-            if (status === window.google.maps.DirectionsStatus.OK) {
-              this.setState({
-                directions: result,
-              });
-            } else {
-              console.error(`error fetching directions ${result}`);
-            }
-          }
-        );
-      }
-    },
-  })
-)((props) => {
+    }
+  };
+
   return (
-    <GoogleMap
-      defaultZoom={12}
-      defaultCenter={
-        new window.google.maps.LatLng(
-          parseFloat(props.sellercoords.lat),
-          parseFloat(props.sellercoords.lng)
-        )
-      }
-    >
-      {/* Custom box container displaying travel distance and time if usercoords are provided */}
-      {props.usercoords && props.directions ? (
-        <>
-          <InfoBox
-            defaultPosition={
-              new window.google.maps.LatLng(
-                props.sellercoords.lat,
-                props.sellercoords.lng
-              )
-            }
+    <LoadScript googleMapsApiKey="AIzaSyDL2iDSF4s4uk1qPVCCF3ESBTZ4KnlBzdo">
+      <GoogleMap mapContainerStyle={containerStyle} center={seller} zoom={10}>
+        {!user && (
+          <Marker position={seller}>
+            <InfoBox
+              options={{ closeBoxURL: '', enableEventPropagation: false }}
+              position={seller}
+            >
+              <div
+                style={{
+                  backgroundColor: 'rgb(57,57,57)',
+                  borderRadius: ' 50% 20% / 10% 40%',
+                  color: 'white',
+                  padding: '.5rem',
+                  textAlign: 'center',
+                }}
+              >
+                {props.sellerName}
+              </div>
+            </InfoBox>
+          </Marker>
+        )}
+        {seller && user !== false && (
+          <DirectionsService
             options={{
-              closeBoxURL: ``,
+              destination: seller,
+              origin: user,
+              travelMode: 'DRIVING',
             }}
-          >
-            <div className="travel">
-              <div className="km">
-                {props.directions.routes[0].legs[0].distance.text}
-              </div>
-              <div className="time">
-                {props.directions.routes[0].legs[0].duration.text}
-              </div>
-              <div className="address">
-                {props.directions.routes[0].legs[0].end_address}
-              </div>
-            </div>
-          </InfoBox>
-          <DirectionsRenderer directions={props.directions} />
-        </>
-      ) : (
-        <React.Fragment>
-          <Marker
-            position={{
-              lat: parseFloat(props.sellercoords.lat),
-              lng: parseFloat(props.sellercoords.lng),
-            }}
+            callback={directionsCallback}
           />
-        </React.Fragment>
-      )}
-    </GoogleMap>
+        )}
+        {directions && (
+          <>
+            <DirectionsRenderer options={{ directions }} />
+
+            <InfoBox
+              options={{ closeBoxURL: '', enableEventPropagation: false }}
+              position={seller}
+            >
+              <div
+                style={{
+                  backgroundColor: 'rgb(57,57,57)',
+                  borderRadius: ' 50% 20% / 10% 40%',
+                  color: 'white',
+                  padding: '.5rem',
+                  textAlign: 'center',
+                }}
+              >
+                <div>
+                  <div className="km">
+                    {directions.routes[0].legs[0].distance.text}
+                  </div>
+
+                  <div className="time">
+                    {directions.routes[0].legs[0].duration.text}
+                  </div>
+                  <div className="address">
+                    {directions.routes[0].legs[0].end_address.slice(-11, -4)}
+                  </div>
+                </div>
+              </div>
+            </InfoBox>
+          </>
+        )}
+        {directions && console.log('yes directions')}
+      </GoogleMap>
+    </LoadScript>
   );
-});
-export default Map;
+}
+
+export default React.memo(MyComponent);

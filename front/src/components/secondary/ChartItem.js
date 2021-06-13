@@ -18,7 +18,7 @@ function ChartItem({ mileages }) {
     },
     chart: {
       toolbar: {
-        show: 'false',
+        show: false,
       },
     },
   };
@@ -32,14 +32,23 @@ function ChartItem({ mileages }) {
     (mileages[0].miles - mileages[mileages.length - 1].miles) / mileages.length;
 
   return (
-    <div>
+    <div style={{ display: 'grid', alignContent: 'center' }}>
       <Chart
         options={options}
         series={series}
         type="line"
-        chart={{ toolbar: { show: 'false' } }}
+        style={{
+          display: 'grid',
+          alignContent: 'center',
+          margin: 0,
+          padding: 0,
+        }}
       />
-      <Typography variant="subtitle2" align="center">
+      <Typography
+        variant="subtitle2"
+        align="center"
+        style={{ paddingBottom: '.5rem' }}
+      >
         Average yearly mileage : {Math.round(average)}
       </Typography>
     </div>

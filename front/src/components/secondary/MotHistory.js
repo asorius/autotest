@@ -27,6 +27,7 @@ export default function MotHistory({ events }) {
     to: { opacity: open ? 1 : 0 },
     from: { opacity: 0 },
   });
+  console.log(events);
   return (
     <>
       <Button
@@ -38,6 +39,7 @@ export default function MotHistory({ events }) {
         ref={refButton}
         size="small"
         style={{ textTransform: 'none' }}
+        disabled={events.length > 0 ? false : true}
       >
         MOT history
         <ExpandLess
@@ -140,7 +142,6 @@ export default function MotHistory({ events }) {
                   : null}
               </Tabs>
             </animated.div>
-            {/* STOPED HERE ON DISPLAYING TABPANEL */}
             <animated.div
               style={useSpring({
                 from: { opacity: 0 },

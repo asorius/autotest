@@ -15,7 +15,7 @@ const addCar = (data, state) => {
   if (carIndex < 0) {
     newList.push({ ...car });
     localStorage.setItem(
-      'atplist',
+      `${state.sharekey ? 'sharelist' : 'atplist'}`,
       JSON.stringify({
         list: newList,
       })
@@ -27,16 +27,16 @@ const addCar = (data, state) => {
 const removeCar = (carId, state) => {
   let newList = [...state.list];
   const carIndex = newList.findIndex((item) => item._id === carId);
-
   if (carIndex >= 0) {
     newList = newList.filter((car) => car._id !== carId);
     localStorage.setItem(
-      'atplist',
+      `${state.sharekey ? 'sharelist' : 'atplist'}`,
       JSON.stringify({
         list: newList,
       })
     );
   }
+
   return { ...state, list: newList };
 };
 const popError = (data, state) => {

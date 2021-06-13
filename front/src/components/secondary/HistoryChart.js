@@ -17,7 +17,6 @@ export default function HistoryChart({ miles, mileageDataForDisplay }) {
     setExpanded(!expanded);
   };
   const id = open ? 'miles-history' : undefined;
-  console.log({ mileageDataForDisplay });
   return (
     <>
       <Button
@@ -29,6 +28,7 @@ export default function HistoryChart({ miles, mileageDataForDisplay }) {
         ref={refButton}
         size="small"
         style={{ textTransform: 'none' }}
+        disabled={mileageDataForDisplay.length > 0 ? false : true}
       >
         Mileage
         <ExpandLess

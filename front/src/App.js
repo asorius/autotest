@@ -1,10 +1,9 @@
-// import React from 'react';
 import React from 'react';
 
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import GlobalState from './context/GlobalState';
 // import LandingPage from './components/LandingPage';
-import SharedPage from './components/SharedPage';
+// import SharedPage from './components/SharedPage';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -76,7 +75,7 @@ const App = (props) => {
         <BrowserRouter>
           <Switch>
             <Route path="/" component={LaziedSuspenced} exact />
-            <Route path="/:key" component={SharedPage} exact />
+            <Route path="/:key" component={LaziedSuspenced} exact />
           </Switch>
         </BrowserRouter>
       </GlobalState>

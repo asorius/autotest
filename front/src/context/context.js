@@ -7,7 +7,7 @@ export default React.createContext({
   sharekey: [],
   errors: [],
   options: [],
-
+  sharedlist: [],
   addCarToList: () => {},
   removeCarFromList: () => {},
   addPostToList: () => {},
@@ -16,6 +16,7 @@ export default React.createContext({
   updateListWithNewSettings: () => {},
   setError: () => {},
   getCarList: () => {},
+  addKeyToState: () => {},
   saveCarList: () => {},
   resetList: () => {},
 });

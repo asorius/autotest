@@ -19,8 +19,7 @@ import ErrorIcon from '@material-ui/icons/Error';
 import MotHistory from './secondary/MotHistory';
 import HistoryChart from './secondary/HistoryChart';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
-// import { Link } from 'react-router-dom';
-// import { useSpring, animated } from 'react-spring';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     position: 'relative',
@@ -99,7 +98,6 @@ export default function Car(props) {
           >
             {/* photos */}
 
-            {/* <Grid item sm={12} style={{ position: 'relative' }}> */}
             <CardMedia className={classes.media} image={images[0]} />
 
             <div
@@ -115,9 +113,20 @@ export default function Car(props) {
                 alignItems: 'center',
               }}
             >
+              <Chip
+                label={price}
+                color="secondary"
+                style={{
+                  position: 'absolute',
+                  transform: 'translateX(20px)',
+                  bottom: 4,
+                  right: 0,
+                  zIndex: 20,
+                  fontSize: '1.2rem',
+                }}
+              ></Chip>
               <ImgModal images={images} current={0} />
             </div>
-            {/* </Grid> */}
           </Grid>
 
           <Grid item sm={8}>
@@ -125,14 +134,7 @@ export default function Car(props) {
             <Grid item sm={12} style={{ background: ' #f7f7f7' }}>
               <CardHeader
                 className={classes.title}
-                title={
-                  <>
-                    <Typography variant="h6">{title}</Typography>
-                    <Typography variant="h6" color="secondary">
-                      {price}
-                    </Typography>
-                  </>
-                }
+                title={<Typography variant="h6">{title}</Typography>}
                 subheader={
                   <Typography variant="subtitle2" color="textSecondary">
                     MOT: {events.length > 0 ? events[0].data.expiredate : 'N/A'}
@@ -185,7 +187,7 @@ export default function Car(props) {
                 {dealerLink ? (
                   <React.Fragment>
                     <Typography
-                      variant="h5"
+                      variant="h6"
                       color="secondary"
                       style={{
                         textAlign: 'center',
@@ -198,13 +200,16 @@ export default function Car(props) {
                           rel="noopener noreferrer"
                         >
                           {seller.name}
+                          <OpenInNewIcon
+                            style={{ fontSize: '.8rem', marginLeft: '.5rem' }}
+                          ></OpenInNewIcon>
                         </a>
                       </Tooltip>
                     </Typography>
                   </React.Fragment>
                 ) : (
                   <Typography
-                    variant="h5"
+                    variant="h6"
                     style={{
                       textAlign: 'center',
                     }}
@@ -213,7 +218,7 @@ export default function Car(props) {
                   </Typography>
                 )}
                 <Typography
-                  variant="body1"
+                  variant="body2"
                   style={{ padding: '.5rem', textAlign: 'center' }}
                 >
                   {seller.phone1}
@@ -226,7 +231,7 @@ export default function Car(props) {
               </Grid>
               <Grid
                 item
-                smUp={4}
+                sm={4}
                 style={{ display: 'grid', placeItems: 'center' }}
               >
                 <Chip
@@ -257,6 +262,7 @@ export default function Car(props) {
                   usercoords={user_coords ? user_coords : null}
                   sellercoords={seller_coords}
                   isMarkerShown={true}
+                  sellerName={seller.name}
                 />
               ) : map === undefined ? null : (
                 <Chip

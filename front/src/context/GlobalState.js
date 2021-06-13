@@ -14,8 +14,14 @@ import {
 } from './reducers';
 export default function GlobalState(props) {
   const list = JSON.parse(localStorage.getItem('atplist'));
-  let lsdata = list || { list: [] };
-
+  const shared = JSON.parse(localStorage.getItem('sharelist'));
+  //added shared list from local storage
+  let lsdata;
+  if (window.location.pathname.length > 1) {
+    lsdata = shared || { list: [] };
+  } else {
+    lsdata = list || { list: [] };
+  }
   let atpsettings = JSON.parse(localStorage.getItem('atpsettings')) || [];
   let atppostcode = JSON.parse(localStorage.getItem('atppostcode')) || false;
   const [listState, dispatch] = useReducer(listReducer, {
@@ -76,7 +82,7 @@ export default function GlobalState(props) {
       const reqbody = {
         query: `
       query {
-        getAutodata(url:"${data.url}"){
+        getAutodata(url:"${data.url || data}"){
           _id
           price
           title
@@ -155,11 +161,16 @@ export default function GlobalState(props) {
         },
       });
       const json = await graphResponse.json();
+      //this function only returns key ('sharekey') to acceess database later
       const sharekey = json.data.saveList;
       dispatch({ type: ADD_KEY, payload: { sharekey } });
     } catch (e) {
       console.log(e);
     }
+  };
+  const addKeyToState = (key) => {
+    dispatch({ type: ADD_KEY, payload: { sharekey: key } });
+    dispatch({ type: RESET });
   };
   const getCarList = async (key) => {
     try {
@@ -281,6 +292,7 @@ export default function GlobalState(props) {
         getCarList,
         deleteList,
         resetList,
+        addKeyToState,
       }}
     >
       {props.children}

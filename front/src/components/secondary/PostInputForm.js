@@ -63,12 +63,7 @@ export default function PostInput() {
   };
 
   return (
-    <form
-      className="control postcode "
-      noValidate
-      autoComplete="on"
-      onSubmit={addPost}
-    >
+    <form className="control postcode " noValidate onSubmit={addPost}>
       <Grid
         container
         direction="column"

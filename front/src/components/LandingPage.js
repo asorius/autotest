@@ -17,14 +17,13 @@ import Hidden from '@material-ui/core/Hidden';
 import { Grow } from '@material-ui/core';
 import Loader from './secondary/Loader';
 import CarCardsList from './secondary/CarCardsList';
-
-// import { useSpring, animated } from 'react-spring';
-
-export default function LandingPage(props) {
+function LandingPage(props) {
   const context = useContext(Context);
   const [loading, setLoading] = useState(false);
   const listRef = React.useRef(null);
-
+  const key = window.location.href.split('/')[3]
+    ? window.location.href.split('/')[3]
+    : null;
   useEffect(() => {
     if (loading) {
       setTimeout(() => {
@@ -32,12 +31,48 @@ export default function LandingPage(props) {
       }, 500);
     }
   }, [loading]);
+  const getListFromDB = async (id) => {
+    try {
+      let list = await context.getCarList(id);
+      if (list === null) {
+        window.location.href = '/';
+      }
+      // dodgy, may be generation additional remounts? idk
+      list.forEach((el) => {
+        context.addCarToList(el);
+      });
+    } catch (e) {
+      console.log({ errorfromgettinglist: e });
+    }
+  };
+  React.useEffect(() => {
+    if (key) {
+      //if there is already some data in list, in order to avoid readding same list items on top of current, only build components of unmatched items
+      context.addKeyToState(key);
+      const generateList = async () => {
+        await getListFromDB(key);
+      };
+      generateList();
+    }
+  }, []);
+  useEffect(() => {
+    //whenever list updates, invoke saveCarList func to update database, then reset localstorage
+    if (key) {
+      const urls = context.list.reduce(
+        (accumulator, current) => [...accumulator, current.actualLink],
+        []
+      );
+      const data = { key: `"${key}"`, list: urls };
+      context.saveCarList(data);
+    }
+  }, [context.list]);
   useEffect(() => {
     setLoading(true);
     if (context.list.length > 0) {
       listRef.current.scrollIntoView(true);
     }
   }, [context.list.length, context.settings.length]);
+
   return (
     <div style={{ background: '#ebebeb', width: '100%', height: '100%' }}>
       <div style={{ background: 'white', width: '100%', height: '100%' }}>
@@ -109,6 +144,7 @@ export default function LandingPage(props) {
             style={{
               position: 'relative',
               paddingTop: context.list.length > 0 ? '3rem' : 0,
+              paddingBottom: '3rem',
             }}
             id="list"
           >
@@ -121,6 +157,7 @@ export default function LandingPage(props) {
             </Grow>
           </section>
         </main>
+
         <ScrollToTop {...props}>
           <Fab color="secondary" size="small" aria-label="scroll back to top">
             <KeyboardArrowUpIcon />
@@ -132,3 +169,4 @@ export default function LandingPage(props) {
     </div>
   );
 }
+export default React.memo(LandingPage);
