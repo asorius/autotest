@@ -11,7 +11,6 @@ import Fab from '@material-ui/core/Fab';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import TextField from '@material-ui/core/TextField';
-import Chip from '@material-ui/core/Chip';
 import { IconButton, Tooltip } from '@material-ui/core';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
@@ -36,10 +35,6 @@ export default function Settings() {
       }))
     );
   }, [context.settings]);
-  const redirectPrivate = (e) => {
-    e.preventDefault();
-    window.location.href = '/';
-  };
   const onCheckFn = (e) => {
     const { value } = e.target;
 
