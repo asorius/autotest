@@ -1,8 +1,6 @@
 import React, { useState, useContext } from 'react';
 import classnames from 'classnames';
-
 import Context from '../context/context';
-// import Checkbox from './secondary/Checkbox';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -14,13 +12,11 @@ import TextField from '@material-ui/core/TextField';
 import { IconButton, Tooltip } from '@material-ui/core';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
-import HomeIcon from '@material-ui/icons/Home';
 import HighlightOffIcon from '@material-ui/icons/Delete';
 export default function Settings() {
   const context = useContext(Context);
   const [modal, setModal] = useState(false);
   const [copy, setCopy] = useState(false);
-  // const [settings, setSettings] = useState(context.settings);
   const [checkboxes, setCheckbox] = useState(
     context.options.map((option) => ({
       ...option,
@@ -81,7 +77,6 @@ export default function Settings() {
       []
     );
     const data = { key: context.sharekey, list: urls };
-    console.log({ dataToCreateShareList: data });
     context.saveCarList(data);
   };
   const deleteList = (e) => {
@@ -96,6 +91,10 @@ export default function Settings() {
           ? (window.location.href = '/')
           : alert('deletion failed...');
       });
+  };
+  const redirectToPrivate = (e) => {
+    e.preventDefault();
+    window.location.href = '/';
   };
   return (
     <div
@@ -113,7 +112,7 @@ export default function Settings() {
       >
         <SettingsIcon></SettingsIcon>
       </Fab>
-      {context.sharekey && (
+      {context.onSharedPage && (
         <div
           style={{
             position: 'fixed',
@@ -128,9 +127,8 @@ export default function Settings() {
             title="This is a shared page. Click here to go back to private page"
             aria-label="go-home"
           >
-            <IconButton>
-              <ArrowBackIcon> </ArrowBackIcon>
-              <HomeIcon color="primary" fontSize="large"></HomeIcon>
+            <IconButton onClick={redirectToPrivate}>
+              <ArrowBackIcon fontSize="large" />
             </IconButton>
           </Tooltip>
           <Tooltip title="Delete this shared list" aria-label="go-delete">
@@ -141,24 +139,6 @@ export default function Settings() {
               ></HighlightOffIcon>
             </IconButton>
           </Tooltip>
-          {/* <Chip
-            clickable
-            icon={<ArrowBackIcon></ArrowBackIcon>}
-            onClick={redirectPrivate}
-            size="small"
-            style={{ textTransform: 'none', fontSize: '.7rem' }}
-            label="This is a shared page. Click here to go back to private page."
-          ></Chip>
-          <Chip
-            clickable
-            icon={
-              <HighlightOffIcon style={{ color: 'red' }}></HighlightOffIcon>
-            }
-            onClick={deleteList}
-            size="small"
-            style={{ textTransform: 'none', fontSize: '.7rem', color: 'red' }}
-            label="Delete"
-          ></Chip> */}
         </div>
       )}
       <div className={classnames('modal', { 'is-active': modal })}>

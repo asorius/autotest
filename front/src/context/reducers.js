@@ -10,12 +10,13 @@ export const RESET = 'RESET';
 
 const addCar = (data, state) => {
   const car = { ...data.addedCar, url: data.url };
+  // state list is obtained on initial mount , in globalstate.js, and is either sharelist or local normal list
   const newList = [...state.list];
-  const carIndex = newList.findIndex((item) => item._id === car._id);
+  const carIndex = newList.findIndex((item) => item.title === car.title);
   if (carIndex < 0) {
     newList.push({ ...car });
     localStorage.setItem(
-      `${state.sharekey ? 'sharelist' : 'atplist'}`,
+      `${state.onSharedPage ? 'sharelist' : 'atplist'}`,
       JSON.stringify({
         list: newList,
       })
@@ -30,7 +31,7 @@ const removeCar = (carId, state) => {
   if (carIndex >= 0) {
     newList = newList.filter((car) => car._id !== carId);
     localStorage.setItem(
-      `${state.sharekey ? 'sharelist' : 'atplist'}`,
+      `${state.onSharedPage ? 'sharelist' : 'atplist'}`,
       JSON.stringify({
         list: newList,
       })

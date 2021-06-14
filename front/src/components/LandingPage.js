@@ -17,13 +17,16 @@ import Hidden from '@material-ui/core/Hidden';
 import { Grow } from '@material-ui/core';
 import Loader from './secondary/Loader';
 import CarCardsList from './secondary/CarCardsList';
+import Chip from '@material-ui/core/Chip';
+
 function LandingPage(props) {
   const context = useContext(Context);
   const [loading, setLoading] = useState(false);
   const listRef = React.useRef(null);
-  const key = window.location.href.split('/')[3]
-    ? window.location.href.split('/')[3]
-    : null;
+  // const key = window.location.href.split('/')[3]
+  //   ? window.location.href.split('/')[3]
+  //   : null;
+  const key = context.sharekey;
   useEffect(() => {
     if (loading) {
       setTimeout(() => {
@@ -46,9 +49,9 @@ function LandingPage(props) {
     }
   };
   React.useEffect(() => {
-    if (key) {
+    if (context.onSharedPage) {
       //if there is already some data in list, in order to avoid readding same list items on top of current, only build components of unmatched items
-      context.addKeyToState(key);
+      // context.addKeyToState(key);
       const generateList = async () => {
         await getListFromDB(key);
       };
@@ -151,13 +154,22 @@ function LandingPage(props) {
             {loading ? <Loader></Loader> : null}
 
             <Grow in={!loading}>
-              <Grid container spacing={2}>
+              <Grid container spacing={2} justify="center">
                 <CarCardsList></CarCardsList>
               </Grid>
             </Grow>
           </section>
         </main>
-
+        {context.onSharedPage && (
+          <footer style={{ textAlign: 'center' }}>
+            <Divider />
+            <Chip
+              color="primary"
+              label="This is a shared page. Organize the list how you want."
+              style={{ padding: '1rem 2rem', margin: '1rem auto' }}
+            ></Chip>
+          </footer>
+        )}
         <ScrollToTop {...props}>
           <Fab color="secondary" size="small" aria-label="scroll back to top">
             <KeyboardArrowUpIcon />

@@ -185,7 +185,6 @@ module.exports = {
   },
   saveList: async (args) => {
     const carUrlsArray = args.list;
-    console.log(args);
     const searchKey = args.key !== null ? args.key : false;
     if (searchKey) {
       //if serchkey is not null ,that means user is on shared page, share the list button is now update shared list, and when user clicks it, get list by id and update it
@@ -201,7 +200,6 @@ module.exports = {
         const list = new List({ key: newKey, list: carUrlsArray });
         const createdList = await list.save();
         newKey = createdList._id;
-        console.log(createdList);
         return newKey;
       } catch (e) {
         console.log(e);

@@ -107,7 +107,6 @@ function MyComponent(props) {
             </InfoBox>
           </>
         )}
-        {directions && console.log('yes directions')}
       </GoogleMap>
     </LoadScript>
   );

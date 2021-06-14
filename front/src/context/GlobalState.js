@@ -17,10 +17,15 @@ export default function GlobalState(props) {
   const shared = JSON.parse(localStorage.getItem('sharelist'));
   //added shared list from local storage
   let lsdata;
+  let onSharedPage = false;
+  let key = null;
   if (window.location.pathname.length > 1) {
     lsdata = shared || { list: [] };
+    onSharedPage = true;
+    key = window.location.href.split('/')[3];
   } else {
     lsdata = list || { list: [] };
+    onSharedPage = false;
   }
   let atpsettings = JSON.parse(localStorage.getItem('atpsettings')) || [];
   let atppostcode = JSON.parse(localStorage.getItem('atppostcode')) || false;
@@ -28,7 +33,8 @@ export default function GlobalState(props) {
     list: lsdata.list || [],
     postcodeInformation: atppostcode,
     settings: atpsettings,
-    sharekey: null,
+    sharekey: key,
+    onSharedPage: onSharedPage,
     errors: {},
     options: [
       { name: 'Make year', value: 'year' },
@@ -196,6 +202,7 @@ export default function GlobalState(props) {
       console.log(e);
     }
   };
+
   const deleteList = async (key) => {
     try {
       const reqbody = {

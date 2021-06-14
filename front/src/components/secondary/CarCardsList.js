@@ -6,12 +6,18 @@ import Car from '../Car';
 export default function CarCardsList() {
   const context = useContext(Context);
   const determinedList =
-    context.sharekey && context.sharedlist > 0
+    context.onSharedPage && context.sharedlist > 0
       ? context.sharedlist
       : context.list;
   return determinedList.map((item, i) => {
     return (
-      <Grid key={i + 658} item sm={12} md={determinedList.length > 1 ? 6 : 10}>
+      <Grid
+        key={i + 658}
+        item
+        sm={12}
+        md={determinedList.length > 1 ? 4 : 8}
+        lg={6}
+      >
         <Car
           key={item._id}
           item={item}

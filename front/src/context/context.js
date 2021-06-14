@@ -5,6 +5,7 @@ export default React.createContext({
   postcodeInformation: [],
   settings: [],
   sharekey: [],
+  onSharedPage: false,
   errors: [],
   options: [],
   sharedlist: [],
