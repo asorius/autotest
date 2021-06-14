@@ -50,7 +50,8 @@ const addCar = (data, state) => {
   const car = { ...data.addedCar, url: data.url };
   console.log('add car initiated');
   // state list is obtained on initial mount , in globalstate.js, and is either sharelist or local normal list
-  const newList = [...state.list];
+  const newList = state.onSharedPage ? [...state.list] : [];
+  // const newList = [...state.list]; EDITED HEREEEEEE
   const carIndex = newList.findIndex((item) => item.title === car.title);
   if (carIndex < 0) {
     newList.push({ ...car });
