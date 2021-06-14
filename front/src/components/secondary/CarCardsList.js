@@ -9,13 +9,13 @@ export default function CarCardsList() {
     context.onSharedPage && context.sharedlist > 0
       ? context.sharedlist
       : context.list;
-  return determinedList.map((item, i) => {
+  return context.list.map((item, i) => {
     return (
       <Grid
         key={i + 658}
         item
         sm={12}
-        md={determinedList.length > 1 ? 4 : 8}
+        md={context.list.length > 1 ? 4 : 8}
         lg={6}
       >
         <Car

@@ -37,6 +37,7 @@ function LandingPage(props) {
   const getListFromDB = async (id) => {
     try {
       let list = await context.getCarList(id);
+      console.log(list);
       if (list === null) {
         window.location.href = '/';
       }
@@ -56,19 +57,20 @@ function LandingPage(props) {
         await getListFromDB(key);
       };
       generateList();
+      console.log(context.list);
     }
   }, []);
-  useEffect(() => {
-    //whenever list updates, invoke saveCarList func to update database, then reset localstorage
-    if (key) {
-      const urls = context.list.reduce(
-        (accumulator, current) => [...accumulator, current.actualLink],
-        []
-      );
-      const data = { key: `"${key}"`, list: urls };
-      context.saveCarList(data);
-    }
-  }, [context.list]);
+  // useEffect(() => {
+  //   //whenever list updates, invoke saveCarList func to update database, then reset localstorage
+  //   if (context.onSharedPage) {
+  //     const urls = context.list.reduce(
+  //       (accumulator, current) => [...accumulator, current.actualLink],
+  //       []
+  //     );
+  //     const data = { key: `"${key}"`, list: urls };
+  //     context.saveCarList(data);
+  //   }
+  // }, [context.list]);
   useEffect(() => {
     setLoading(true);
     if (context.list.length > 0) {

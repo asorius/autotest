@@ -87,6 +87,7 @@ export default function Settings() {
     confirm &&
       context.deleteList(context.sharekey).then((res) => {
         console.log(res);
+
         res === 'success'
           ? (window.location.href = '/')
           : alert('deletion failed...');

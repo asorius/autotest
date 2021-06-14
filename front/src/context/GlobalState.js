@@ -1,3 +1,4 @@
+import { ContactSupportOutlined } from '@material-ui/icons';
 import React, { useReducer } from 'react';
 import Context from './context';
 import {
@@ -14,23 +15,25 @@ import {
 } from './reducers';
 export default function GlobalState(props) {
   const list = JSON.parse(localStorage.getItem('atplist'));
-  let shared = null;
+  let shared = false;
   //added shared list from local storage
-  let lsdata;
+  // let lsdata = list || { list: [] };
   let onSharedPage = false;
   let key = null;
+  let lsdata;
   if (window.location.pathname.length > 1) {
-    lsdata = shared || { list: [] };
     onSharedPage = true;
     key = window.location.href.split('/')[3];
+    shared = JSON.parse(localStorage.getItem(key)) || [];
+    lsdata = shared;
   } else {
-    lsdata = list || { list: [] };
     onSharedPage = false;
+    lsdata = list ? list.list : [];
   }
   let atpsettings = JSON.parse(localStorage.getItem('atpsettings')) || [];
   let atppostcode = JSON.parse(localStorage.getItem('atppostcode')) || false;
   const [listState, dispatch] = useReducer(listReducer, {
-    list: lsdata.list || [],
+    list: lsdata || [],
     postcodeInformation: atppostcode,
     settings: atpsettings,
     sharekey: key,
@@ -60,6 +63,7 @@ export default function GlobalState(props) {
       { name: 'Map & directions', value: 'map' },
     ],
   });
+
   const addCarToList = async (data) => {
     let optionsListForServer = [
       { name: 'Make year', value: 'year' },
@@ -134,6 +138,7 @@ export default function GlobalState(props) {
 
       if (json.data.getAutodata) {
         const addedCar = json.data.getAutodata;
+        console.log({ addedCar });
         //now addedCar supposed to fetched with all possible options
         dispatch({
           type: ADD_CAR,
@@ -153,10 +158,10 @@ export default function GlobalState(props) {
     try {
       const reqbody = {
         query: `
-      query {
-        saveList(key:${data.key},list:[${data.list.map((el) => `"${el}"`)}])
-      }
-    `,
+        query {
+          saveList(key:${data.key},list:[${data.list.map((el) => `"${el}"`)}])
+        }
+      `,
       };
       const graphResponse = await fetch('/graphql', {
         method: 'POST',
@@ -169,6 +174,7 @@ export default function GlobalState(props) {
       const json = await graphResponse.json();
       //this function only returns key ('sharekey') to acceess database later
       const sharekey = json.data.saveList;
+      console.log('from fresh save');
       dispatch({ type: ADD_KEY, payload: { sharekey } });
     } catch (e) {
       console.log(e);
@@ -179,6 +185,7 @@ export default function GlobalState(props) {
     dispatch({ type: RESET });
   };
   const getCarList = async (key) => {
+    console.log({ key });
     try {
       const reqbody = {
         query: `
@@ -197,6 +204,7 @@ export default function GlobalState(props) {
       });
       const json = await graphResponse.json();
       const list = json.data.getList;
+      console.log(json);
       return list;
     } catch (e) {
       console.log(e);

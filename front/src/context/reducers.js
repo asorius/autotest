@@ -7,27 +7,66 @@ export const ERROR = 'ERROR';
 export const CLEAR_ERROR = 'CLEAR_ERROR';
 export const ADD_KEY = 'ADD_KEY';
 export const RESET = 'RESET';
-
+const saveCarList = async (state, list) => {
+  try {
+    const key = state.sharekey;
+    if (key) {
+      console.log('key was found, so sending data to db');
+      console.log(key);
+      const reducedUrls = list.reduce(
+        (accumulator, current) => [...accumulator, current.actualLink],
+        []
+      );
+      const data = { key: key, list: reducedUrls };
+      console.log(data);
+      const reqbody = {
+        query: `
+      query {
+        saveList(key:"${key}",list:[${reducedUrls.map((el) => `"${el}"`)}])
+      }
+    `,
+      };
+      const graphResponse = await fetch('/graphql', {
+        method: 'POST',
+        body: JSON.stringify(reqbody),
+        headers: {
+          'Content-Type': 'application/json',
+          Accepts: 'application/json',
+        },
+      });
+      const json = await graphResponse.json();
+      console.log('from add/remove autosave');
+      localStorage.setItem(key, JSON.stringify([...list]));
+      console.log({ shouldveAddedSuccessfully: json });
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+const send = async (state, list) => {
+  await saveCarList(state, list);
+};
 const addCar = (data, state) => {
   const car = { ...data.addedCar, url: data.url };
+  console.log('add car initiated');
   // state list is obtained on initial mount , in globalstate.js, and is either sharelist or local normal list
   const newList = [...state.list];
   const carIndex = newList.findIndex((item) => item.title === car.title);
   if (carIndex < 0) {
     newList.push({ ...car });
-    // localStorage.setItem(
-    //   `${state.onSharedPage ? 'sharelist' : 'atplist'}`,
-    //   JSON.stringify({
-    //     list: newList,
-    //   })
     // );
     localStorage.setItem(
-      'atplist',
+      `${state.onSharedPage ? state.sharekey : 'atplist'}`,
       JSON.stringify({
         list: newList,
       })
     );
+
+    send(state, newList);
+  } else {
+    console.log('car already in the list.');
   }
+
   return { ...state, list: newList };
 };
 
@@ -37,17 +76,14 @@ const removeCar = (carId, state) => {
   if (carIndex >= 0) {
     newList = newList.filter((car) => car._id !== carId);
     localStorage.setItem(
-      'atplist',
+      `${state.onSharedPage ? state.sharekey : 'atplist'}`,
       JSON.stringify({
         list: newList,
       })
     );
-    // localStorage.setItem(
-    //   `${state.onSharedPage ? 'sharelist' : 'atplist'}`,
-    //   JSON.stringify({
-    //     list: newList,
-    //   })
-    // );
+    send(state, newList);
+  } else {
+    console.log('vehicle could not have been found.');
   }
 
   return { ...state, list: newList };
@@ -94,6 +130,12 @@ const addKey = (data, state) => {
   return { ...state, sharekey: data.sharekey };
 };
 const reset = (state) => {
+  localStorage.setItem(
+    'atplist',
+    JSON.stringify({
+      list: [],
+    })
+  );
   return { ...state, list: [] };
 };
 export const listReducer = (state, action) => {
