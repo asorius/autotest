@@ -15,8 +15,14 @@ const addCar = (data, state) => {
   const carIndex = newList.findIndex((item) => item.title === car.title);
   if (carIndex < 0) {
     newList.push({ ...car });
+    // localStorage.setItem(
+    //   `${state.onSharedPage ? 'sharelist' : 'atplist'}`,
+    //   JSON.stringify({
+    //     list: newList,
+    //   })
+    // );
     localStorage.setItem(
-      `${state.onSharedPage ? 'sharelist' : 'atplist'}`,
+      'atplist',
       JSON.stringify({
         list: newList,
       })
@@ -31,11 +37,17 @@ const removeCar = (carId, state) => {
   if (carIndex >= 0) {
     newList = newList.filter((car) => car._id !== carId);
     localStorage.setItem(
-      `${state.onSharedPage ? 'sharelist' : 'atplist'}`,
+      'atplist',
       JSON.stringify({
         list: newList,
       })
     );
+    // localStorage.setItem(
+    //   `${state.onSharedPage ? 'sharelist' : 'atplist'}`,
+    //   JSON.stringify({
+    //     list: newList,
+    //   })
+    // );
   }
 
   return { ...state, list: newList };

@@ -14,7 +14,7 @@ import {
 } from './reducers';
 export default function GlobalState(props) {
   const list = JSON.parse(localStorage.getItem('atplist'));
-  const shared = JSON.parse(localStorage.getItem('sharelist'));
+  let shared = null;
   //added shared list from local storage
   let lsdata;
   let onSharedPage = false;
