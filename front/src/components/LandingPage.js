@@ -23,10 +23,7 @@ function LandingPage(props) {
   const context = useContext(Context);
   const [loading, setLoading] = useState(false);
   const listRef = React.useRef(null);
-  // const key = window.location.href.split('/')[3]
-  //   ? window.location.href.split('/')[3]
-  //   : null;
-  const key = context.sharekey;
+  const { sharekey: key, list: contextList, settings } = context;
   useEffect(() => {
     if (loading) {
       setTimeout(() => {
@@ -37,46 +34,35 @@ function LandingPage(props) {
   const getListFromDB = async (id) => {
     try {
       let list = await context.getCarList(id);
-      console.log(list);
       if (list === null) {
         window.location.href = '/';
       }
-      // dodgy, may be generation additional remounts? idk
+      // context.resetList();
+      // dodgy, may be generating additional remounts? idk
       list.forEach((el) => {
         context.addCarToList(el);
       });
+      setLoading(false);
+      listRef.current.scrollIntoView(true);
     } catch (e) {
       console.log({ errorfromgettinglist: e });
     }
   };
   React.useEffect(() => {
     if (context.onSharedPage) {
-      //if there is already some data in list, in order to avoid readding same list items on top of current, only build components of unmatched items
-      // context.addKeyToState(key);
+      //if user is on shared page, retrieve shared list from dabate on fisrt mount , loop through the list of urls, and generate detailed car obj
       const generateList = async () => {
         await getListFromDB(key);
       };
       generateList();
-      console.log(context.list);
     }
   }, []);
-  // useEffect(() => {
-  //   //whenever list updates, invoke saveCarList func to update database, then reset localstorage
-  //   if (context.onSharedPage) {
-  //     const urls = context.list.reduce(
-  //       (accumulator, current) => [...accumulator, current.actualLink],
-  //       []
-  //     );
-  //     const data = { key: `"${key}"`, list: urls };
-  //     context.saveCarList(data);
-  //   }
-  // }, [context.list]);
   useEffect(() => {
     setLoading(true);
-    if (context.list.length > 0) {
+    if (contextList.length > 0) {
       listRef.current.scrollIntoView(true);
     }
-  }, [context.list.length, context.settings.length]);
+  }, [contextList.length, settings.length]);
 
   return (
     <div style={{ background: '#ebebeb', width: '100%', height: '100%' }}>
@@ -148,8 +134,8 @@ function LandingPage(props) {
             ref={listRef}
             style={{
               position: 'relative',
-              paddingTop: context.list.length > 0 ? '3rem' : 0,
-              paddingBottom: context.list.length > 0 ? '3rem' : 0,
+              paddingTop: contextList.length > 0 ? '3rem' : 0,
+              paddingBottom: contextList.length > 0 ? '3rem' : 0,
             }}
             id="list"
           >
@@ -157,17 +143,20 @@ function LandingPage(props) {
 
             <Grow in={!loading}>
               <Grid container spacing={2} justify="center">
-                <CarCardsList></CarCardsList>
+                <CarCardsList
+                  list={contextList}
+                  settings={settings}
+                ></CarCardsList>
               </Grid>
             </Grow>
           </section>
         </main>
-        {context.onSharedPage && (
+        {context.onSharedPage && !loading && (
           <footer style={{ textAlign: 'center' }}>
             <Divider />
             <Chip
               color="primary"
-              label="This is a shared page. Organize the list how you want."
+              label="This is a shared page."
               style={{ padding: '1rem 2rem', margin: '1rem auto' }}
             ></Chip>
           </footer>

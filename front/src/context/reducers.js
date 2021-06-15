@@ -11,14 +11,10 @@ const saveCarList = async (state, list) => {
   try {
     const key = state.sharekey;
     if (key) {
-      console.log('key was found, so sending data to db');
-      console.log(key);
       const reducedUrls = list.reduce(
         (accumulator, current) => [...accumulator, current.actualLink],
         []
       );
-      const data = { key: key, list: reducedUrls };
-      console.log(data);
       const reqbody = {
         query: `
       query {
@@ -35,9 +31,7 @@ const saveCarList = async (state, list) => {
         },
       });
       const json = await graphResponse.json();
-      console.log('from add/remove autosave');
       localStorage.setItem(key, JSON.stringify([...list]));
-      console.log({ shouldveAddedSuccessfully: json });
     }
   } catch (e) {
     console.log(e);
@@ -48,41 +42,29 @@ const send = async (state, list) => {
 };
 const addCar = (data, state) => {
   const car = { ...data.addedCar, url: data.url };
-  console.log('add car initiated');
   // state list is obtained on initial mount , in globalstate.js, and is either sharelist or local normal list
-  const newList = state.onSharedPage ? [...state.list] : [];
-  // const newList = [...state.list]; EDITED HEREEEEEE
-  const carIndex = newList.findIndex((item) => item.title === car.title);
-  if (carIndex < 0) {
-    newList.push({ ...car });
-    // );
-    localStorage.setItem(
-      `${state.onSharedPage ? state.sharekey : 'atplist'}`,
-      JSON.stringify({
-        list: newList,
-      })
-    );
+  const oldList = [...state.list];
+  const newList = oldList;
 
-    send(state, newList);
-  } else {
-    console.log('car already in the list.');
-  }
+  newList.push({ ...car });
+  state.onSharedPage ||
+    localStorage.setItem('atplist', JSON.stringify(newList));
+
+  state.onSharedPage && send(state, newList);
 
   return { ...state, list: newList };
 };
 
 const removeCar = (carId, state) => {
-  let newList = [...state.list];
-  const carIndex = newList.findIndex((item) => item._id === carId);
+  let oldList = [...state.list];
+  let newList = [];
+  const carIndex = oldList.findIndex((item) => item._id === carId);
   if (carIndex >= 0) {
-    newList = newList.filter((car) => car._id !== carId);
-    localStorage.setItem(
-      `${state.onSharedPage ? state.sharekey : 'atplist'}`,
-      JSON.stringify({
-        list: newList,
-      })
-    );
-    send(state, newList);
+    newList = oldList.filter((car) => car._id !== carId);
+    state.onSharedPage ||
+      localStorage.setItem('atplist', JSON.stringify(newList));
+
+    state.onSharedPage && send(state, newList);
   } else {
     console.log('vehicle could not have been found.');
   }
@@ -131,12 +113,14 @@ const addKey = (data, state) => {
   return { ...state, sharekey: data.sharekey };
 };
 const reset = (state) => {
-  localStorage.setItem(
-    'atplist',
-    JSON.stringify({
-      list: [],
-    })
-  );
+  state.onSharedPage
+    ? localStorage.setItem(state.sharekey, JSON.stringify([]))
+    : localStorage.setItem(
+        'atplist',
+        JSON.stringify({
+          list: [],
+        })
+      );
   return { ...state, list: [] };
 };
 export const listReducer = (state, action) => {

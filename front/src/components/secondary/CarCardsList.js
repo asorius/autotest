@@ -3,28 +3,22 @@ import Grid from '@material-ui/core/Grid';
 import { useContext } from 'react';
 import Context from '../../context/context';
 import Car from '../Car';
-export default function CarCardsList() {
-  const context = useContext(Context);
-  const determinedList =
-    context.onSharedPage && context.sharedlist > 0
-      ? context.sharedlist
-      : context.list;
-  return context.list.map((item, i) => {
-    return (
-      <Grid
-        key={i + 658}
-        item
-        sm={12}
-        md={context.list.length > 1 ? 4 : 8}
-        lg={6}
-      >
-        <Car
-          key={item._id}
-          item={item}
-          options={context.settings}
-          usersPostcodeDataFromContext={context.postcodeInformation}
-        />
-      </Grid>
-    );
-  });
+function CarCardsList({ list, settings }) {
+  const { postcodeInformation } = useContext(Context);
+  return (
+    list.length > 0 &&
+    list.map((item, i) => {
+      return (
+        <Grid key={i + 658} item sm={12} md={list.length > 1 ? 4 : 8} lg={6}>
+          <Car
+            key={item._id}
+            item={item}
+            options={settings}
+            usersPostcodeDataFromContext={postcodeInformation}
+          />
+        </Grid>
+      );
+    })
+  );
 }
+export default React.memo(CarCardsList);
