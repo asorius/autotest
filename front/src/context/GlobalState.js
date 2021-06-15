@@ -13,7 +13,7 @@ import {
   RESET,
 } from './reducers';
 export default function GlobalState(props) {
-  const list = JSON.parse(localStorage.getItem('atplist'));
+  const list = JSON.parse(localStorage.getItem('atplist')) || [];
   let shared = false;
   let onSharedPage = false;
   let key = null;

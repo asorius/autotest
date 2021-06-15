@@ -151,15 +151,15 @@ function LandingPage(props) {
             </Grow>
           </section>
         </main>
-        {context.onSharedPage && !loading && (
-          <footer style={{ textAlign: 'center' }}>
+        {context.onSharedPage && (
+          <div style={{ textAlign: 'center' }}>
             <Divider />
             <Chip
               color="primary"
               label="This is a shared page."
               style={{ padding: '1rem 2rem', margin: '1rem auto' }}
             ></Chip>
-          </footer>
+          </div>
         )}
         <ScrollToTop {...props}>
           <Fab color="secondary" size="small" aria-label="scroll back to top">
