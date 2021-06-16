@@ -12,15 +12,23 @@ const saveCarList = async (state, list) => {
     const key = state.sharekey;
     if (key) {
       const reducedUrls = list.reduce(
-        (accumulator, current) => [...accumulator, current.actualLink],
+        (accumulator, current) => [
+          ...accumulator,
+          {
+            link: current.actualLink,
+            date: current.date || new Date().getTime(),
+          },
+        ],
         []
       );
+      const sorted = reducedUrls.sort((a, b) => b.date - a.date);
+      // saveList(key:"${key}",list:[${reducedUrls.map((el) => `"${el}"`)}])
       const reqbody = {
         query: `
       query {
-        saveList(key:"${key}",list:[${reducedUrls.map((el) => `"${el}"`)}])
-      }
-    `,
+        saveList(key:"${key}",list:[${sorted.map(
+          (el) => `"${el.link}@${el.date}"`
+        )}])}`,
       };
       const graphResponse = await fetch('/graphql', {
         method: 'POST',
@@ -41,11 +49,16 @@ const send = async (state, list) => {
   await saveCarList(state, list);
 };
 const addCar = (data, state) => {
-  const car = { ...data.addedCar, url: data.url };
+  // added date property to car object
+  //ADD DATE AND SAVE TO LOCAL OR DATABASE
+  const car = {
+    ...data.addedCar,
+    url: data.url || data.link,
+    date: data.date || new Date().getTime(),
+  };
   // state list is obtained on initial mount , in globalstate.js, and is either sharelist or local normal list
   const oldList = [...state.list];
   const newList = oldList;
-
   newList.push({ ...car });
   state.onSharedPage ||
     localStorage.setItem('atplist', JSON.stringify(newList));

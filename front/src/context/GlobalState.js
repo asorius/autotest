@@ -86,7 +86,7 @@ export default function GlobalState(props) {
       const reqbody = {
         query: `
       query {
-        getAutodata(url:"${data.url || data}"){
+        getAutodata(url:"${data.url || data.link}"){
           _id
           price
           title
@@ -132,10 +132,12 @@ export default function GlobalState(props) {
 
       if (json.data.getAutodata) {
         const addedCar = json.data.getAutodata;
+        //data from sharedpage autobuild {databaseString,link,date}
+        //data from basic add {settings,url}
         //now addedCar supposed to fetched with all possible options
         dispatch({
           type: ADD_CAR,
-          payload: { addedCar, url: data.actualLink || data.url },
+          payload: { addedCar, url: data.link || data.url, date: data.date },
         });
       } else {
         setError({ msg: 'Invalid link', to: 'add' });
@@ -148,13 +150,16 @@ export default function GlobalState(props) {
     }
   };
   const saveCarList = async (data) => {
+    //incoming data from creation of list {key,list:{link,date}}
+    const sorted = data.list.sort((a, b) => b.date - a.date);
     try {
       const reqbody = {
         query: `
         query {
-          saveList(key:${data.key},list:[${data.list.map((el) => `"${el}"`)}])
-        }
-      `,
+          saveList(key:${data.key},list:[${sorted.map(
+          (el) => `"${el.link}@${el.date}"`
+        )}])
+        }`,
       };
       const graphResponse = await fetch('/graphql', {
         method: 'POST',

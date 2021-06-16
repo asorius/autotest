@@ -72,11 +72,14 @@ export default function Settings() {
 
   const createSharingList = (e) => {
     e.preventDefault();
-    const urls = context.list.reduce(
-      (accumulator, current) => [...accumulator, current.actualLink],
+    const urlsAndDate = context.list.reduce(
+      (accumulator, current) => [
+        ...accumulator,
+        { link: current.actualLink, date: current.date },
+      ],
       []
     );
-    const data = { key: context.sharekey, list: urls };
+    const data = { key: context.sharekey, list: urlsAndDate };
     context.saveCarList(data);
   };
   const deleteList = (e) => {

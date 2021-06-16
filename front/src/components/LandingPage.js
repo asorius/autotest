@@ -40,7 +40,10 @@ function LandingPage(props) {
       // context.resetList();
       // dodgy, may be generating additional remounts? idk
       list.forEach((el) => {
-        context.addCarToList(el);
+        const databaseString = el;
+        let [link, date] = el.split('@');
+        date = +date;
+        context.addCarToList({ databaseString, link, date });
       });
       setLoading(false);
       listRef.current.scrollIntoView(true);

@@ -68,9 +68,9 @@ type autodata{
   addedDate:String
   dealerLink:String,
   mileageDataForDisplay:[miledata]
-
 }
-type RootQuery {
+
+  type RootQuery {
   getPostCoords(postcode:String!):coords
   getAutodata(url:String!):autodata
   saveList(key:String,list:[String]!):String
