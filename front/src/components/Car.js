@@ -20,6 +20,7 @@ import MotHistory from './secondary/MotHistory';
 import HistoryChart from './secondary/HistoryChart';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import SettingsIcon from '@material-ui/icons/Settings';
+import { Translate } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -133,7 +134,7 @@ export default function Car(props) {
             </div>
           </Grid>
 
-          <Grid item sm={8}>
+          <Grid item sm={8} style={{ position: 'relative', padding: 0 }}>
             {/* main info  */}
             <Grid item sm={12} style={{ background: ' #f7f7f7' }}>
               <CardHeader
@@ -149,7 +150,7 @@ export default function Car(props) {
             <Divider></Divider>
 
             <CardContent>
-              <List aria-label="main information">
+              <List aria-label="main information" style={{ padding: 0 }}>
                 <Grid container spacing={0} justify="space-around">
                   {userSelectedOptions.length > 0 ? (
                     userSelectedOptions.map((el, i) => {
@@ -186,7 +187,9 @@ export default function Car(props) {
                       }}
                     >
                       Click
-                      <SettingsIcon style={{ margin: '0 auto' }} />
+                      <SettingsIcon
+                        style={{ margin: '0 auto', position: 'inline-block' }}
+                      />
                       icon at the bottom to choose what you want to see about
                       the car.
                     </Typography>
@@ -196,16 +199,20 @@ export default function Car(props) {
             </CardContent>
             <Divider></Divider>
           </Grid>
-          <Grid item sm={12} style={{ background: ' #f7f7f7' }}>
+          <Grid
+            item
+            sm={12}
+            style={{ position: 'relative', background: ' #f7f7f7' }}
+          >
             <Grid
               style={{
                 padding: '.75rem ',
+                position: 'relative',
               }}
               container
-              spacing={1}
               justify="space-evenly"
             >
-              <Grid item sm={8}>
+              <Grid item sm={12}>
                 {dealerLink ? (
                   <React.Fragment>
                     <Typography
@@ -250,16 +257,16 @@ export default function Car(props) {
                     ? `${seller.phone2}`
                     : null}
                 </Typography>
-              </Grid>
-              <Grid
-                item
-                sm={4}
-                style={{ display: 'grid', placeItems: 'center' }}
-              >
                 <Chip
-                  style={{ margin: '.5rem' }}
-                  size="small"
                   variant="outlined"
+                  style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    left: '50%',
+                    transform: 'translate(-50%,50%)',
+                    background: 'white',
+                  }}
+                  size="small"
                   label={
                     addedDate
                       ? `Published : ${addedDate.substring(

@@ -161,7 +161,7 @@ export default function MotHistory({ events }) {
                           style={{
                             width: '20rem',
                             overflowY: 'scroll',
-                            maxHeight: '100%',
+                            height: '100%',
                             borderLeft: '1px solid #878787bd',
                           }}
                           key={index + 777}

@@ -37,8 +37,6 @@ function LandingPage(props) {
       if (list === null) {
         window.location.href = '/';
       }
-      // context.resetList();
-      // dodgy, may be generating additional remounts? idk
       list.forEach((el) => {
         const databaseString = el;
         let [link, date] = el.split('@');
@@ -104,7 +102,7 @@ function LandingPage(props) {
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-evenly',
-                  height: '50%',
+                  height: '30%',
                   textAlign: 'center',
                 }}
               >
@@ -117,7 +115,7 @@ function LandingPage(props) {
                   AutoPare
                 </Typography>
                 <Typography
-                  variant="h2"
+                  variant="h5"
                   component="h2"
                   gutterBottom
                   color="textSecondary"
