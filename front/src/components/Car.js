@@ -19,9 +19,6 @@ import ErrorIcon from '@material-ui/icons/Error';
 import MotHistory from './secondary/MotHistory';
 import HistoryChart from './secondary/HistoryChart';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
-import SettingsIcon from '@material-ui/icons/Settings';
-import { Translate } from '@material-ui/icons';
-
 const useStyles = makeStyles((theme) => ({
   root: {
     position: 'relative',
@@ -186,12 +183,7 @@ export default function Car(props) {
                         alignContent: 'center',
                       }}
                     >
-                      Click
-                      <SettingsIcon
-                        style={{ margin: '0 auto', position: 'inline-block' }}
-                      />
-                      icon at the bottom to choose what you want to see about
-                      the car.
+                      Please select what you want to see here in the settings.
                     </Typography>
                   )}
                 </Grid>

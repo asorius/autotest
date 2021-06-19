@@ -5,7 +5,7 @@ import LinkInputForm from './secondary/LinkInputForm';
 import PostInputForm from './secondary/PostInputForm';
 const InputFormsContainer = () => {
   return (
-    <Container style={{ marginTop: '1rem', height: '100%' }}>
+    <Container style={{ marginTop: '1rem' }}>
       <Grid
         container
         direction="column"
