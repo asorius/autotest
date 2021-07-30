@@ -11,6 +11,7 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Tooltip from '@material-ui/core/Tooltip';
 import Fade from '@material-ui/core/Fade';
+import Hidden from '@material-ui/core/Hidden';
 // import { useSpring, animated } from 'react-spring';
 
 const useStyles = makeStyles((theme) => ({
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   img: {
     maxHeight: '100%',
     margin: '0 auto',
-    // width: '100%',
+    width: '100%',
     objectFit: 'cover',
     display: 'block',
     // maxHeight: '80vh',
@@ -96,19 +97,17 @@ export default function ImgModal({
   return (
     <div style={{ height: '100%', width: '100%', cursor: 'pointer' }}>
       <Tooltip
-        title="Enlarge photo"
-        aria-label="enlarge"
-        style={{ height: '50%', width: '50%' }}
-      >
+        title='Enlarge photo'
+        aria-label='enlarge'
+        style={{ height: '50%', width: '50%' }}>
         <Button
-          id="openingDiv"
+          id='openingDiv'
           onClick={openModal}
-          style={{ height: '100%', width: '100%' }}
-        ></Button>
+          style={{ height: '100%', width: '100%' }}></Button>
       </Tooltip>
       <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
+        aria-labelledby='transition-modal-title'
+        aria-describedby='transition-modal-description'
         className={classes.modal}
         open={modal}
         onClose={openModal}
@@ -116,31 +115,39 @@ export default function ImgModal({
         BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 1000,
-        }}
-      >
+        }}>
         <Fade in={modal}>
           <div className={classes.modalContent}>
             <Grid container style={{ height: '100%' }}>
               <Grid item style={{ height: '100%', width: '100%' }}>
-                <Tooltip title="Previous" aria-label="prev">
+                <Tooltip title='Previous' aria-label='prev'>
                   <IconButton
-                    variant="contained"
-                    color="secondary"
+                    variant='contained'
+                    color='secondary'
                     className={classes.buttonPrev}
-                    onClick={changeImgDec}
-                  >
-                    <ArrowBackIosIcon size="large"></ArrowBackIosIcon>
+                    onClick={changeImgDec}>
+                    <ArrowBackIosIcon size='large'></ArrowBackIosIcon>
                   </IconButton>
                 </Tooltip>
 
-                <img className={classes.img} src={img} alt="Car" />
-                <Tooltip title="Next" aria-label="next">
+                <Hidden xsDown>
+                  {/* show only on bigger than mobile viewport*/}
+                  <img className={classes.img} src={img} alt='Car' />
+                </Hidden>
+                <Hidden smUp>
+                  <img
+                    style={{ marginTop: '25%' }}
+                    src={img}
+                    alt='Car'
+                    onClick={openModal}
+                  />
+                </Hidden>
+                <Tooltip title='Next' aria-label='next'>
                   <IconButton
-                    variant="contained"
-                    color="secondary"
+                    variant='contained'
+                    color='secondary'
                     className={classes.buttonNext}
-                    onClick={changeImgInc}
-                  >
+                    onClick={changeImgInc}>
                     <ArrowForwardIosIcon></ArrowForwardIosIcon>
                   </IconButton>
                 </Tooltip>
@@ -156,46 +163,70 @@ export default function ImgModal({
                   minHeight: '5rem',
                   textAlign: 'center',
                   borderRadius: '.5rem',
-                }}
-              >
+                }}>
                 <Grid item sm={12} style={{ textAlign: 'center' }}>
-                  <Typography
-                    variant="body1"
-                    style={{
-                      background: '#26a69a',
-                      borderRadius: '.7rem',
-                      color: 'white',
-                      width: '5rem',
-                      marginLeft: '10%',
-                      position: 'absolute',
-                      top: '-12%',
-                      left: '75%',
-                    }}
-                  >
-                    {current + 1} / {images.length}
-                  </Typography>
+                  <Hidden xsDown>
+                    {/* bigger than mobile */}
+                    <Typography
+                      variant='body1'
+                      style={{
+                        background: '#26a69a',
+                        borderRadius: '.7rem',
+                        color: 'white',
+                        width: '5rem',
+                        marginLeft: '10%',
+                        position: 'absolute',
+                        top: '-12%',
+                        left: '75%',
+                      }}>
+                      {current + 1} / {images.length}
+                    </Typography>
+                  </Hidden>
+                  <Hidden smUp>
+                    <Typography
+                      variant='body1'
+                      style={{
+                        background: '#26a69a',
+                        borderRadius: '.7rem',
+                        color: 'white',
+                        width: '5rem',
+                        marginLeft: '10%',
+                        position: 'absolute',
+                        top: '-75%',
+                        left: '50%',
+                        transform: 'translateX(-75%)',
+                      }}>
+                      {current + 1} / {images.length}
+                    </Typography>
+                  </Hidden>
                 </Grid>
                 <Grid item sm={12}>
-                  {images.map((src, i) => (
-                    <div
-                      key={i + 565}
-                      style={{
-                        height: '2rem',
-                        width: '2rem',
-                        margin: '.2rem',
-                        borderRadius: '5%',
-                        display: 'inline-block',
-                        border: `${src === img ? '2px solid #26a69a' : 'none'}`,
-                        background: `url(${src})`,
-                        backgroundSize: 'cover',
-                        cursor: 'pointer',
-                      }}
-                      onClick={() => {
-                        setImg(src);
-                        incrementImg(i);
-                      }}
-                    ></div>
-                  ))}
+                  <Hidden xsDown>
+                    {/* bigger than mobile */}
+
+                    {images.map((src, i) => (
+                      <div
+                        key={i + 565}
+                        style={{
+                          height: '2rem',
+                          width: '2rem',
+                          margin: '.2rem',
+                          borderRadius: '5%',
+                          display: 'inline-block',
+                          border: `${
+                            src === img ? '2px solid #26a69a' : 'none'
+                          }`,
+                          background: `url(${src})`,
+                          backgroundSize: 'cover',
+                          cursor: 'pointer',
+                        }}
+                        onClick={() => {
+                          setImg(src);
+                          incrementImg(i);
+                        }}></div>
+                    ))}
+                  </Hidden>
+                  {/* <Hidden smUp></Hidden> */}
                 </Grid>
               </Grid>
             </Grid>

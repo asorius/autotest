@@ -13,12 +13,13 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItemText from '@material-ui/core/ListItemText';
-import { Chip, Divider, Tooltip, Fade } from '@material-ui/core';
+import { Chip, Divider, Tooltip, Fade, Button } from '@material-ui/core';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import ErrorIcon from '@material-ui/icons/Error';
 import MotHistory from './secondary/MotHistory';
 import HistoryChart from './secondary/HistoryChart';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
+import { Hidden, Link } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
   root: {
     position: 'relative',
@@ -89,18 +90,19 @@ export default function Car(props) {
     <Fade in={visible}>
       <Card className={classes.root}>
         <Grid container>
+          {/* This grid item is the absoluted photo behind a chipped button */}
           <Grid
             item
             sm={4}
-            className="photosContainer"
-            style={{ position: 'relative', minHeight: '10rem', width: '100%' }}
-          >
+            xs={12}
+            className='photosContainer'
+            style={{ position: 'relative', minHeight: '10rem', width: '100%' }}>
             {/* photos */}
             {/* LEFT HERE TO ADD LOADER WHILE IMAGE IS BEING LOADED */}
             <CardMedia
               className={classes.media}
               image={images[0]}
-              alias="Car photo"
+              alias='Car photo'
             />
 
             <div
@@ -114,31 +116,48 @@ export default function Car(props) {
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-              }}
-            >
-              <Chip
-                label={price}
-                color="secondary"
-                style={{
-                  position: 'absolute',
-                  transform: 'translateX(20px)',
-                  bottom: 4,
-                  right: 0,
-                  fontSize: '1.2rem',
-                }}
-              ></Chip>
+              }}>
+              <Hidden xsDown>
+                <Chip
+                  label={price}
+                  color='secondary'
+                  style={{
+                    position: 'absolute',
+                    transform: 'translateX(20px)',
+                    bottom: 4,
+                    right: 0,
+                    fontSize: '1.2rem',
+                  }}
+                />
+              </Hidden>
+              <Hidden smUp>
+                <Chip
+                  label={price}
+                  color='secondary'
+                  style={{
+                    position: 'absolute',
+                    transform: 'translateX(-5px)',
+                    bottom: 4,
+                    right: 0,
+                    fontSize: '1.2rem',
+                  }}
+                />
+              </Hidden>
               <ImgModal images={images} current={0} />
             </div>
           </Grid>
 
-          <Grid item sm={8} style={{ position: 'relative', padding: 0 }}>
+          <Grid
+            item
+            sm={8}
+            style={{ position: 'relative', padding: 0, width: '100%' }}>
             {/* main info  */}
             <Grid item sm={12} style={{ background: ' #f7f7f7' }}>
               <CardHeader
                 className={classes.title}
-                title={<Typography variant="h6">{title}</Typography>}
+                title={<Typography variant='h6'>{title}</Typography>}
                 subheader={
-                  <Typography variant="subtitle2" color="textSecondary">
+                  <Typography variant='subtitle2' color='textSecondary'>
                     MOT: {events.length > 0 ? events[0].data.expiredate : 'N/A'}
                   </Typography>
                 }
@@ -147,14 +166,16 @@ export default function Car(props) {
             <Divider></Divider>
 
             <CardContent>
-              <List aria-label="main information" style={{ padding: 0 }}>
-                <Grid container spacing={0} justify="space-around">
-                  {userSelectedOptions.length > 0 ? (
+              <List aria-label='main information' style={{ padding: 0 }}>
+                <Grid container spacing={0} justify='space-around'>
+                  {userSelectedOptions.filter((el) => el !== 'map').length >
+                  0 ? (
                     userSelectedOptions.map((el, i) => {
                       let desiredOptionName = el;
                       if (desiredOptionName.includes('map')) {
                         return null;
                       }
+                      console.log({ userSelectedOptions });
                       let desiredOptionNameValue = rest[el] ?? 'Unavailable';
 
                       return (
@@ -162,8 +183,7 @@ export default function Car(props) {
                           <ListItemText
                             className={desiredOptionName}
                             key={Math.random()}
-                            style={{ padding: 0, textAlign: 'center' }}
-                          >
+                            style={{ padding: 0, textAlign: 'center' }}>
                             <ListItemText
                               primary={desiredOptionNameValue}
                               secondary={desiredOptionName}
@@ -174,15 +194,14 @@ export default function Car(props) {
                     })
                   ) : (
                     <Typography
-                      align="center"
-                      color="textSecondary"
-                      variant="caption"
+                      align='center'
+                      color='textSecondary'
+                      variant='caption'
                       style={{
                         padding: '2rem',
                         display: 'grid',
                         alignContent: 'center',
-                      }}
-                    >
+                      }}>
                       Please select what you want to see here in the settings.
                     </Typography>
                   )}
@@ -194,54 +213,55 @@ export default function Car(props) {
           <Grid
             item
             sm={12}
-            style={{ position: 'relative', background: ' #f7f7f7' }}
-          >
+            style={{
+              position: 'relative',
+              background: ' #f7f7f7',
+              width: '100%',
+            }}>
             <Grid
               style={{
                 padding: '.75rem ',
                 position: 'relative',
               }}
               container
-              justify="space-evenly"
-            >
+              id='ISTHISIt'
+              justify='space-evenly'>
               <Grid item sm={12}>
                 {dealerLink ? (
                   <React.Fragment>
                     <Typography
-                      variant="h6"
-                      color="secondary"
+                      variant='h6'
+                      color='secondary'
                       style={{
                         textAlign: 'center',
-                      }}
-                    >
-                      <Tooltip title="Sellers website" aria-label="seller">
+                      }}>
+                      <Tooltip title='Sellers website' aria-label='seller'>
                         <a
                           href={dealerLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
+                          target='_blank'
+                          rel='noopener noreferrer'>
                           {seller.name}
                           <OpenInNewIcon
-                            style={{ fontSize: '.8rem', marginLeft: '.5rem' }}
-                          ></OpenInNewIcon>
+                            style={{
+                              fontSize: '.8rem',
+                              marginLeft: '.5rem',
+                            }}></OpenInNewIcon>
                         </a>
                       </Tooltip>
                     </Typography>
                   </React.Fragment>
                 ) : (
                   <Typography
-                    variant="h6"
+                    variant='h6'
                     style={{
                       textAlign: 'center',
-                    }}
-                  >
+                    }}>
                     {seller.name}
                   </Typography>
                 )}
                 <Typography
-                  variant="body2"
-                  style={{ padding: '.5rem', textAlign: 'center' }}
-                >
+                  variant='body2'
+                  style={{ padding: '.5rem', textAlign: 'center' }}>
                   {seller.phone1}
                   {seller.phone2 && seller.phone1
                     ? `, ${seller.phone2}`
@@ -250,15 +270,16 @@ export default function Car(props) {
                     : null}
                 </Typography>
                 <Chip
-                  variant="outlined"
+                  variant='outlined'
                   style={{
                     position: 'absolute',
                     bottom: 0,
                     left: '50%',
                     transform: 'translate(-50%,50%)',
                     background: 'white',
+                    zIndex: 2,
                   }}
-                  size="small"
+                  size='small'
                   label={
                     addedDate
                       ? `Published : ${addedDate.substring(
@@ -269,14 +290,13 @@ export default function Car(props) {
                           8
                         )}`
                       : null
-                  }
-                ></Chip>
+                  }></Chip>
               </Grid>
             </Grid>
             <Divider></Divider>
           </Grid>
 
-          <Grid item sm={12} style={{ textAlign: 'center' }}>
+          <Grid item sm={12} style={{ textAlign: 'center', width: '100%' }}>
             {userSelectedOptions.length > 0 ? (
               userSelectedOptions.includes('map') ? (
                 seller_coords.lat ? (
@@ -288,10 +308,10 @@ export default function Car(props) {
                   />
                 ) : map === undefined ? null : (
                   <Chip
-                    variant="outlined"
-                    size="small"
+                    variant='outlined'
+                    size='small'
                     icon={<ErrorIcon style={{ color: 'darkred' }} />}
-                    label="Map unavailable due to seller"
+                    label='Map unavailable due to seller'
                     style={{ margin: '1rem auto', padding: '1rem' }}
                   />
                 )
@@ -302,31 +322,47 @@ export default function Car(props) {
 
         <CardActions
           disableSpacing
-          style={{ display: 'flex', justifyContent: 'space-around' }}
-        >
+          style={{ display: 'flex', justifyContent: 'space-around' }}>
           <MotHistory events={events}></MotHistory>
           <HistoryChart
             miles={miles}
-            mileageDataForDisplay={mileageDataForDisplay}
-          ></HistoryChart>
-          <Tooltip title="Open on Autotrader" aria-label="remove">
-            <IconButton
-              href={`${actualLink}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <OpenInNewIcon color="primary"></OpenInNewIcon>
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Remove car" aria-label="remove">
+            mileageDataForDisplay={mileageDataForDisplay}></HistoryChart>
+
+          <Hidden xsDown>
+            {/* show only on bigger than mobile viewport*/}
+            <Tooltip title='Open on Autotrader' aria-label='remove'>
+              <IconButton
+                href={`${actualLink}`}
+                target='_blank'
+                rel='noopener noreferrer'>
+                <OpenInNewIcon color='primary'></OpenInNewIcon>
+              </IconButton>
+            </Tooltip>
+          </Hidden>
+          <Tooltip title='Remove car' aria-label='remove'>
             <IconButton onClick={removeCar} style={{ color: 'red' }}>
               <DeleteForeverIcon
-                size="large"
-                style={{ fontSize: '2rem' }}
-              ></DeleteForeverIcon>
+                size='large'
+                style={{ fontSize: '2rem' }}></DeleteForeverIcon>
             </IconButton>
           </Tooltip>
         </CardActions>
+        <Hidden smUp>
+          <div style={{ textAlign: 'center' }}>
+            <Button
+              variant='contained'
+              size='small'
+              style={{ margin: '0 auto .5rem', textTransform: 'none' }}>
+              <Link
+                style={{ textDecoration: 'none', cursor: 'pointer' }}
+                href={`${actualLink}`}
+                target='_blank'
+                rel='noopener noreferrer'>
+                Open original
+              </Link>
+            </Button>
+          </div>
+        </Hidden>
       </Card>
     </Fade>
   );

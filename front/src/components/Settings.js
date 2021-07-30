@@ -100,18 +100,16 @@ export default function Settings() {
   };
   return (
     <div
-      className=" center"
+      className=' center'
       onClick={(e) => {
         if (e.target.classList.contains('modal-background')) {
           openModal();
         }
-      }}
-    >
+      }}>
       <Fab
         onClick={openModal}
-        size="small"
-        style={{ position: 'fixed', bottom: '1.1rem', right: '5rem' }}
-      >
+        size='small'
+        style={{ position: 'fixed', bottom: '1.1rem', right: '5rem' }}>
         <SettingsIcon></SettingsIcon>
       </Fab>
       {context.onSharedPage && (
@@ -123,36 +121,34 @@ export default function Settings() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-around',
-          }}
-        >
+          }}>
           <Tooltip
-            title="This is a shared page. Click here to go back to private page"
-            aria-label="go-home"
-          >
+            title='This is a shared page. Click here to go back to private page'
+            aria-label='go-home'>
             <IconButton onClick={redirectToPrivate}>
-              <ArrowBackIcon fontSize="large" />
+              <ArrowBackIcon fontSize='large' />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Delete this shared list" aria-label="go-delete">
-            <IconButton color="secondary" onClick={deleteList}>
+          <Tooltip title='Delete this shared list' aria-label='go-delete'>
+            <IconButton color='secondary' onClick={deleteList}>
               <HighlightOffIcon
                 style={{ color: 'red' }}
-                fontSize="large"
-              ></HighlightOffIcon>
+                fontSize='large'></HighlightOffIcon>
             </IconButton>
           </Tooltip>
         </div>
       )}
-      <div className={classnames('modal', { 'is-active': modal })}>
-        <div className="modal-background" />
-        <div className="modal-content mdl">
-          <form className="form" onSubmit={submit}>
+      <div
+        className={classnames('modal', { 'is-active': modal })}
+        style={{ zIndex: 200 }}>
+        <div className='modal-background' />
+        <div className='modal-content mdl'>
+          <form className='form' onSubmit={submit}>
             <Paper
               style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(auto-fill, minmax(35%,1fr))',
-              }}
-            >
+              }}>
               {checkboxes.map((el) => (
                 <FormControlLabel
                   key={Math.random()}
@@ -161,7 +157,7 @@ export default function Settings() {
                       checked={el.isSelected}
                       onChange={onCheckFn}
                       value={el.value}
-                      color="secondary"
+                      color='secondary'
                     />
                   }
                   label={el.name}
@@ -173,25 +169,23 @@ export default function Settings() {
                 />
               ))}
               <Button
-                type="submit"
-                variant="contained"
-                color="secondary"
+                type='submit'
+                variant='contained'
+                color='secondary'
                 style={{
                   width: '50%',
                   margin: '.5rem auto',
                   gridColumn: '1 / span 2',
-                }}
-              >
+                }}>
                 Save settings
               </Button>
               <div
-                className="contect has-text-centered"
+                className='contect has-text-centered'
                 style={{
                   margin: '.5rem auto',
                   gridColumn: '1 / span 2',
                   width: '100%',
-                }}
-              >
+                }}>
                 {context.sharekey !== null ? (
                   <div
                     style={{
@@ -200,8 +194,7 @@ export default function Settings() {
                       width: '80%',
                       justifyContent: 'space-around',
                       margin: '0 auto',
-                    }}
-                  >
+                    }}>
                     <TextField
                       readOnly
                       value={`${window.location.href}${context.sharekey}`}
@@ -213,29 +206,26 @@ export default function Settings() {
                         justifyContent: 'space-between',
                         width: '30%',
                         paddingLeft: '1rem',
-                      }}
-                    >
-                      <Tooltip title="Open in new tab" aria-label="open">
+                      }}>
+                      <Tooltip title='Open in new tab' aria-label='open'>
                         <IconButton
                           href={`${window.location.href}${context.sharekey}`}
-                          target="_blank"
-                          size="small"
-                          rel="noopener noreferrer"
-                        >
-                          <OpenInNewIcon color="primary"></OpenInNewIcon>
+                          target='_blank'
+                          size='small'
+                          rel='noopener noreferrer'>
+                          <OpenInNewIcon color='primary'></OpenInNewIcon>
                         </IconButton>
                       </Tooltip>
-                      <Tooltip title="Copy to clipboard" aria-label="copy">
+                      <Tooltip title='Copy to clipboard' aria-label='copy'>
                         <Button
-                          variant="outlined"
-                          size="small"
+                          variant='outlined'
+                          size='small'
                           onClick={() => {
                             navigator.clipboard.writeText(
                               `${window.location.href}${context.sharekey}`
                             );
                             setCopy(!copy);
-                          }}
-                        >
+                          }}>
                           {copy ? (
                             <DoneAllIcon style={{ color: 'green' }} />
                           ) : (
@@ -247,10 +237,9 @@ export default function Settings() {
                   </div>
                 ) : (
                   <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={createSharingList}
-                  >
+                    variant='contained'
+                    color='primary'
+                    onClick={createSharingList}>
                     Generate sharable link
                   </Button>
                 )}
@@ -259,8 +248,8 @@ export default function Settings() {
           </form>
         </div>
         <button
-          className="modal-close is-large"
-          aria-label="close"
+          className='modal-close is-large'
+          aria-label='close'
           onClick={openModal}
         />
       </div>

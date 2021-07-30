@@ -63,22 +63,20 @@ export default function PostInput() {
   };
 
   return (
-    <form className="control postcode " noValidate onSubmit={addPost}>
+    <form className='control postcode ' noValidate onSubmit={addPost}>
       <Grid
         container
-        direction="column"
-        justify="space-evenly"
-        alignItems="center"
-        spacing={1}
-      >
+        direction='column'
+        justify='space-evenly'
+        alignItems='center'
+        spacing={1}>
         <Grid item xs={12}>
           <Grid
             container
-            direction="column"
-            justify="center"
-            alignItems="center"
-            spacing={1}
-          >
+            direction='column'
+            justify='center'
+            alignItems='center'
+            spacing={1}>
             <Grid item>
               <TextField
                 onChange={onPostChange}
@@ -89,11 +87,11 @@ export default function PostInput() {
                     ? `${context.errors.msg} !`
                     : 'Your postcode'
                 }
-                variant="outlined"
+                variant='outlined'
                 disabled={loading}
                 value={postInputValue}
-                spellCheck="false"
-                color="secondary"
+                spellCheck='false'
+                color='secondary'
                 error={error}
               />
             </Grid>
@@ -102,14 +100,13 @@ export default function PostInput() {
                 <Chip
                   label={`Current postcode : ${postcode}`}
                   onDelete={onDeletePostcode}
-                  variant="outlined"
-                  color="secondary"
+                  variant='outlined'
+                  color='secondary'
                 />
               ) : (
                 <Chip
-                  label="Enter postcode to get directions from you to the car"
-                  variant="outlined"
-                ></Chip>
+                  label='Enter postcode to get directions to the car'
+                  variant='outlined'></Chip>
               )}
             </Grid>
             <Grid item>
@@ -117,13 +114,12 @@ export default function PostInput() {
                 <CircularProgress />
               ) : (
                 <Button
-                  size="medium"
-                  type="submit"
-                  variant="contained"
-                  color="secondary"
+                  size='medium'
+                  type='submit'
+                  variant='contained'
+                  color='secondary'
                   disabled={error}
-                  startIcon={<SearchIcon />}
-                >
+                  startIcon={<SearchIcon />}>
                   {' '}
                   Find
                 </Button>

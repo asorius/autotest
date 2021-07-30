@@ -31,15 +31,17 @@ export default function MotHistory({ events }) {
     <>
       <Button
         aria-describedby={id}
-        color="primary"
-        variant="contained"
+        color='primary'
+        variant='contained'
         onClick={handleClick}
-        aria-label="show more"
+        aria-label='show more'
         ref={refButton}
-        size="small"
-        style={{ textTransform: 'none' }}
-        disabled={events.length > 0 ? false : true}
-      >
+        size='small'
+        style={{
+          textTransform: 'none',
+          whiteSpace: 'nowrap',
+        }}
+        disabled={events.length > 0 ? false : true}>
         MOT history
         <ExpandLess
           style={{
@@ -53,7 +55,7 @@ export default function MotHistory({ events }) {
         id={id}
         open={open}
         anchorEl={anchorEl}
-        placement="right-end"
+        placement='right-end'
         disablePortal={false}
         modifiers={{
           flip: {
@@ -64,7 +66,9 @@ export default function MotHistory({ events }) {
             boundariesElement: 'scrollParent',
           },
         }}
-      >
+        style={{
+          zIndex: 3,
+        }}>
         <ClickAwayListener onClickAway={handleClick}>
           <Paper
             style={{
@@ -72,21 +76,19 @@ export default function MotHistory({ events }) {
               opacity: 1,
               display: 'flex',
               height: '20rem',
-            }}
-          >
+            }}>
             <animated.div style={springProps}>
               <Tabs
-                orientation="vertical"
+                orientation='vertical'
                 value={value}
                 onChange={handleChange}
-                aria-label="Vertical tabs example"
+                aria-label='Vertical tabs example'
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
                   height: '100%',
                   justifyContent: 'space-evenly',
-                }}
-              >
+                }}>
                 {events || events.length < 0
                   ? events.map((item, index) => {
                       if (index < 5) {
@@ -100,8 +102,7 @@ export default function MotHistory({ events }) {
                                     width: '100%',
                                     display: 'flex',
                                     justifyContent: 'space-between',
-                                  }}
-                                >
+                                  }}>
                                   {item.date
                                     .split(' ')
                                     .map((el, ind) =>
@@ -109,8 +110,9 @@ export default function MotHistory({ events }) {
                                     )
                                     .join(' ')}
                                   <CheckCircleOutlineIcon
-                                    style={{ color: 'green' }}
-                                  ></CheckCircleOutlineIcon>
+                                    style={{
+                                      color: 'green',
+                                    }}></CheckCircleOutlineIcon>
                                 </div>
                               ) : (
                                 <div
@@ -118,8 +120,7 @@ export default function MotHistory({ events }) {
                                     width: '100%',
                                     display: 'flex',
                                     justifyContent: 'space-between',
-                                  }}
-                                >
+                                  }}>
                                   {item.date
                                     .split(' ')
                                     .map((el, ind) =>
@@ -127,13 +128,13 @@ export default function MotHistory({ events }) {
                                     )
                                     .join(' ')}
                                   <NotInterestedIcon
-                                    style={{ color: 'red' }}
-                                  ></NotInterestedIcon>
+                                    style={{
+                                      color: 'red',
+                                    }}></NotInterestedIcon>
                                 </div>
                               )
                             }
-                            id={`vertical-tab-${index}`}
-                          ></Tab>
+                            id={`vertical-tab-${index}`}></Tab>
                         );
                       }
                       return null;
@@ -144,32 +145,29 @@ export default function MotHistory({ events }) {
             <animated.div
               style={useSpring({
                 from: { opacity: 0 },
-                to: { opacity: open ? 1 : 0 },
+                to: { opacity: open ? 1 : 0, minWidth: '60%' },
                 delay: 200,
-              })}
-            >
+              })}>
               {events || events.length < 0
                 ? events.map((item, index) => {
                     if (index < 5) {
                       return (
                         <div
                           // in={value === index}
-                          role="tabpanel"
+                          role='tabpanel'
                           hidden={value !== index}
                           id={`vertical-tabpanel-${index}`}
                           aria-labelledby={`vertical-tab-${index}`}
                           style={{
-                            width: '20rem',
+                            maxWidth: '20rem',
                             overflowY: 'scroll',
                             height: '100%',
                             borderLeft: '1px solid #878787bd',
                           }}
-                          key={index + 777}
-                        >
+                          key={index + 777}>
                           <TabPanelItem
                             notices={item.data.notices}
-                            refusal={item.data.refusal}
-                          ></TabPanelItem>
+                            refusal={item.data.refusal}></TabPanelItem>
                         </div>
                       );
                     }
