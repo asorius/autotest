@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   img: {
     maxHeight: '100%',
     margin: '0 auto',
-    width: '100%',
+    // width: '100%', :"caused over-zoomification"
     objectFit: 'cover',
     display: 'block',
     // maxHeight: '80vh',
@@ -183,6 +183,7 @@ export default function ImgModal({
                     </Typography>
                   </Hidden>
                   <Hidden smUp>
+                    {/* mobile only*/}
                     <Typography
                       variant='body1'
                       style={{
