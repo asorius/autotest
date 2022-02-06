@@ -11,7 +11,7 @@
     "front": "npm start --prefix front",
     "dev": "concurrently \"npm run server\" \"npm run front\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix front && npm run build --prefix front",
-    "build": "npm install --prefix front && npm run build --prefix front"
+    "deploy": "npm install --prefix front && npm run build --prefix front"
   },
   "author": "",
   "license": "ISC",
