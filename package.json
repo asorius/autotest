@@ -31,6 +31,7 @@
     "graphql": "^15.5.0",
     "mongodb": "^3.6.9",
     "mongoose": "^5.12.13",
+    "node-fetch": "^2.6.7",
     "nodemon": "^2.0.7",
     "npm": "^7.17.0",
     "react-spring": "^8.0.27",

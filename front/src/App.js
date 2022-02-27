@@ -23,12 +23,10 @@ const LaziedSuspenced = () => {
               width: '100%',
               display: 'grid',
               placeItems: 'center',
-            }}
-          >
+            }}>
             <CircularProgress size={100} thickness={5} />
           </div>
-        }
-      >
+        }>
         <LaziedLanding></LaziedLanding>
       </React.Suspense>
     </>
@@ -74,8 +72,8 @@ const App = (props) => {
       <GlobalState>
         <BrowserRouter>
           <Switch>
-            <Route path="/" component={LaziedSuspenced} exact />
-            <Route path="/:key" component={LaziedSuspenced} exact />
+            <Route path='/' component={LaziedSuspenced} exact />
+            <Route path='/:key' component={LaziedSuspenced} exact />
           </Switch>
         </BrowserRouter>
       </GlobalState>
