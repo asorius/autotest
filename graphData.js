@@ -1,19 +1,31 @@
 const axios = require('axios');
 const fetch = require('node-fetch');
-const query = `query FPADataQuery($advertId: String!, $numberOfImages: Int, $searchOptions: SearchOptions, $postcode: String) {
-  search {
+const ori =
+  'query FPADataQuery($advertId: String!, $numberOfImages: Int, $searchOptions: SearchOptions, $postcode: String) {\n  search {\n    advert(advertId: $advertId, searchOptions: $searchOptions) {\n      id\n      stockItemId\n      isAuction\n      hoursUsed\n      serviceHistory\n      title\n      excludePreviousOwners\n      advertisedLocations\n      motExpiry\n      heading {\n        title\n        subtitle\n        __typename\n      }\n      attentionGrabber\n      rrp\n      price\n      priceCurrency\n      priceExcludingFees\n      suppliedPrice\n      suppliedPriceExcludingFees\n      priceOnApplication\n      plusVatIndicated\n      saving\n      noAdminFees\n      adminFee\n      adminFeeInfoDescription\n      dateOfRegistration\n      homeDeliveryRegionCodes\n      deliversToMyPostcode\n      capabilities {\n        guaranteedPartEx {\n          enabled\n          __typename\n        }\n        marketExtensionHomeDelivery {\n          enabled\n          __typename\n        }\n        marketExtensionClickAndCollect {\n          enabled\n          __typename\n        }\n        marketExtensionCentrallyHeld {\n          enabled\n          __typename\n        }\n        sellerPromise {\n          enabled\n          __typename\n        }\n        __typename\n      }\n      collectionLocations {\n        locations {\n          ...CollectionLocationData\n          __typename\n        }\n        __typename\n      }\n      registration\n      generation {\n        generationId\n        name\n        review {\n          ownerReviewsSummary {\n            aggregatedRating\n            countOfReviews\n            __typename\n          }\n          expertReviewSummary {\n            rating\n            reviewUrl\n            __typename\n          }\n          __typename\n        }\n        __typename\n      }\n      hasShowroomProductCode\n      isPartExAvailable\n      isPremium\n      isFinanceAvailable\n      isFinanceFullApplicationAvailable\n      financeProvider\n      financeDefaults {\n        term\n        mileage\n        depositAmount\n        __typename\n      }\n      retailerId\n      hasClickAndCollect\n      privateAdvertiser {\n        contact {\n          protectedNumber\n          email\n          __typename\n        }\n        location {\n          town\n          county\n          postcode\n          __typename\n        }\n        tola\n        __typename\n      }\n      advertiserSegment\n      dealer {\n        ...DealerData\n        __typename\n      }\n      video {\n        url\n        preview\n        __typename\n      }\n      spin {\n        url\n        preview\n        __typename\n      }\n      imageList(limit: $numberOfImages) {\n        nextCursor\n        size\n        images {\n          url\n          templated\n          autotraderAllocated\n          __typename\n        }\n        __typename\n      }\n      priceIndicatorRating\n      priceIndicatorRatingLabel\n      priceDeviation\n      mileageDeviation\n      advertText\n      mileage {\n        mileage\n        unit\n        __typename\n      }\n      plate\n      year\n      vehicleCheckId\n      vehicleCheckStatus\n      vehicleCheckSummary {\n        type\n        title\n        performed\n        writeOffCategory\n        checks {\n          key\n          failed\n          advisory\n          critical\n          warning\n          __typename\n        }\n        __typename\n      }\n      sellerName\n      sellerType\n      sellerProducts\n      sellerLocation\n      sellerLocationDistance {\n        unit\n        value\n        __typename\n      }\n      sellerContact {\n        phoneNumberOne\n        phoneNumberTwo\n        protectedNumber\n        byEmail\n        __typename\n      }\n      description\n      colour\n      manufacturerApproved\n      insuranceWriteOffCategory\n      owners\n      vehicleCondition {\n        tyreCondition\n        interiorCondition\n        bodyCondition\n        __typename\n      }\n      specification {\n        operatingType\n        emissionClass\n        co2Emissions {\n          co2Emission\n          unit\n          __typename\n        }\n        topSpeed {\n          topSpeed\n          __typename\n        }\n        minimumKerbWeight {\n          weight\n          unit\n          __typename\n        }\n        endLayout\n        trailerAxleNumber\n        bedroomLayout\n        grossVehicleWeight {\n          weight\n          unit\n          __typename\n        }\n        capacityWeight {\n          weight\n          unit\n          __typename\n        }\n        liftingCapacity {\n          weight\n          unit\n          __typename\n        }\n        operatingWidth {\n          width\n          unit\n          __typename\n        }\n        maxReach {\n          length\n          unit\n          __typename\n        }\n        wheelbase\n        berth\n        bedrooms\n        engine {\n          power {\n            enginePower\n            unit\n            __typename\n          }\n          sizeLitres\n          sizeCC\n          manufacturerEngineSize\n          __typename\n        }\n        exteriorWidth {\n          width\n          unit\n          __typename\n        }\n        exteriorLength {\n          length\n          unit\n          __typename\n        }\n        exteriorHeight {\n          height\n          unit\n          __typename\n        }\n        capacityWidth {\n          width\n          unit\n          __typename\n        }\n        capacityLength {\n          length\n          unit\n          __typename\n        }\n        capacityHeight {\n          height\n          unit\n          __typename\n        }\n        seats\n        axleConfig\n        ulezCompliant\n        doors\n        bodyType\n        cabType\n        rawBodyType\n        fuel\n        transmission\n        style\n        subStyle\n        make\n        model\n        trim\n        vehicleCategory\n        optionalFeatures {\n          description\n          category\n          __typename\n        }\n        standardFeatures {\n          description\n          category\n          __typename\n        }\n        driverPosition\n        battery {\n          capacity {\n            capacity\n            unit\n            __typename\n          }\n          usableCapacity {\n            capacity\n            unit\n            __typename\n          }\n          range {\n            range\n            unit\n            __typename\n          }\n          charging {\n            quickChargeTime\n            chargeTime\n            __typename\n          }\n          __typename\n        }\n        techData {\n          co2Emissions\n          fuelConsumptionCombined\n          fuelConsumptionExtraUrban\n          fuelConsumptionUrban\n          insuranceGroup\n          minimumKerbWeight\n          zeroToSixtyMph\n          zeroToSixtyTwoMph\n          cylinders\n          valves\n          enginePower\n          topSpeed\n          engineTorque\n          vehicleHeight\n          vehicleLength\n          vehicleWidth\n          wheelbase\n          fuelTankCapacity\n          grossVehicleWeight\n          luggageCapacitySeatsDown\n          bootspaceSeatsUp\n          minimumKerbWeight\n          vehicleWidthInclMirrors\n          maxLoadingWeight\n          standardFeatures {\n            description\n            category\n            __typename\n          }\n          __typename\n        }\n        annualTax {\n          standardRate\n          __typename\n        }\n        oemDrivetrain\n        bikeLicenceType\n        derivative\n        derivativeId\n        __typename\n      }\n      stockType\n      versionNumber\n      tradeLifecycleStatus\n      condition\n      finance {\n        monthlyPayment\n        representativeApr\n        __typename\n      }\n      locationArea(postcode: $postcode) {\n        code\n        region\n        areaOfInterest {\n          postCode\n          manufacturerCodes\n          __typename\n        }\n        __typename\n      }\n      reservation {\n        status\n        eligibility\n        feeCurrency\n        feeInFractionalUnits\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment DealerData on Dealer {\n  dealerId\n  distance\n  stockLevels {\n    atStockCounts {\n      car\n      van\n      __typename\n    }\n    __typename\n  }\n  assignedNumber {\n    number\n    __typename\n  }\n  awards {\n    isWinner2018\n    isWinner2019\n    isWinner2020\n    isWinner2021\n    isFinalist2018\n    isFinalist2019\n    isFinalist2020\n    isFinalist2021\n    isHighlyRated2018\n    isHighlyRated2019\n    isHighlyRated2020\n    isHighlyRated2021\n    __typename\n  }\n  branding {\n    accreditations {\n      name\n      __typename\n    }\n    brands {\n      name\n      imageUrl\n      __typename\n    }\n    __typename\n  }\n  capabilities {\n    instantMessagingChat {\n      enabled\n      provider\n      __typename\n    }\n    instantMessagingText {\n      enabled\n      provider\n      overrideSmsNumber\n      __typename\n    }\n    __typename\n  }\n  reviews {\n    numberOfReviews\n    overallReviewRating\n    __typename\n  }\n  location {\n    addressOne\n    addressTwo\n    town\n    county\n    postcode\n    latLong\n    __typename\n  }\n  marketing {\n    profile\n    brandingBanner {\n      href\n      __typename\n    }\n    __typename\n  }\n  media {\n    email\n    dealerWebsite {\n      href\n      __typename\n    }\n    phoneNumber1\n    phoneNumber2\n    protectedNumber\n    __typename\n  }\n  name\n  servicesOffered {\n    sellerPromise {\n      monthlyWarranty\n      minMOTAndService\n      daysMoneyBackGuarantee\n      moneyBackRemoteOnly\n      __typename\n    }\n    services\n    products\n    safeSelling {\n      bulletPoints\n      paragraphs\n      __typename\n    }\n    homeDelivery {\n      bulletPoints\n      paragraphs\n      deliveryCostPerMile\n      deliveryCostFlatFee\n      freeDeliveryRadiusInMiles\n      __typename\n    }\n    videoWalkAround {\n      bulletPoints\n      paragraphs\n      __typename\n    }\n    clickAndCollect {\n      bulletPoints\n      paragraphs\n      __typename\n    }\n    buyOnline {\n      bulletPoints\n      paragraphs\n      __typename\n    }\n    nccApproved\n    isHomeDeliveryProductEnabled\n    isPartExAvailable\n    hasSafeSelling\n    hasHomeDelivery\n    hasVideoWalkAround\n    additionalLinks {\n      title\n      href\n      __typename\n    }\n    __typename\n  }\n  __typename\n}\n\nfragment CollectionLocationData on CollectionLocation {\n  id\n  dealerId\n  name\n  town\n  postcode\n  distance\n  geoCoordinate {\n    latitude\n    longitude\n    __typename\n  }\n  badges {\n    type\n    label\n    __typename\n  }\n  __typename\n}\n';
+const q = `
+"query FPADataQuery($advertId: String!, $numberOfImages: Int, $searchOptions: SearchOptions, $postcode: String) {
+    search {
     advert(advertId: $advertId, searchOptions: $searchOptions) {
-      id
-      serviceHistory
-      title
-      motExpiry
-      heading {
+    id
+    stockItemId
+    isAuction
+    hoursUsed
+    serviceHistory
+    title
+    excludePreviousOwners
+    advertisedLocations
+    motExpiry
+    heading {
         title
         subtitle
-    
     }
+    attentionGrabber
+    rrp
     price
     priceCurrency
+    priceExcludingFees
+    suppliedPrice
+    suppliedPriceExcludingFees
     priceOnApplication
     plusVatIndicated
     saving
@@ -24,53 +36,41 @@ const query = `query FPADataQuery($advertId: String!, $numberOfImages: Int, $sea
     homeDeliveryRegionCodes
     deliversToMyPostcode
     capabilities {
-        guaranteedPartEx {
-          enabled
-      
+          guaranteedPartEx {
+            enabled
       }
       marketExtensionHomeDelivery {
-          enabled
-      
+            enabled
       }
       marketExtensionClickAndCollect {
-          enabled
-      
+            enabled
       }
       marketExtensionCentrallyHeld {
-          enabled
-      
+            enabled
       }
       sellerPromise {
-          enabled
-      
+            enabled
       }
-  
     }
     collectionLocations {
-        locations {
-          ...CollectionLocationData
-      
+          locations {
+            ...CollectionLocationData
       }
-  
     }
     registration
     generation {
-        generationId
-        name
-        review {
-          ownerReviewsSummary {
-            aggregatedRating
-            countOfReviews
-        
-        }
+          generationId
+          name
+          review {
+            ownerReviewsSummary {
+              aggregatedRating
+              countOfReviews
+            }
         expertReviewSummary {
-            rating
-            reviewUrl
-        
+              rating
+              reviewUrl
+            }
         }
-    
-      }
-  
     }
     hasShowroomProductCode
     isPartExAvailable
@@ -79,53 +79,44 @@ const query = `query FPADataQuery($advertId: String!, $numberOfImages: Int, $sea
     isFinanceFullApplicationAvailable
     financeProvider
     financeDefaults {
-        term
-        mileage
-        depositAmount
-    
+          term
+          mileage
+          depositAmount
     }
     retailerId
     hasClickAndCollect
     privateAdvertiser {
-        contact {
-          protectedNumber
-          email
-      
+          contact {
+            protectedNumber
+            email
       }
       location {
-          town
-          county
-          postcode
-      
+            town
+            county
+            postcode
       }
       tola
-  
     }
     advertiserSegment
     dealer {
-        ...DealerData
-    
+          ...DealerData
     }
     video {
-        url
-        preview
-    
+          url
+          preview
     }
     spin {
-        url
-        preview
-    
+          url
+          preview
     }
     imageList(limit: $numberOfImages) {
-        nextCursor
-        size
-        images {
-          url
-          templated
-          autotraderAllocated
-      
+          nextCursor
+          size
+          images {
+            url
+            templated
+            autotraderAllocated
       }
-  
     }
     priceIndicatorRating
     priceIndicatorRatingLabel
@@ -133,44 +124,39 @@ const query = `query FPADataQuery($advertId: String!, $numberOfImages: Int, $sea
     mileageDeviation
     advertText
     mileage {
-        mileage
-        unit
-    
+          mileage
+          unit
     }
     plate
     year
     vehicleCheckId
     vehicleCheckStatus
     vehicleCheckSummary {
-        type
-        title
-        performed
-        writeOffCategory
-        checks {
-          key
-          failed
-          advisory
-          critical
-          warning
-      
+          type
+          title
+          performed
+          writeOffCategory
+          checks {
+            key
+            failed
+            advisory
+            critical
+            warning
       }
-  
     }
     sellerName
     sellerType
     sellerProducts
     sellerLocation
     sellerLocationDistance {
-        unit
-        value
-    
+          unit
+          value
     }
     sellerContact {
-        phoneNumberOne
-        phoneNumberTwo
-        protectedNumber
-        byEmail
-    
+          phoneNumberOne
+          phoneNumberTwo
+          protectedNumber
+          byEmail
     }
     description
     colour
@@ -178,99 +164,82 @@ const query = `query FPADataQuery($advertId: String!, $numberOfImages: Int, $sea
     insuranceWriteOffCategory
     owners
     vehicleCondition {
-        tyreCondition
-        interiorCondition
-        bodyCondition
-    
+          tyreCondition
+          interiorCondition
+          bodyCondition
     }
     specification {
-        operatingType
-        emissionClass
-        co2Emissions {
-          co2Emission
-          unit
-      
+          operatingType
+          emissionClass
+          co2Emissions {
+            co2Emission
+            unit
       }
       topSpeed {
-          topSpeed
-      
+            topSpeed
       }
       minimumKerbWeight {
-          weight
-          unit
-      
+            weight
+            unit
       }
       endLayout
       trailerAxleNumber
       bedroomLayout
       grossVehicleWeight {
-          weight
-          unit
-      
+            weight
+            unit
       }
       capacityWeight {
-          weight
-          unit
-      
+            weight
+            unit
       }
       liftingCapacity {
-          weight
-          unit
-      
+            weight
+            unit
       }
       operatingWidth {
-          width
-          unit
-      
+            width
+            unit
       }
       maxReach {
-          length
-          unit
-      
+            length
+            unit
       }
       wheelbase
       berth
       bedrooms
       engine {
-          power {
-            enginePower
-            unit
-        
+            power {
+              enginePower
+              unit
         }
         sizeLitres
         sizeCC
         manufacturerEngineSize
-    
       }
       exteriorWidth {
-          width
-          unit
-      
+            width
+            unit
       }
       exteriorLength {
-          length
-          unit
-      
+            length
+            unit
       }
       exteriorHeight {
-          height
-          unit
-      
+            height
+            unit
       }
       capacityWidth {
-          width
-          unit
-      
+            width
+            unit
       }
       capacityLength {
-          length
-          unit
-      
+            length
+            unit
       }
       capacityHeight {
-          height
-          unit
-      
+            height
+            unit
       }
       seats
       axleConfig
@@ -288,273 +257,96 @@ const query = `query FPADataQuery($advertId: String!, $numberOfImages: Int, $sea
       trim
       vehicleCategory
       optionalFeatures {
-          description
-          category
-      
+            description
+            category
       }
       standardFeatures {
-          description
-          category
-      
+            description
+            category
       }
       driverPosition
       battery {
-          capacity {
-            capacity
-            unit
-        
+            capacity {
+              capacity
+              unit
         }
         usableCapacity {
-            capacity
-            unit
-        
+              capacity
+              unit
         }
         range {
-            range
-            unit
-        
+              range
+              unit
         }
         charging {
-            quickChargeTime
-            chargeTime
-        
+              quickChargeTime
+              chargeTime
         }
-    
       }
       techData {
-          co2Emissions
-          fuelConsumptionCombined
-          fuelConsumptionExtraUrban
-          fuelConsumptionUrban
-          insuranceGroup
-          minimumKerbWeight
-          zeroToSixtyMph
-          zeroToSixtyTwoMph
-          cylinders
-          valves
-          enginePower
-          topSpeed
-          engineTorque
-          vehicleHeight
-          vehicleLength
-          vehicleWidth
-          wheelbase
-          fuelTankCapacity
-          grossVehicleWeight
-          luggageCapacitySeatsDown
-          bootspaceSeatsUp
-          minimumKerbWeight
-          vehicleWidthInclMirrors
-          maxLoadingWeight
-          standardFeatures {
-            description
-            category
-        
+            co2Emissions
+            fuelConsumptionCombined
+            fuelConsumptionExtraUrban
+            fuelConsumptionUrban
+            insuranceGroup
+            minimumKerbWeight
+            zeroToSixtyMph
+            zeroToSixtyTwoMph
+            cylinders
+            valves
+            enginePower
+            topSpeed
+            engineTorque
+            vehicleHeight
+            vehicleLength
+            vehicleWidth
+            wheelbase
+            fuelTankCapacity
+            grossVehicleWeight
+            luggageCapacitySeatsDown
+            bootspaceSeatsUp
+            minimumKerbWeight
+            vehicleWidthInclMirrors
+            maxLoadingWeight
+            standardFeatures {
+              description
+              category
         }
-    
       }
       annualTax {
-          standardRate
-      
+            standardRate
       }
       oemDrivetrain
       bikeLicenceType
       derivative
       derivativeId
-  
     }
     stockType
     versionNumber
     tradeLifecycleStatus
     condition
     finance {
-        monthlyPayment
-        representativeApr
-    
+          monthlyPayment
+          representativeApr
     }
     locationArea(postcode: $postcode) {
-        code
-        region
-        areaOfInterest {
-          postCode
-          manufacturerCodes
-      
+          code
+          region
+          areaOfInterest {
+            postCode
+            manufacturerCodes
       }
-  
     }
     reservation {
-        status
-        eligibility
-        feeCurrency
-        feeInFractionalUnits
-    
+          status
+          eligibility
+          feeCurrency
+          feeInFractionalUnits
     }
-
+    }
   }
-
 }
-}
-fragment DealerData on Dealer {
-  dealerId
-  distance
-  stockLevels {
-    atStockCounts {
-      car
-      van
-  
-  }
-
-}
-assignedNumber {
-    number
-
-}
-awards {
-    isWinner2018
-    isWinner2019
-    isWinner2020
-    isWinner2021
-    isFinalist2018
-    isFinalist2019
-    isFinalist2020
-    isFinalist2021
-    isHighlyRated2018
-    isHighlyRated2019
-    isHighlyRated2020
-    isHighlyRated2021
-
-}
-branding {
-    accreditations {
-      name
-  
-  }
-  brands {
-      name
-      imageUrl
-  
-  }
-
-}
-capabilities {
-    instantMessagingChat {
-      enabled
-      provider
-  
-  }
-  instantMessagingText {
-      enabled
-      provider
-      overrideSmsNumber
-  
-  }
-
-}
-reviews {
-    numberOfReviews
-    overallReviewRating
-
-}
-location {
-    addressOne
-    addressTwo
-    town
-    county
-    postcode
-    latLong
-
-}
-marketing {
-    profile
-    brandingBanner {
-      href
-  
-  }
-
-}
-media {
-    email
-    dealerWebsite {
-      href
-  
-  }
-  phoneNumber1
-  phoneNumber2
-  protectedNumber
-
-}
-name
-servicesOffered {
-    sellerPromise {
-      monthlyWarranty
-      minMOTAndService
-      daysMoneyBackGuarantee
-      moneyBackRemoteOnly
-  
-  }
-  services
-  products
-  safeSelling {
-      bulletPoints
-      paragraphs
-  
-  }
-  homeDelivery {
-      bulletPoints
-      paragraphs
-      deliveryCostPerMile
-      deliveryCostFlatFee
-      freeDeliveryRadiusInMiles
-  
-  }
-  videoWalkAround {
-      bulletPoints
-      paragraphs
-  
-  }
-  clickAndCollect {
-      bulletPoints
-      paragraphs
-  
-  }
-  buyOnline {
-      bulletPoints
-      paragraphs
-  
-  }
-  nccApproved
-  isHomeDeliveryProductEnabled
-  isPartExAvailable
-  hasSafeSelling
-  hasHomeDelivery
-  hasVideoWalkAround
-  additionalLinks {
-      title
-      href
-  
-  }
-
-}
-}
-fragment CollectionLocationData on CollectionLocation {
-  id
-  dealerId
-  name
-  town
-  postcode
-  distance
-  geoCoordinate {
-    latitude
-    longitude
-
-}
-badges {
-    type
-    label
-
-}
-}
-`;
+"`;
 const getAutodataOld = async (link) => {
   //get the main link without user search/page info which is added by autotrader if copying from their search page
   //actualink includes advertisement id @ guid
@@ -587,29 +379,119 @@ const getAutodata = async (link) => {
   //actualink includes advertisement id @ guid
 
   let advertID = link.split('details/')[1];
+  let q2 = `query FPADataQuery($advertId: String!, $searchOptions: SearchOptions) 
+  {
+    search {
+
+         advert(advertId: $advertId, searchOptions: $searchOptions) {
+
+          id
+          serviceHistory
+          title
+          excludePreviousOwners
+          motExpiry
+
+
+          heading {
+                title
+                subtitle
+              }
+
+
+          attentionGrabber
+          price
+          priceCurrency
+          registration
+
+          capabilities {
+            guaranteedPartEx {
+              enabled
+              }
+            }
+
+          isPartExAvailable
+
+          specification {
+
+            operatingType
+            emissionClass
+            co2Emissions {
+                  co2Emission
+                  unit
+                  }
+            topSpeed {
+                  topSpeed
+                  }
+            minimumKerbWeight {
+                  weight
+                  unit
+                  }
+            grossVehicleWeight {
+                  weight
+                  unit
+                  }
+            
+            
+            
+            
+            engine {
+                  power {
+                  enginePower
+                  unit
+                        }
+            sizeLitres
+            sizeCC
+            manufacturerEngineSize
+            seats
+            axleConfig
+            ulezCompliant
+            doors
+            bodyType
+            cabType
+            rawBodyType
+            fuel
+            transmission
+            style
+            subStyle
+            make
+            model
+            trim
+            vehicleCategory
+                        // adding this techdata query breaks the response for unknown reason!!
+            techData {
+              co2Emissions
+              fuelConsumptionCombined
+              fuelConsumptionExtraUrban
+              fuelConsumptionUrban
+              insuranceGroup
+              minimumKerbWeight
+              zeroToSixtyMph
+              zeroToSixtyTwoMph
+              cylinders
+              valves
+              enginePower
+              topSpeed
+              engineTorque
+              vehicleHeight
+              vehicleLength
+              vehicleWidth
+              wheelbase
+              fuelTankCapacity
+              grossVehicleWeight
+              luggageCapacitySeatsDown
+              bootspaceSeatsUp
+              minimumKerbWeight
+              vehicleWidthInclMirrors
+              maxLoadingWeight
+              standardFeatures {
+                description
+                category
+            }
+          }
+
+      }}}`;
   const reqbody = {
-    query: `query FPADataQuery($advertId: String!, $searchOptions: SearchOptions) {
-      search {
-           advert(advertId: $advertId, searchOptions: $searchOptions) {
-            id
-            stockItemId
-            isAuction
-            hoursUsed
-            serviceHistory
-            title
-            excludePreviousOwners
-            advertisedLocations
-            motExpiry
-            heading {
-                  title
-                  subtitle
-                }
-            attentionGrabber
-            rrp
-            price
-            priceCurrency
-            priceExcludingFees
-            registration}}}`,
+    query: q2,
     variables: {
       advertId: advertID,
       numberOfImages: 100,
@@ -638,7 +520,8 @@ const getAutodata = async (link) => {
         }
       );
       const body = await resp.json();
-      console.log(body.data.search.advert);
+
+      console.log(body.data);
     } catch (e) {
       console.log({ errorInfoData: e });
       return { errorInfo: 'invalid url' };
