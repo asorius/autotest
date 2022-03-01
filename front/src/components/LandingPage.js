@@ -69,7 +69,7 @@ function LandingPage(props) {
     <div style={{ background: '#ebebeb', width: '100%', height: '100%' }}>
       <div style={{ background: 'white', width: '100%', height: '100%' }}>
         <Container>
-          <Toolbar id="back-to-top-anchor" style={{ position: 'absolute' }} />
+          <Toolbar id='back-to-top-anchor' style={{ position: 'absolute' }} />
           <Grid container style={{ height: '100vh', position: 'relative' }}>
             <div
               style={{
@@ -80,8 +80,7 @@ function LandingPage(props) {
                 width: '8rem',
                 zIndex: '-20',
                 backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%235c6bc0' fill-opacity='0.25'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-              }}
-            ></div>
+              }}></div>
             <Grid item md={6}>
               <Hidden smDown>
                 <header
@@ -92,8 +91,7 @@ function LandingPage(props) {
                     height: '100vh',
                     clipPath:
                       'polygon(0% 0%, 88% 0, 100% 50%, 88% 100%, 0% 100%)',
-                  }}
-                ></header>
+                  }}></header>
               </Hidden>
             </Grid>
             <Grid item sm={12} md={6}>
@@ -104,27 +102,35 @@ function LandingPage(props) {
                   justifyContent: 'space-evenly',
                   height: '30%',
                   textAlign: 'center',
-                }}
-              >
+                }}>
                 <Typography
-                  variant="h1"
-                  component="h1"
+                  variant='h1'
+                  component='h1'
                   gutterBottom
-                  color="textPrimary"
-                >
+                  color='textPrimary'>
                   AutoPare
                 </Typography>
                 <Typography
-                  variant="h5"
-                  component="h2"
+                  variant='h5'
+                  component='h2'
                   gutterBottom
-                  color="textSecondary"
-                >
+                  color='textSecondary'>
                   Learn more about Your future investment!
                 </Typography>
                 <Divider></Divider>
               </Container>
               <InputFormsContainer></InputFormsContainer>
+              <div
+                style={{
+                  width: '100%',
+                  textAlign: 'center',
+                  padding: '2rem',
+                  position: 'absolute',
+                  left: '25%',
+                  bottom: 0,
+                }}>
+                <i>*Page is not working as intended.</i>
+              </div>
             </Grid>
           </Grid>
         </Container>
@@ -138,16 +144,14 @@ function LandingPage(props) {
               paddingTop: contextList.length > 0 ? '3rem' : 0,
               paddingBottom: contextList.length > 0 ? '3rem' : 0,
             }}
-            id="list"
-          >
+            id='list'>
             {loading ? <Loader></Loader> : null}
 
             <Grow in={!loading}>
-              <Grid container spacing={2} justify="center">
+              <Grid container spacing={2} justify='center'>
                 <CarCardsList
                   list={contextList}
-                  settings={settings}
-                ></CarCardsList>
+                  settings={settings}></CarCardsList>
               </Grid>
             </Grow>
           </section>
@@ -156,14 +160,13 @@ function LandingPage(props) {
           <div style={{ textAlign: 'center' }}>
             <Divider />
             <Chip
-              color="primary"
-              label="This is a shared page."
-              style={{ padding: '1rem 2rem', margin: '1rem auto' }}
-            ></Chip>
+              color='primary'
+              label='This is a shared page.'
+              style={{ padding: '1rem 2rem', margin: '1rem auto' }}></Chip>
           </div>
         )}
         <ScrollToTop {...props}>
-          <Fab color="secondary" size="small" aria-label="scroll back to top">
+          <Fab color='secondary' size='small' aria-label='scroll back to top'>
             <KeyboardArrowUpIcon />
           </Fab>
         </ScrollToTop>

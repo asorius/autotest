@@ -12,8 +12,10 @@ import {
   ADD_KEY,
   RESET,
 } from './reducers';
+import data from './data';
 export default function GlobalState(props) {
-  const list = JSON.parse(localStorage.getItem('atplist')) || [];
+  // const list = JSON.parse(localStorage.getItem('atplist')) || [];
+  const list = data;
   let shared = false;
   let onSharedPage = false;
   let key = null;
@@ -303,8 +305,7 @@ export default function GlobalState(props) {
         deleteList,
         resetList,
         addKeyToState,
-      }}
-    >
+      }}>
       {props.children}
     </Context.Provider>
   );

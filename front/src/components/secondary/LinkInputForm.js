@@ -18,22 +18,25 @@ const InputsForm = () => {
   const addCarFunc = async (e) => {
     setLoading(!loading);
     e.preventDefault();
-    try {
-      if (inputValue.length < 10) {
-        context.setError({ msg: 'Please provide a valid link', to: 'add' });
-        setError(true);
-        setInputValue('');
-      } else {
-        await context.addCarToList({
-          url: inputValue,
-          settings: context.settings,
-        });
-        setInputValue('');
-        setOpen(!open);
-      }
-    } catch (e) {
-      return { errored: e };
-    }
+    context.setError({ msg: 'Currently disabled', to: 'add' });
+    setError(true);
+    setInputValue('');
+    // try {
+    //   if (inputValue.length < 10) {
+    //     context.setError({ msg: 'Please provide a valid link', to: 'add' });
+    //     setError(true);
+    //     setInputValue('');
+    //   } else {
+    //     await context.addCarToList({
+    //       url: inputValue,
+    //       settings: context.settings,
+    //     });
+    //     setInputValue('');
+    //     setOpen(!open);
+    //   }
+    // } catch (e) {
+    //   return { errored: e };
+    // }
     setTimeout(() => {
       setError(false);
       setLoading(false);
@@ -43,12 +46,11 @@ const InputsForm = () => {
   return (
     <form
       noValidate
-      autoComplete="off"
+      autoComplete='off'
       onSubmit={addCarFunc}
-      style={{ width: '100%', textAlign: 'center', marginTop: '2rem' }}
-    >
+      style={{ width: '100%', textAlign: 'center', marginTop: '2rem' }}>
       <TextField
-        id="urlInput"
+        id='urlInput'
         label={
           context.errors.to === 'add'
             ? `${context.errors.msg} !`
@@ -56,24 +58,22 @@ const InputsForm = () => {
         }
         value={inputValue}
         onChange={onChange}
-        variant="outlined"
+        variant='outlined'
         fullWidth
         disabled={loading}
-        error={error}
-      ></TextField>
+        error={error}></TextField>
 
       {loading && inputValue.length !== 0 && !error ? (
         <LinearProgress />
       ) : (
         <Button
-          size="large"
-          type="submit"
-          variant="contained"
-          color="primary"
+          size='large'
+          type='submit'
+          variant='contained'
+          color='primary'
           disabled={error}
           startIcon={<Icon />}
-          style={{ width: '50%', margin: '1rem auto' }}
-        >
+          style={{ width: '50%', margin: '1rem auto' }}>
           {' '}
           Add
         </Button>

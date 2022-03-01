@@ -81,10 +81,11 @@ export default function Car(props) {
 
   const removeCar = (e) => {
     e.preventDefault();
-    setVisibility(!visible);
-    setTimeout(() => {
-      context.removeCarFromList(props.item._id);
-    }, 200);
+    //Not functioning at the momet and disabled. Also color changed on button icon as well.
+    // setVisibility(!visible);
+    // setTimeout(() => {
+    //   context.removeCarFromList(props.item._id);
+    // }, 200);
   };
   return (
     <Fade in={visible}>
@@ -340,7 +341,7 @@ export default function Car(props) {
             </Tooltip>
           </Hidden>
           <Tooltip title='Remove car' aria-label='remove'>
-            <IconButton onClick={removeCar} style={{ color: 'red' }}>
+            <IconButton onClick={removeCar} style={{ color: 'grey' }}>
               <DeleteForeverIcon
                 size='large'
                 style={{ fontSize: '2rem' }}></DeleteForeverIcon>
