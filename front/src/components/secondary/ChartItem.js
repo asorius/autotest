@@ -36,7 +36,7 @@ function ChartItem({ mileages }) {
       <Chart
         options={options}
         series={series}
-        type="line"
+        type='line'
         style={{
           display: 'grid',
           alignContent: 'center',
@@ -45,10 +45,9 @@ function ChartItem({ mileages }) {
         }}
       />
       <Typography
-        variant="subtitle2"
-        align="center"
-        style={{ paddingBottom: '.5rem' }}
-      >
+        variant='subtitle2'
+        align='center'
+        style={{ paddingBottom: '.5rem' }}>
         Average yearly mileage : {Math.round(average)}
       </Typography>
     </div>

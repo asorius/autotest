@@ -176,7 +176,6 @@ export default function Car(props) {
                       if (desiredOptionName.includes('map')) {
                         return null;
                       }
-                      console.log({ userSelectedOptions });
                       let desiredOptionNameValue = rest[el] ?? 'Unavailable';
 
                       return (

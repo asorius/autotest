@@ -21,15 +21,14 @@ export default function HistoryChart({ miles, mileageDataForDisplay }) {
     <>
       <Button
         aria-describedby={id}
-        color="secondary"
-        variant="contained"
+        color='secondary'
+        variant='contained'
         onClick={handleClick}
-        aria-label="show more"
+        aria-label='show more'
         ref={refButton}
-        size="small"
+        size='small'
         style={{ textTransform: 'none' }}
-        disabled={mileageDataForDisplay.length > 0 ? false : true}
-      >
+        disabled={mileageDataForDisplay.length > 0 ? false : true}>
         Mileage
         <ExpandLess
           style={{
@@ -43,8 +42,9 @@ export default function HistoryChart({ miles, mileageDataForDisplay }) {
         id={id}
         open={open}
         anchorEl={anchorEl}
-        placement="right-end"
+        placement='right-end'
         disablePortal={false}
+        style={{ zIndex: 999 }}
         modifiers={{
           flip: {
             enabled: true,
@@ -53,15 +53,13 @@ export default function HistoryChart({ miles, mileageDataForDisplay }) {
             enabled: true,
             boundariesElement: 'scrollParent',
           },
-        }}
-      >
+        }}>
         <ClickAwayListener onClickAway={handleClick}>
           <animated.div
             style={useSpring({
               from: { opacity: 0 },
               to: { opacity: open ? 1 : 0 },
-            })}
-          >
+            })}>
             <Paper>
               {mileageDataForDisplay && mileageDataForDisplay.length > 0 ? (
                 <ChartItem mileages={mileageDataForDisplay}></ChartItem>
